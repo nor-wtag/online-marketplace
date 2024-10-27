@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', require: false
 gem 'carrierwave'
@@ -18,14 +18,18 @@ gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
 gem 'puma', '>= 5.0'
-gem "rails", "~> 7.2.1", ">= 7.2.1.1"
+gem 'rails', '~> 7.2.1', '>= 7.2.1.1'
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", require: false
-  gem "rubocop-rails-omakase", require: false
+  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
+  gem 'brakeman', require: false
+  gem 'rubocop-rails-omakase', require: false
+  gem 'rspec-rails'
+  gem "rails-controller-testing"
+  gem 'shoulda-matchers'
+  gem 'factory_bot_rails'
 end
 
 group :development do
-  gem "web-console"
+  gem 'web-console'
 end

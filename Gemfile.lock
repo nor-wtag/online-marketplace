@@ -105,6 +105,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.5.1)
     drb (2.2.1)
     dry-core (1.0.1)
       concurrent-ruby (~> 1.0)
@@ -124,6 +125,11 @@ GEM
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo
+    factory_bot (6.5.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
+      railties (>= 5.0.0)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-aarch64-linux-musl)
     ffi (1.17.0-arm-linux-gnu)
@@ -245,6 +251,10 @@ GEM
       activesupport (= 7.2.1.1)
       bundler (>= 1.15.0)
       railties (= 7.2.1.1)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -277,6 +287,23 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
+    rspec-core (3.13.2)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (7.0.1)
+      actionpack (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+    rspec-support (3.13.1)
     rubocop (1.67.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -313,6 +340,8 @@ GEM
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     securerandom (0.3.1)
+    shoulda-matchers (6.4.0)
+      activesupport (>= 5.2.0)
     sidekiq (7.3.2)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
@@ -326,16 +355,6 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (2.1.0-aarch64-linux-gnu)
-    sqlite3 (2.1.0-aarch64-linux-musl)
-    sqlite3 (2.1.0-arm-linux-gnu)
-    sqlite3 (2.1.0-arm-linux-musl)
-    sqlite3 (2.1.0-arm64-darwin)
-    sqlite3 (2.1.0-x86-linux-gnu)
-    sqlite3 (2.1.0-x86-linux-musl)
-    sqlite3 (2.1.0-x86_64-darwin)
-    sqlite3 (2.1.0-x86_64-linux-gnu)
-    sqlite3 (2.1.0-x86_64-linux-musl)
     ssrf_filter (1.1.2)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
@@ -385,6 +404,7 @@ DEPENDENCIES
   carrierwave
   debug
   devise
+  factory_bot_rails
   grape
   importmap-rails
   jbuilder
@@ -393,13 +413,15 @@ DEPENDENCIES
   puma (>= 5.0)
   pundit
   rails (~> 7.2.1, >= 7.2.1.1)
+  rails-controller-testing
   rails-i18n
   redis
+  rspec-rails
   rubocop-rails-omakase
   rufus-scheduler
+  shoulda-matchers
   sidekiq
   sprockets-rails
-  sqlite3 (>= 1.4)
   stimulus-rails
   turbo-rails
   tzinfo-data
