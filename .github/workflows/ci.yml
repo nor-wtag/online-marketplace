@@ -53,3 +53,37 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: nowreen
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: online_marketplace_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U nowreen" --health-interval=10s
+          --health-timeout=5s --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Lint code for consistent style
+        run: bin/rubocop -f github
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
