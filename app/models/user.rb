@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
 
-  enum role: [:admin, :buyer, :seller, :rider]  # Use positional arguments
+  enum role: [ :admin, :buyer, :seller, :rider ]  # Use positional arguments
 
   has_many :products
   has_many :reviews
@@ -15,19 +15,18 @@ class User < ApplicationRecord
 end
 
 
-  # def admin?
-  #   role == 'admin'
-  # end
+# def admin?
+#   role == 'admin'
+# end
 
-  # def buyer?
-  #   role == 'buyer'
-  # end
+# def buyer?
+#   role == 'buyer'
+# end
 
-  # def seller?
-  #   role == 'seller'
-  # end
+# def seller?
+#   role == 'seller'
+# end
 
-  # def rider?
-  #   role == 'rider'
-  # end
-
+# def rider?
+#   role == 'rider'
+# end

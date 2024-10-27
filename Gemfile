@@ -25,7 +25,7 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'rubocop-rails-omakase', require: false
   gem 'rspec-rails'
-  gem "rails-controller-testing"
+  gem 'rails-controller-testing'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
 end

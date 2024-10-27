@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   layout 'index'
-  before_action :set_user, only: [:new, :create]
-  before_action :authenticate_user!, only: [:products]
+  before_action :set_user, only: [ :new, :create ]
+  before_action :authenticate_user!, only: [ :products ]
 
   def index
     @user = User.new
@@ -69,28 +69,26 @@ class UsersController < ApplicationController
 end
 
 
-  # def edit
-  #   @user = User.find(params[:id])
-  # end
+# def edit
+#   @user = User.find(params[:id])
+# end
 
-  # def update
-  #   @user = User.find(params[:id])
-  #   if @user.update(user_params)
-  #     redirect_to users_path, notice: 'User updated successfully!'
-  #   else
-  #     render :edit
-  #   end
-  # end
+# def update
+#   @user = User.find(params[:id])
+#   if @user.update(user_params)
+#     redirect_to users_path, notice: 'User updated successfully!'
+#   else
+#     render :edit
+#   end
+# end
 
-  # def delete
-  #   @user = User.find(params[:id])
-  # end
+# def delete
+#   @user = User.find(params[:id])
+# end
 
-  # def destroy
-  #   @user = User.find(params[:id])
-  #   @user.destroy
-  #   flash[:notice] = 'User deleted'
-  #   redirect_to users_path
-  # end
-
-
+# def destroy
+#   @user = User.find(params[:id])
+#   @user.destroy
+#   flash[:notice] = 'User deleted'
+#   redirect_to users_path
+# end

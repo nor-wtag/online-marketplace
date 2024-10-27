@@ -96,34 +96,34 @@
 #     end
 #   end
 
-  # describe "DELETE #destroy_session" do
-  #   it "logs out the user" do
-  #     delete :destroy_session
-  #     expect(session[:user_id]).to be_nil
-  #     expect(response).to redirect_to(root_path)
-  #     expect(flash[:notice]).to eq('Successfully signed out!')
-  #   end
-  # end
+# describe "DELETE #destroy_session" do
+#   it "logs out the user" do
+#     delete :destroy_session
+#     expect(session[:user_id]).to be_nil
+#     expect(response).to redirect_to(root_path)
+#     expect(flash[:notice]).to eq('Successfully signed out!')
+#   end
+# end
 
-  # describe "GET #products" do
-  #   context "when user is authenticated" do
-  #     before do
-  #       User.create!(valid_attributes)  # Create a valid user
-  #       post :create_session, params: { email: 'test@example.com', password: 'password123' }  # Log in the user
-  #     end
+# describe "GET #products" do
+#   context "when user is authenticated" do
+#     before do
+#       User.create!(valid_attributes)  # Create a valid user
+#       post :create_session, params: { email: 'test@example.com', password: 'password123' }  # Log in the user
+#     end
 
-  #     it "returns a success response" do
-  #       get :products
-  #       expect(response).to be_successful
-  #     end
-  #   end
+#     it "returns a success response" do
+#       get :products
+#       expect(response).to be_successful
+#     end
+#   end
 
-  #   context "when user is not authenticated" do
-  #     it "redirects to the sign-in page" do
-  #       get :products
-  #       expect(response).to redirect_to(sign_in_users_path)
-  #       expect(flash[:alert]).to eq('You need to sign in first.')
-  #     end
-  #   end
-  # end
+#   context "when user is not authenticated" do
+#     it "redirects to the sign-in page" do
+#       get :products
+#       expect(response).to redirect_to(sign_in_users_path)
+#       expect(flash[:alert]).to eq('You need to sign in first.')
+#     end
+#   end
+# end
 # end
