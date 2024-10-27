@@ -1,0 +1,22 @@
+<h1>Sign In</h1>
+
+<%= form_with(url: create_session_users_path, local: true) do |form| %>
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true %>
+  </div>
+
+  <div>
+    <%= form.submit "Sign In" %>
+  </div>
+
+  <% if flash[:alert] %>
+    <div class="alert"><%= flash[:alert] %></div>
+  <% end %>
+<% end %>
+
