@@ -9,9 +9,15 @@ class User < ApplicationRecord
   has_many :reviews
   has_one :cart
 
-  validates :username, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'must be a valid email address' }
-  validates :phone, presence: true, numericality: { only_integer: true }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  validates :phone, presence: true
+  validates :phone, format: { 
+    with: /\A(017|013|018|019|015)\d{8}\z/, 
+    message: "must start with 0 and contain exactly 11 digits"
+  }
+
   validates :password, presence: true, length: { minimum: 6 }
   validates :role, presence: true, inclusion: { in: roles.keys, message: '%{value} is not a valid role' }
 
