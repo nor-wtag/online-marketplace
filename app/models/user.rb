@@ -13,9 +13,9 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :phone, presence: true
-  validates :phone, format: { 
-    with: /\A(017|013|018|019|015)\d{8}\z/, 
-    message: "must start with 0 and contain exactly 11 digits"
+  validates :phone, format: {
+    with: /\A(017|013|018|019|015)\d{8}\z/,
+    message: 'must start with 0 and contain exactly 11 digits'
   }
 
   validates :password, presence: true, length: { minimum: 6 }

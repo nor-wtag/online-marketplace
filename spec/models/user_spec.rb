@@ -14,7 +14,8 @@ RSpec.describe User, type: :model do
     User.create!(valid_attributes)
   end
 
-  describe "validations for all the attributes including username, email, phone number, role and password" do
+  describe 'validations for all user attributes including presence, uniqueness, format, and length constraints
+            for username, email, phone number, role and password' do
     it { should validate_presence_of(:username) }
     it { should validate_uniqueness_of(:username).case_insensitive }
     it { should validate_presence_of(:email) }
@@ -40,7 +41,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "associations" do
+  describe 'associations with related models' do
     it { should have_many(:products) }
     it { should have_many(:reviews) }
     it { should have_one(:cart) }
