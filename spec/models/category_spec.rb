@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  describe "validations" do
+  describe 'validations for name and description in Category model' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:description) }
   end
 
-  describe "associations" do
-    it { should have_many(:category_products) }
-    it { should have_many(:products).through(:category_products) }
+  describe 'association with products in Category model' do
+    it { should have_and_belongs_to_many(:products) }
   end
 end
