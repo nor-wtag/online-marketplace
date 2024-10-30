@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_24_113339) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_id", null: false
     t.bigint "product_id", null: false
-    t.integer "quantity"
+    t.integer "quantity", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -38,13 +38,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_113339) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "category_products", force: :cascade do |t|
+  create_table "categories_products", id: false, force: :cascade do |t|
     t.bigint "category_id", null: false
     t.bigint "product_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_category_products_on_category_id"
-    t.index ["product_id"], name: "index_category_products_on_product_id"
+    t.index ["category_id", "product_id"], name: "index_categories_products_on_category_id_and_product_id", unique: true
+    t.index ["category_id"], name: "index_categories_products_on_category_id"
+    t.index ["product_id"], name: "index_categories_products_on_product_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -73,11 +72,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_113339) do
     t.text "description"
     t.decimal "price"
     t.integer "stock"
-    t.bigint "category_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -96,8 +93,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_113339) do
     t.string "username"
     t.string "email"
     t.integer "role"
-    t.string "password_digest"
-    t.integer "phone"
+    t.string "password", null: false
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -105,12 +102,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_113339) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
-  add_foreign_key "category_products", "categories"
-  add_foreign_key "category_products", "products"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
-  add_foreign_key "products", "categories"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "products"
   add_foreign_key "reviews", "users"
