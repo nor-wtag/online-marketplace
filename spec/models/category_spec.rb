@@ -11,7 +11,7 @@ RSpec.describe Category, type: :model do
   end
 
   describe "Category has a many-to-many association with product" do
-    it "can be associated with a product" do 
+    it "can be associated with a product" do
       category.products << product
       expect(category.products).to include(product)
     end
