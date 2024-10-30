@@ -1,13 +1,22 @@
 class UsersController < ApplicationController
   layout 'index'
-  before_action :set_user, only: [ :new, :create ]
-  before_action :authenticate_user!, only: [ :products ]
+
+  before_action :set_user, only: [ :show, :edit, :update, :destroy, :delete ]
+  before_action :require_login, only: [ :products, :edit, :update, :destroy, :delete ]
 
   def index
     @user = User.new
+    @users = User.all
+  end
+
+  def show
+    @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to users_path, alert: 'User not found'
   end
 
   def new
+    @user = User.new
   end
 
   def create
@@ -26,7 +35,7 @@ class UsersController < ApplicationController
 
   def create_session
     user = User.find_by(email: params[:email])
-    if user&.authenticate(params[:password])
+    if user&.authenticate_the_login(params[:password])
       session[:user_id] = user.id
       redirect_to products_path, notice: 'Successfully signed in!'
     else
@@ -37,8 +46,32 @@ class UsersController < ApplicationController
 
   def destroy_session
     session[:user_id] = nil
-    redirect_to root_path, notice: 'Successfully signed out!'
+    redirect_to sign_in_users_path, notice: 'Successfully signed out!'
   end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to products_path, notice: 'User updated successfully!'
+    else
+      render :edit
+    end
+  end
+
+  def delete
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    flash[:notice] = 'User deleted successfully.'
+    redirect_to users_path
+  end
+
 
   def products
   end
@@ -46,49 +79,14 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    if action_name =='create'
-      @user = User.new(user_params)
-    else
-      @user = User.new
-    end
-  end
-
-  def authenticate_user!
-    unless current_user
-      redirect_to sign_in_users_path, alert: 'You need to sign in first.'
-    end
+    @user = User.find(params[:id]) if params[:id].present?
   end
 
   def user_params
     params.require(:user).permit(:username, :email, :password, :phone, :role)
   end
 
-  def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
+  def require_login
+    redirect_to sign_in_users_path, alert: 'Please sign in first' unless session[:user_id]
   end
-end
-
-
-def edit
-  @user = User.find(params[:id])
-end
-
-def update
-  @user = User.find(params[:id])
-  if @user.update(user_params)
-    redirect_to users_path, notice: 'User updated successfully!'
-  else
-    render :edit
-  end
-end
-
-def delete
-  @user = User.find(params[:id])
-end
-
-def destroy
-  @user = User.find(params[:id])
-  @user.destroy
-  flash[:notice] = 'User deleted'
-  redirect_to users_path
 end
