@@ -1,9 +1,9 @@
 require 'digest'
 
 class User < ApplicationRecord
-  # has_secure_password
 
-  enum role: { admin: 0, buyer: 1, seller: 2, rider: 3 }
+  enum :role, { admin: 0, buyer: 1, seller: 2, rider: 3 }
+
 
   has_many :products
   has_many :reviews
