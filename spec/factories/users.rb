@@ -1,21 +1,9 @@
 # FactoryBot.define do
 #   factory :user do
-#     username { 'testuser' }
-#     email { 'test@example.com' }
-#     password { 'password' }
-#     role { 'buyer' }
-#     phone { 1234567890 }
-
-#     trait :admin do
-#       role { 'admin' }
-#     end
-
-#     trait :seller do
-#       role { 'seller' }
-#     end
-
-#     trait :rider do
-#       role { 'rider' }
-#     end
+#     username { "unique_username" }
+#     email { "unique@example.com" }
+#     password { "securepassword" }
+#     phone { "1234567890" }
+#     role { :buyer }
 #   end
 # end

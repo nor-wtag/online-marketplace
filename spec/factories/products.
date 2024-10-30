@@ -1,0 +1,9 @@
+FactoryBot.define do
+  factory :product do
+    title { "Test Product" }
+    description { "This is a test product." }
+    price { 10.99 }
+    stock { 100 }
+    association :user
+  end
+end
