@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
- 
   let(:user) { create(:user) }
   let(:invalid_user) { build(:invalid_user) }
 
