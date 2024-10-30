@@ -32,10 +32,10 @@
 
   <div>
     <%= f.label :role %>
-    <%= f.select :role, options_for_select([['Admin', 'admin'], ['Buyer', 'buyer'], ['Seller', 'seller'], ['Rider', 'rider']]), include_blank: true %>
+    <%= f.select :role, options_for_select([['Buyer', 'buyer'], ['Seller', 'seller'], ['Rider', 'rider']]), include_blank: true %>
   </div>
 
   <div>
-    <%= f.submit "Sign Up" %>
+    <%= f.submit user.new_record? ? "Create User" : "Update User" %>
   </div>
 <% end %>

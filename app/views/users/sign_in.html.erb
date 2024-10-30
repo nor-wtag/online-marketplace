@@ -1,5 +1,4 @@
 <h1>Sign In</h1>
-
 <%= form_with(url: create_session_users_path, local: true) do |form| %>
   <div>
     <%= form.label :email %>
@@ -15,8 +14,11 @@
     <%= form.submit "Sign In" %>
   </div>
 
+  <%= link_to "Sign Up here", root_path %>
+
   <% if flash[:alert] %>
-    <div class="alert"><%= flash[:alert] %></div>
+    <div class="alert alert-danger">
+      <%= flash[:alert] %>
+    </div>
   <% end %>
 <% end %>
-
