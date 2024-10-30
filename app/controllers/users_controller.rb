@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   layout 'index'
 
   before_action :set_user, only: [ :show, :edit, :update, :destroy, :delete ]
-  before_action :require_login, only: [ :products, :edit, :update, :destroy, :delete ]
+  before_action :require_login, only: [ :edit, :update, :destroy, :delete ]
 
   def index
     @user = User.new
@@ -10,9 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to users_path, alert: 'User not found'
+    @user
   end
 
   def new
@@ -79,7 +77,8 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id]) if params[:id].present?
+    @user = User.find_by(id: params[:id])
+    redirect_to users_path, alert: 'User not found' unless @user
   end
 
   def user_params

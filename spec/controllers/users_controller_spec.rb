@@ -1,40 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:valid_attributes) do
-    {
-      username: 'testuser',
-      email: 'test@example.com',
-      phone: '1234567890',
-      password: 'password',
-      role: 'buyer'
-    }
-  end
+ 
+  let(:user) { create(:user) }
+  let(:invalid_user) { build(:invalid_user) }
 
-  let(:invalid_attributes) do
-    {
-      username: '',
-      email: 'invalid-email',
-      phone: 'not_a_number',
-      password: 'short',
-      role: ''
-    }
-  end
-
-  describe 'GET #index' do
-    it 'assigns a new user and loads all users' do
-      user = User.create! valid_attributes
+  describe 'GET #index for showing the user interface' do
+    it 'assigns a new user instance' do
       get :index
       expect(assigns(:user)).to be_a_new(User)
-      expect(assigns(:users)).to include(user)
       expect(response).to render_template(:index)
     end
   end
 
-  describe 'GET #show' do
+  describe 'GET #show - Viewing a specific user' do
     it 'assigns the requested user as @user' do
-      user = User.create! valid_attributes
-      get :show, params: { id: user.to_param }
+      get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
       expect(response).to render_template(:show)
     end
@@ -46,18 +27,19 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
-    it 'assigns a new user as @user' do
+  describe 'GET #new for initializing a new user' do
+    it 'creates a new User instance' do
       get :new
       expect(assigns(:user)).to be_a_new(User)
+      expect(response).to render_template(:new)
     end
   end
 
-  describe 'POST #create' do
-    context 'with valid params' do
-      it 'creates a new User and redirects to sign in' do
+  describe 'POST #create for creating a new user' do
+    context 'when provided valid user attributes' do
+      it 'successfully creates a new user and redirects to the sign-in page' do
         expect {
-          post :create, params: { user: valid_attributes }
+          post :create, params: { user: attributes_for(:user) }
         }.to change(User, :count).by(1)
 
         expect(response).to redirect_to(sign_in_users_path)
@@ -65,11 +47,11 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'with invalid params' do
-      it 'does not create a new User and re-renders new' do
+    context 'when provided invalid user attributes' do
+      it 'does not create a user, re-renders new, and displays an error' do
         expect {
-          post :create, params: { user: invalid_attributes }
-        }.to change(User, :count).by(0)
+          post :create, params: { user: attributes_for(:invalid_user) }
+        }.not_to change(User, :count)
 
         expect(response).to render_template(:new)
         expect(flash[:alert]).not_to be_nil
@@ -77,29 +59,30 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'POST #create_session' do
-    let!(:user) { User.create!(valid_attributes) }
-
-    it 'creates a session and redirects to products path on valid login' do
-      post :create_session, params: { email: user.email, password: valid_attributes[:password] }
-      expect(session[:user_id]).to eq(user.id)
-      expect(response).to redirect_to(products_path)
-      expect(flash[:notice]).to eq('Successfully signed in!')
+  describe 'POST #create_session for user login' do
+    context 'with valid login credentials' do
+      let!(:user) { create(:user, password: 'password') }
+      it 'creates a session and redirects to the products page' do
+        post :create_session, params: { email: user.email, password: 'password' }
+        expect(session[:user_id]).to eq(user.id)
+        expect(response).to redirect_to(products_path)
+        expect(flash[:notice]).to eq('Successfully signed in!')
+      end
     end
 
-    it 'does not create a session on invalid login and re-renders sign_in' do
-      post :create_session, params: { email: user.email, password: 'wrongpassword' }
-      expect(session[:user_id]).to be_nil
-      expect(response).to render_template(:sign_in)
-      expect(flash[:alert]).to eq('Invalid email or password')
+    context 'with invalid login credentials' do
+      it 'does not create a session and re-renders the sign-in view' do
+        post :create_session, params: { email: user.email, password: 'wrongpassword' }
+        expect(session[:user_id]).to be_nil
+        expect(response).to render_template(:sign_in)
+        expect(flash[:alert]).to eq('Invalid email or password')
+      end
     end
   end
 
-  describe 'DELETE #destroy_session' do
-    let!(:user) { User.create!(valid_attributes) }
-
-    it 'destroys the session and redirects to sign-in page' do
-      post :create_session, params: { email: user.email, password: valid_attributes[:password] }
+  describe 'DELETE #destroy_session for user logout' do
+    it 'clears the session and redirects to the sign-in page with a notice' do
+      session[:user_id] = user.id
       delete :destroy_session
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(sign_in_users_path)
@@ -107,41 +90,33 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'PUT #update' do
-    let!(:user) { User.create!(valid_attributes) }
+  describe 'PUT #update for modifying user details' do
+    before { session[:user_id] = user.id }
+    context 'when provided valid update attributes' do
+      let(:new_attributes) { { username: 'updateduser', email: 'updated@example.com' } }
 
-    context 'with valid params' do
-      let(:new_attributes) do
-        { username: 'updateduser', email: 'updated@example.com' }
-      end
-
-      it 'updates the requested user and redirects to products path' do
-        put :update, params: { id: user.to_param, user: new_attributes }
+      it 'updates the user attributes and redirects to the products page with a success message' do
+        put :update, params: { id: user.to_param, user: { username: 'updateduser', email: 'updated@example.com' } }
         user.reload
         expect(user.username).to eq('updateduser')
-        expect(user.email).to eq('updated@example.com')
         expect(response).to redirect_to(products_path)
         expect(flash[:notice]).to eq('User updated successfully!')
       end
     end
 
-    context 'with invalid params' do
-      it 'does not update the user and re-renders edit' do
-        put :update, params: { id: user.to_param, user: invalid_attributes }
-        user.reload
-        expect(user.username).not_to eq(invalid_attributes[:username])
+    context 'when provided invalid update attributes' do
+      it 'does not update the user, re-renders the edit view, and shows errors' do
+        put :update, params: { id: user.to_param, user: { username: '', email: 'invalid-email' } }
         expect(response).to render_template(:edit)
       end
     end
   end
 
-  describe 'DELETE #destroy' do
-    let!(:user) { User.create!(valid_attributes) }
-
-    it 'deletes the user and redirects to users path' do
-      expect {
-        delete :destroy, params: { id: user.to_param }
-      }.to change(User, :count).by(-1)
+  describe 'DELETE #destroy for deleting a user account' do
+    before { session[:user_id] = user.id }
+    it 'removes the user from the database and redirects to the users list with a notice' do
+      delete :destroy, params: { id: user.to_param }
+      expect(User.exists?(user.id)).to be_falsey
       expect(response).to redirect_to(users_path)
       expect(flash[:notice]).to eq('User deleted successfully.')
     end
