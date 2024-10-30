@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', require: false
 gem 'carrierwave'
 gem 'devise'
