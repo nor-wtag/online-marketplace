@@ -1,0 +1,103 @@
+require 'rails_helper'
+
+RSpec.describe UsersController, type: :controller do
+  let(:user) { create(:user) }  # Create a user using FactoryBot
+
+  describe 'GET #index' do
+    before { sign_in user }  # Sign in the user before tests that require it
+
+    it 'assigns @users' do
+      get :index
+      expect(assigns(:users)).to include(user)
+    end
+  end
+
+  describe 'GET #show' do
+    before { sign_in user }  # Sign in the user before tests that require it
+
+    it 'assigns the requested user to @user' do
+      get :show, params: { id: user.id }
+      expect(assigns(:user)).to eq(user)
+    end
+
+    it 'redirects if the user is not found' do
+      get :show, params: { id: 'invalid_id' }
+      expect(response).to redirect_to(users_path)
+      expect(flash[:alert]).to eq('User not found')
+    end
+  end
+
+  describe 'GET #new' do
+    it 'assigns a new user to @user' do
+      get :new
+      expect(assigns(:user)).to be_a_new(User)
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'creates a new user' do
+        expect {
+          post :create, params: { user: attributes_for(:user) }
+        }.to change(User, :count).by(1)
+      end
+
+      it 'redirects to the sign-in path' do
+        post :create, params: { user: attributes_for(:user) }
+        expect(response).to redirect_to(sign_in_users_path)
+        expect(flash[:notice]).to eq('User created successfully! Please sign in.')
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not create a new user' do
+        expect {
+          post :create, params: { user: attributes_for(:user, email: nil) }
+        }.not_to change(User, :count)
+      end
+
+      it 're-renders the new template' do
+        post :create, params: { user: attributes_for(:user, email: nil) }
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    before { sign_in user }  # Sign in the user before tests that require it
+
+    it 'updates the user' do
+      patch :update, params: { id: user.id, user: { username: 'New Username' } }
+      user.reload
+      expect(user.username).to eq('New Username')
+    end
+
+    it 'redirects to the products path' do
+      patch :update, params: { id: user.id, user: attributes_for(:user) }
+      expect(response).to redirect_to(products_path)
+      expect(flash[:notice]).to eq('User updated successfully!')
+    end
+
+    it 're-renders the edit template with invalid attributes' do
+      patch :update, params: { id: user.id, user: { username: nil } }
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { sign_in user }  # Sign in the user before tests that require it
+
+    it 'deletes the user' do
+      user  # Create the user
+      expect {
+        delete :destroy, params: { id: user.id }
+      }.to change(User, :count).by(-1)
+    end
+
+    it 'redirects to the users path' do
+      delete :destroy, params: { id: user.id }
+      expect(response).to redirect_to(users_path)
+      expect(flash[:notice]).to eq('User deleted successfully.')
+    end
+  end
+end
