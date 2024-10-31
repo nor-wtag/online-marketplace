@@ -1,6 +1,9 @@
-require 'digest'
-
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  
   enum :role, { admin: 0, buyer: 1, seller: 2, rider: 3 }
 
   has_many :products
@@ -19,16 +22,6 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 6 }
   validates :role, presence: true, inclusion: { in: roles.keys, message: '%{value} is not a valid role' }
-
-  before_save :hash_password
-
-  def hash_password
-    self.password = Digest::SHA256.hexdigest(password) if password.present?
-  end
-
-  def authenticate_the_login(plain_password)
-    Digest::SHA256.hexdigest(plain_password) == password
-  end
 
   def admin?
     role == 'admin'
