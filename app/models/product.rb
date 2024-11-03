@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   has_and_belongs_to_many :categories
   has_many :carts, through: :cart_items
   has_many :orders, through: :order_items
-  
+
   validates :title, presence: true
   validates :description, presence: true
   validates :price, presence: true, numericality: { greater_than: 0 }
