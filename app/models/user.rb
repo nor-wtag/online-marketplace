@@ -6,11 +6,11 @@ class User < ApplicationRecord
   
   enum :role, { admin: 0, buyer: 1, seller: 2, rider: 3 }
 
-  has_many :products
-  has_many :reviews
-  has_many :orders
-  has_one :cart
-  
+  has_many :products, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_one :cart, dependent: :destroy
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
 

@@ -9,9 +9,13 @@ class CreateProducts < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
+    add_index :products, :title
+    add_index :products, :price
   end
 
   def down
+    remove_index :products, :title
+    remove_index :products, :price
     drop_table :products
   end
 end

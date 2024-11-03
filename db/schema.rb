@@ -75,6 +75,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["price"], name: "index_products_on_price"
+    t.index ["title"], name: "index_products_on_title"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
