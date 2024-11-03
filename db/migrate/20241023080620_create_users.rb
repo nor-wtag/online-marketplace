@@ -32,6 +32,8 @@ class CreateUsers < ActiveRecord::Migration[7.2]
     end
 
     add_index :users, :email, unique: true
+    add_index :users, :username, unique: true
+    add_index :users, :role
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token, unique: true
     # add_index :users, :unlock_token, unique: true
@@ -39,9 +41,11 @@ class CreateUsers < ActiveRecord::Migration[7.2]
 
   def down
     remove_index :users, :email
+    remove_index :users, :email
+    remove_index :users, :username
     remove_index :users, :reset_password_token
-    # remove_index :users, :confirmation_token
-    # remove_index :users, :unlock_token
+    # remove_index :users, column: :confirmation_token if index_exists?(:users, :confirmation_token)
+    # remove_index :users, column: :unlock_token if index_exists?(:users, :unlock_token)
 
     drop_table :users
   end
