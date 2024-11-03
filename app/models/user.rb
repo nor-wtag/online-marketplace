@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :reviews
   has_many :orders
   has_one :cart
-  
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
