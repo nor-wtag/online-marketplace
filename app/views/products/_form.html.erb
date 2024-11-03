@@ -31,8 +31,8 @@
   </div>
 
   <div>
-    <%= f.label :category_id, "Category" %>
-    <%= f.collection_select :category_id, Category.all, :id, :title, include_blank: true %>
+    <%= f.label :categories, "Select Categories" %>
+    <%= f.collection_select :category_ids, Category.all, :id, :name, {}, { multiple: true } %>
   </div>
 
   <div>

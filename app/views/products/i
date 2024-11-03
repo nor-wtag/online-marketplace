@@ -31,3 +31,10 @@
 
   </div>
 <% end %>
+
+
+<%= link_to 'Log Out', logout_path, method: :delete, data: { confirm: 'Are you sure you want to log out?' } %>
+    <%# <%= link_to 'Delete Account', user_registration_path, method: :delete, data: { confirm: 'Are you sure?' } %> %>
+    <%= link_to 'Delete Account', delete_account_path, method: :delete, data: { confirm: 'Are you sure you want to delete your account? This action cannot be undone.' } %>
+
+    <%= link_to 'Edit Account', edit_user_registration_path %>
