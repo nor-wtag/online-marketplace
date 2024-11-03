@@ -20,7 +20,7 @@ class User < ApplicationRecord
     message: 'must start with 0 and contain exactly 11 digits'
   }
 
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, confirmation: true, allow_blank: true
   validates :role, presence: true, inclusion: { in: roles.keys, message: '%{value} is not a valid role' }
 
   def admin?
