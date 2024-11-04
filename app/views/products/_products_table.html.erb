@@ -1,8 +1,6 @@
 <h1>Products</h1>
-
+<%= link_to 'All products', products_path, class: 'btn btn-secondary' %>
 <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
-
-
 <table>
   <tr>
     <th>Title</th>
@@ -35,6 +33,3 @@
     </tr>
   <% end %>
 </table>
-
-<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>
-<%# <%= render 'users/homepage', products: @products %> %>

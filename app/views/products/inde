@@ -1,6 +1,20 @@
+
+<% if current_user %>
+  <div class="user-settings">
+    <h1>User Settings</h1>
+    <p><strong>Welcome, <%= current_user.username %></strong></p>
+     
+    <%= button_to "Log out", destroy_user_session_path, method: :delete %>
+    <%= button_to "Delete account", delete_account_path, method: :delete %>
+
+    <%= link_to 'Edit Account', edit_user_registration_path %>
+  </div>
+<% end %>
+
 <h1>Products</h1>
 
 <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
+<%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %>
 
 
 <table>
@@ -36,5 +50,5 @@
   <% end %>
 </table>
 
-<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>
-<%# <%= render 'users/homepage', products: @products %> %>
+<!-- Categories Table -->
+<%= render 'categories/categories_table', categories: @categories %>

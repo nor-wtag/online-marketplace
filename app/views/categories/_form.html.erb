@@ -1,0 +1,31 @@
+<%= form_with(model: category, local: true) do |f| %>
+  <% if category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(category.errors.count, "error") %> prohibited this category from being saved:</h2>
+      <ul>
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description, required: true %>
+  </div>
+
+   <div>
+    <%= f.label :products, "Select Products" %>
+    <%= f.collection_select :product_ids, Product.all, :id, :title, {}, { multiple: true } %>
+  </div>
+
+  <div>
+    <%= f.submit category.new_record? ? "Create Category" : "Update Category", class: 'btn btn-primary' %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>Categories</h1>
+<%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= category.name %></td>
+      <td><%= category.description %></td>
+      <td>
+        <%= link_to 'Show', category_path(category), class: 'btn btn-info' %>
+        <%= link_to 'Edit', edit_category_path(category), class: 'btn btn-warning' %>
+        <%= link_to 'Delete', delete_category_path(category), method: :get, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>

@@ -1,0 +1,19 @@
+<h1>Category Details</h1>
+
+<p><strong>Name:</strong> <%= @category.name %></p>
+<p><strong>Description:</strong> <%= @category.description %></p>
+
+<h2>Associated Products</h2>
+<% if @category.products.any? %>
+  <ul>
+    <% @category.products.each do |product| %>
+      <li><%= link_to product.title, product_path(product) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products associated with this category.</p>
+<% end %>
+
+<%= link_to 'Edit', edit_category_path(@category), class: 'btn btn-warning' %>
+<%= link_to 'Delete', delete_category_path(@category), method: :get, class: 'btn btn-danger' %>
+<%= link_to 'Back to Categories', categories_path, class: 'btn btn-secondary' %>
