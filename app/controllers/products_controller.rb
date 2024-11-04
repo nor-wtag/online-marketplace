@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource
   layout 'index'
   before_action :set_product, only: [ :show, :edit, :update, :destroy, :delete ]
   

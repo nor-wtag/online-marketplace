@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  require 'cancan'
   def after_sign_up_path_for(resource)
     homepage_path
   end
