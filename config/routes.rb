@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   root 'users#index'
   get 'user/homepage', to: 'users#homepage', as: 'homepage'
 
-  resources :users, only: [:index, :update]
+  resources :users, only: [ :index, :update ]
 
   resources :products do
     member do
