@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!
   layout 'index'
   before_action :set_product, only: [ :show, :edit, :update, :destroy, :delete ]
+  
   def index
     @products = Product.all
     @user = current_user
@@ -58,14 +59,4 @@ class ProductsController < ApplicationController
   def product_params
     params.require(:product).permit(:title, :description, :price, :stock, category_ids: [])
   end
-
-  # def authenticate_user!
-  #   unless current_user
-  #     redirect_to sign_in_users_path, alert: 'You need to sign in first.'
-  #   end
-  # end
-
-  # def current_user
-  #   @current_user ||= User.find_by(id: session[:user_id])
-  # end
 end
