@@ -1,6 +1,7 @@
 <h1>Categories</h1>
+<% if can?(:create, Category)
 <%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %>
-
+<% end %>
 <table>
   <tr>
     <th>Name</th>
@@ -13,8 +14,12 @@
       <td><%= category.description %></td>
       <td>
         <%= link_to 'Show', category_path(category), class: 'btn btn-info' %>
-        <%= link_to 'Edit', edit_category_path(category), class: 'btn btn-warning' %>
-        <%= link_to 'Delete', delete_category_path(category), method: :get, class: 'btn btn-danger' %>
+       <% if can?(:update, category)
+            <%= link_to 'Edit', edit_category_path(category), class: 'btn btn-warning' %>
+        <% end %>
+        <% if can?(:destroy, category)
+            <%= link_to 'Delete', delete_category_path(category), method: :get, class: 'btn btn-danger' %>
+        <% end %>
       </td>
     </tr>
   <% end %>

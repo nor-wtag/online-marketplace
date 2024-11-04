@@ -1,5 +1,7 @@
 <h1>Products</h1>
+<% if can?(:read, Product) %>
 <%= link_to 'All products', products_path, class: 'btn btn-secondary' %>
+<% end %>
 <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
 <table>
   <tr>
@@ -27,8 +29,12 @@
       </td>
       <td>
         <%= link_to 'Show', product_path(product), class: 'btn btn-info' %>
-        <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
-        <%= link_to 'Delete', delete_product_path(product), method: :get, class: 'btn btn-danger' %>
+       <% if can?(:update, Product) %>
+          <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
+        <% end %>
+        <% if can?(:destroy, Product) %>
+          <%= link_to 'Delete', delete_product_path(product), method: :get, class: 'btn btn-danger' %>
+        <% end %>
       </td>
     </tr>
   <% end %>

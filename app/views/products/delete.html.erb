@@ -1,4 +1,5 @@
-<%= link_to("Back to list", products_path, class: 'back-link') %>
+<% @page_title = "Delete Product" %>
+
 <div class='products delete'>
   <h2>Delete Product</h2>
 
@@ -10,3 +11,4 @@
     </div>
   <% end %>
 </div>
+<%= link_to 'Back to the Product', product_path(@product), class: 'btn btn-secondary' %>

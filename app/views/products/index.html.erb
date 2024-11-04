@@ -1,7 +1,6 @@
-<h1>Products</h1>
-
-<%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
-
+<% if can?(:create, Product) %>
+  <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
+<% end %>
 
 <table>
   <tr>
@@ -29,12 +28,16 @@
       </td>
       <td>
         <%= link_to 'Show', product_path(product), class: 'btn btn-info' %>
-        <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
-        <%= link_to 'Delete', delete_product_path(product), method: :get, class: 'btn btn-danger' %>
+        <% if can?(:update, product) %>
+          <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
+        <% end %>
+        <% if can?(:destroy, product) %>
+          <%= link_to 'Delete', delete_product_path(product), method: :get, class: 'btn btn-danger' %>
+        <% end %>
       </td>
     </tr>
   <% end %>
 </table>
 
 <%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>
-<%# <%= render 'users/homepage', products: @products %> %>
+
