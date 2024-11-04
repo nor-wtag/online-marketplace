@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'bootsnap', require: false
+gem 'cancancan', '~> 3.0'
 gem 'carrierwave'
 gem 'devise'
 gem 'grape'
