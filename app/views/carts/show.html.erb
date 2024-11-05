@@ -1,0 +1,34 @@
+<h1>Your Cart</h1>
+
+<% if @cart_items.any? %>
+  <table>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+    <% @cart_items.each do |item| %>
+      <tr>
+        <td><%= item.product.title %></td>
+        <td>
+          <%= form_with url: cart_item_path(item), method: :patch, local: true do |f| %>
+            <%= f.number_field :quantity, value: item.quantity, min: 1 %>
+            <%= f.submit 'Update' %>
+          <% end %>
+        </td>
+        <td><%= number_to_currency(item.product.price) %></td>
+        <td><%= number_to_currency(item.product.price * item.quantity) %></td>
+        <td>
+          <%= link_to 'Remove', cart_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <p><strong>Total Price:</strong> <%= number_to_currency(@cart.total_price) %></p>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>
+
+<%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>

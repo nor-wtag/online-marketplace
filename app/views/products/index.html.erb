@@ -1,43 +1,7 @@
+<h1>All Products</h1>
 <% if can?(:create, Product) %>
   <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
 <% end %>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Price</th>
-    <th>Stock</th>
-    <th>Category</th>
-    <th>Actions</th>
-  </tr>
-  <% @products.each do |product| %>
-    <tr>
-      <td><%= product.title %></td>
-      <td><%= product.description %></td>
-      <td><%= product.price %></td>
-      <td><%= product.stock %></td>
-      <td>
-        <% if product.categories.any? %>
-          <% product.categories.each do |category| %>
-            <span><%= category.name %></span><%= "," unless category == product.categories.last %>
-          <% end %>
-        <% else %>
-          <span>No categories assigned</span>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to 'Show', product_path(product), class: 'btn btn-info' %>
-        <% if can?(:update, product) %>
-          <%= link_to 'Edit', edit_product_path(product), class: 'btn btn-warning' %>
-        <% end %>
-        <% if can?(:destroy, product) %>
-          <%= link_to 'Delete', delete_product_path(product), method: :get, class: 'btn btn-danger' %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
-
-<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>
-
+<%= render 'products_table' %>
+<%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>

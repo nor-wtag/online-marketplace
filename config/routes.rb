@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     registrations: 'registrations'
   }
@@ -24,4 +25,29 @@ Rails.application.routes.draw do
       get 'delete', to: 'categories#delete', as: 'delete'
     end
   end
+  
+  resources :reviews do
+    member do
+      get 'delete', to: 'reviews#delete', as: 'delete'
+    end
+  end
+
+  resources :cart_items, only: [:create, :update, :destroy]
+  resource :cart, only: [:show]
+
+
+  # resource :cart, only: [:show] do
+  #   resources :cart_items, only: [:create, :update, :destroy], shallow: true do
+  #     member do
+  #       get 'delete', to: 'cart_items#delete', as: 'delete'
+  #     end
+  #   end
+  # end
+
+  # resources :cart_items do
+  #   member do
+  #     get 'delete', to: 'cart_items#delete', as: 'delete'
+  #   end
+  # end
+  # resource :cart, only: [:show]
 end

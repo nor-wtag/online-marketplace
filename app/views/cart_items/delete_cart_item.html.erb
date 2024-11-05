@@ -1,0 +1,18 @@
+<% @page_title = "Delete cart item" %>
+
+<% if can?(:destroy, @cart_item) %>
+  <div class='cart cart delete'>
+    <h2>Delete cart</h2>
+
+    <%= form_with(model: @cart_item, local: true, method: :delete) do |f| %>
+      <p>Are you sure you want to delete this cart item?</p>
+      <div class='form-buttons'>
+        <%= f.submit("cart item?", class: 'btn btn-danger') %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>You are not authorized to delete this cart item.</p>
+<% end %>
+
+<%= link_to 'Back to Cart', cart_path, class: 'btn btn-primary' %>

@@ -2,11 +2,15 @@
 <div class='categories delete'>
   <h2>Delete Category</h2>
 
-  <%= form_with(model: @category, local: true, method: :delete) do |f| %>
-    <p>Are you sure you want to delete this category?</p>
-    <p class="reference-name"><%= f.object.name %></p>
-    <div class='form-buttons'>
-      <%= f.submit("Delete Category", class: 'btn btn-danger') %>
-    </div>
+  <% if can?(:destroy, @category) %>
+    <%= form_with(model: @category, local: true, method: :delete) do |f| %>
+      <p>Are you sure you want to delete this category?</p>
+      <p class="reference-name"><%= f.object.name %></p>
+      <div class='form-buttons'>
+        <%= f.submit("Delete Category", class: 'btn btn-danger') %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>You are not authorized to delete this category.</p>
   <% end %>
 </div>

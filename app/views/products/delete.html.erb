@@ -1,14 +1,19 @@
 <% @page_title = "Delete Product" %>
 
-<div class='products delete'>
-  <h2>Delete Product</h2>
+<% if can?(:destroy, @product) %>
+  <div class='products delete'>
+    <h2>Delete Product</h2>
 
-  <%= form_with(model: @product, local: true, method: :delete) do |f| %>
-    <p>Are you sure you want to delete this product?</p>
-    <p class="reference-name"><%= f.object.title %></p>
-    <div class='form-buttons'>
-      <%= f.submit("Delete Product", class: 'btn btn-danger') %>
-    </div>
-  <% end %>
-</div>
+    <%= form_with(model: @product, local: true, method: :delete) do |f| %>
+      <p>Are you sure you want to delete this product?</p>
+      <p class="reference-name"><%= f.object.title %></p>
+      <div class='form-buttons'>
+        <%= f.submit("Delete Product", class: 'btn btn-danger') %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>You are not authorized to delete this product.</p>
+<% end %>
+
 <%= link_to 'Back to the Product', product_path(@product), class: 'btn btn-secondary' %>

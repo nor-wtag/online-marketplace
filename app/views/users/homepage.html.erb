@@ -10,5 +10,15 @@
   </div>
 <% end %>
 
+
+<% if can?(:read, Cart) %>
+  <%= link_to 'View Cart', cart_path, class: 'btn btn-primary' %>
+<% end %>
+
+<h1>Product</h1>
+<%= link_to 'All Products', products_path, class: 'btn btn-secondary' %>
 <%= render 'products/products_table', products: @products %>
+<h1>Category</h1>
+<%= link_to 'All Categories', categories_path, class: 'btn btn-secondary' %>
 <%= render 'categories/categories_table', categories: @categories %>
+
