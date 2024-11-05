@@ -3,7 +3,9 @@ class ProductsController < ApplicationController
   load_and_authorize_resource
   layout 'index'
   before_action :set_product, only: [ :show, :edit, :update, :destroy, :delete ]
-  
+  rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index_with_alert
+
+
   def index
     @products = Product.all
     @user = current_user
@@ -54,6 +56,10 @@ class ProductsController < ApplicationController
   def set_product
     @product = Product.find(params[:id])
   rescue ActiveRecord::RecordNotFound
+    redirect_to products_path, alert: 'Product not found'
+  end
+  
+  def redirect_to_index_with_alert
     redirect_to products_path, alert: 'Product not found'
   end
 

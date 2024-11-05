@@ -1,7 +1,9 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :set_category, only: [ :show, :edit, :update, :destroy, :delete ]
+  before_action :set_category, only: [:show, :edit, :update, :destroy, :delete]
+  rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index_with_alert
+
 
   def index
     @categories = Category.all
@@ -50,6 +52,10 @@ class CategoriesController < ApplicationController
   def set_category
     @category = Category.find(params[:id])
   rescue ActiveRecord::RecordNotFound
+    redirect_to categories_path, alert: 'Category not found'
+  end
+
+  def redirect_to_index_with_alert
     redirect_to categories_path, alert: 'Category not found'
   end
 
