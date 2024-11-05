@@ -2,21 +2,28 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new
+    return unless user.present?  # return if no user is signed in
 
-    if user.seller?
-      can [:create, :read, :update, :destroy, :delete], Product, user_id: user.id
-      can [:create, :read, :update, :destroy, :delete], Category
-    elsif user.buyer?
+    case user.role
+    when 'admin'
+      can :manage, :all
+      can :destroy, User, id: user.id
+    when 'seller'
+      can :create, Product
+      can :read, Product
+      can :update, Product, user_id: user.id
+      can :destroy, Product, user_id: user.id
+      can :delete, Product, user_id: user.id
+
+      can :read, Category
+
+      can :destroy, User, id: user.id
+      can :delete, User, id: user.id
+    when 'buyer'
       can :read, Product
       can :read, Category
-    elsif user.admin?
-      can :manage, :all
-    elsif user.rider?
-      can :read, Order, rider_id: user.id
+      can :destroy, User, id: user.id
+    when 'rider'
     end
-
-    # can :read, Product
-    # can :read, Category
   end
 end
