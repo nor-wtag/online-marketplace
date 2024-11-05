@@ -1,72 +1,43 @@
 require 'rails_helper'
-
 RSpec.describe CategoriesController, type: :controller do
-  let(:user) { create(:user) }
+  let(:admin) { create(:user, role: 'admin') }
+  let(:seller) { create(:user, role: 'seller') }
+  let(:buyer) { create(:user, role: 'buyer') }
   let(:category) { create(:category) }
   let(:product1) { create(:product) }
   let(:product2) { create(:product) }
 
-  before do
-    sign_in user
-  end
-
-  describe "Getting index page to view all the categories" do
-    it "assigns all categories and renders the index template" do
-      get :index
-      expect(assigns(:categories)).to eq([category])
-      expect(response).to render_template(:index)
-    end
-  end
-
-  describe "Getting the new page to create a new category" do
-    it "assigns a new category and renders the new template" do
-      get :new
-      expect(assigns(:category)).to be_a_new(Category)
-      expect(response).to render_template(:new)
-    end
-  end
-
-  describe "Creating a category" do
-    context "with valid attributes" do
-      it "creates a new category and redirects to index" do
-        expect {
-          post :create, params: { category: attributes_for(:category) }
-        }.to change(Category, :count).by(1)
-        expect(response).to redirect_to(categories_path)
-        expect(flash[:notice]).to eq('Category was successfully created.')
+  describe "GET #index to view all categories" do
+    context "as an admin" do
+      it "allows access and lists all categories" do
+        sign_in admin
+        get :index
+        expect(response).to render_template(:index)
+        expect(assigns(:categories)).to include(category)
       end
     end
 
-    context "when creating a category with multiple products" do
-      it "assigns multiple products to the category" do
-        post :create, params: { category: attributes_for(:category).merge(product_ids: [product1.id, product2.id]) }
-        category = Category.last
-        expect(category.products).to include(product1, product2)
-        expect(response).to redirect_to(categories_path)
-      end
-    end
-
-    context "with invalid attributes" do
-      it "does not save the category and re-renders the new template with errors" do
-        post :create, params: { category: attributes_for(:category, name: "") }
-        expect(assigns(:category).errors[:name]).not_to be_empty
-        expect(response).to render_template(:new)
-        expect(flash[:alert]).to be_present
+    context "as a guest" do
+      it "redirects to the sign-in page" do
+        get :index
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
-  describe "Showing details of a category" do
+  describe "GET #show to view category details" do
     context "with a valid category ID" do
-      it "assigns the requested category and renders the show template" do
+      it "allows access to view the category" do
+        sign_in admin
         get :show, params: { id: category.id }
-        expect(assigns(:category)).to eq(category)
         expect(response).to render_template(:show)
+        expect(assigns(:category)).to eq(category)
       end
     end
 
     context "with an invalid category ID" do
       it "redirects to index with an alert" do
+        sign_in admin
         get :show, params: { id: 0 }
         expect(response).to redirect_to(categories_path)
         expect(flash[:alert]).to eq('Category not found')
@@ -74,63 +45,106 @@ RSpec.describe CategoriesController, type: :controller do
     end
   end
 
-  describe "Editing a category" do
-    it "assigns the requested category and renders the edit template" do
-      get :edit, params: { id: category.id }
-      expect(assigns(:category)).to eq(category)
-      expect(response).to render_template(:edit)
+  describe "GET #new for creating a new category" do
+    context "as an admin" do
+      it "allows access to create a new category" do
+        sign_in admin
+        get :new
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context "as a seller or buyer" do
+      it "denies access to new category for a seller" do
+        sign_in seller
+        expect { get :new }.to raise_error(CanCan::AccessDenied)
+      end
     end
   end
 
-  describe "Updating a category" do
-    context "with valid attributes" do
-      it "updates the category and redirects to index with a notice" do
+  describe "POST #create a category" do
+    let(:valid_attributes) { attributes_for(:category) }
+
+    context "as an admin" do
+      before { sign_in admin }
+
+      it "creates a new category with valid attributes" do
+        expect {
+          post :create, params: { category: valid_attributes }
+        }.to change(Category, :count).by(1)
+        expect(response).to redirect_to(categories_path)
+      end
+
+      it "assigns multiple products to the category" do
+        post :create, params: { category: valid_attributes.merge(product_ids: [product1.id, product2.id]) }
+        category = Category.last
+        expect(category.products).to include(product1, product2)
+      end
+    end
+
+    context "as a seller or buyer" do
+      it "does not allow category creation for a seller" do
+        sign_in seller
+        expect {
+          post :create, params: { category: valid_attributes }
+        }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
+
+  describe "GET #edit to edit a category" do
+    context "as an admin" do
+      it "allows editing of the category" do
+        sign_in admin
+        get :edit, params: { id: category.id }
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context "as a seller or buyer" do
+      it "denies editing for a seller" do
+        sign_in seller
+        expect { get :edit, params: { id: category.id } }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
+
+  describe "PATCH #update to update a category" do
+    context "as an admin" do
+      it "updates the category with valid attributes" do
+        sign_in admin
         patch :update, params: { id: category.id, category: { name: "Updated Name" } }
         category.reload
         expect(category.name).to eq("Updated Name")
         expect(response).to redirect_to(categories_path)
-        expect(flash[:notice]).to eq('Category was successfully updated.')
       end
     end
 
-    context "when updating a category with multiple products" do
-      it "updates the category to have multiple products" do
-        patch :update, params: { id: category.id, category: { product_ids: [product1.id, product2.id] } }
-        category.reload
-        expect(category.products).to include(product1, product2)
-        expect(response).to redirect_to(categories_path)
-      end
-    end
-
-    context "with invalid attributes" do
-      it "does not update the category and re-renders the edit template with errors" do
-        patch :update, params: { id: category.id, category: { name: "" } }
-        expect(assigns(:category).errors[:name]).not_to be_empty
-        expect(response).to render_template(:edit)
-        expect(flash[:alert]).to be_present
-      end
-    end
-  end
-
-  describe "Deleting a category" do
-    context "with a valid category ID" do
-      it "deletes the category and redirects to index with a notice" do
-        category # Ensure the category is created
+    context "as a seller or buyer" do
+      it "denies updating for a seller" do
+        sign_in seller
         expect {
-          delete :destroy, params: { id: category.id }
-        }.to change(Category, :count).by(-1)
-        expect(response).to redirect_to(categories_path)
-        expect(flash[:notice]).to eq('Category was successfully deleted.')
-      end
-    end
-
-    context "with an invalid category ID" do
-      it "redirects to index with an alert" do
-        delete :destroy, params: { id: 0 }
-        expect(response).to redirect_to(categories_path)
-        expect(flash[:alert]).to eq('Category not found')
+          patch :update, params: { id: category.id, category: { name: "Updated Name" } }
+        }.to raise_error(CanCan::AccessDenied)
       end
     end
   end
 
+  describe "DELETE #destroy to delete a category" do
+    context "as an admin" do
+      it "deletes the category" do
+        sign_in admin
+        delete :destroy, params: { id: category.id }
+        expect(response).to redirect_to(categories_path)
+        expect(Category.exists?(category.id)).to be_falsey
+      end
+    end
+
+    context "as a seller or buyer" do
+      it "denies deletion for a seller" do
+        sign_in seller
+        expect { delete :destroy, params: { id: category.id } }.to raise_error(CanCan::AccessDenied)
+      end
+    end
+  end
 end

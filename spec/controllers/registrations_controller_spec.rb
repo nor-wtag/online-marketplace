@@ -83,7 +83,7 @@ RSpec.describe RegistrationsController, type: :controller do
     end
   end
 
-  describe "Deleting a user account" do
+  describe "Deleting a user account by the user" do
     before do
       sign_in user
     end
