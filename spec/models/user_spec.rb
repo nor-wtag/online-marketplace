@@ -41,6 +41,32 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'roles' do
+    it { should define_enum_for(:role).with_values(admin: 0, buyer: 1, seller: 2, rider: 3) }
+
+    context 'Correct role assignments' do
+      it 'assigns admin role correctly' do
+        user = create(:user, role: 'admin')
+        expect(user).to be_admin
+      end
+
+      it 'assigns seller role correctly' do
+        user = create(:user, role: 'seller')
+        expect(user).to be_seller
+      end
+
+      it 'assigns buyer role correctly' do
+        user = create(:user, role: 'buyer')
+        expect(user).to be_buyer
+      end
+
+      it 'assigns rider role correctly' do
+        user = create(:user, role: 'rider')
+        expect(user).to be_rider
+      end
+    end
+  end
+
   describe 'associations with related models' do
     it { should have_many(:products) }
     it { should have_many(:reviews) }
