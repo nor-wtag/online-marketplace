@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 gem 'bootsnap', require: false
-gem 'carrierwave'
-gem 'devise'
-gem 'grape'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'letter_opener'
