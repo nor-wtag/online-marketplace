@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :set_product, only: [:new, :create]
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :new, :create ]
+  before_action :set_review, only: [ :show, :edit, :update, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index_with_alert
 
   def index

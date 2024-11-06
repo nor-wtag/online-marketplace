@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :set_category, only: [:show, :edit, :update, :destroy, :delete]
+  before_action :set_category, only: [ :show, :edit, :update, :destroy, :delete ]
   rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index_with_alert
 
 

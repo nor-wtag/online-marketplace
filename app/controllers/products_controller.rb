@@ -58,7 +58,7 @@ class ProductsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to products_path, alert: 'Product not found'
   end
-  
+
   def redirect_to_index_with_alert
     redirect_to products_path, alert: 'Product not found'
   end
