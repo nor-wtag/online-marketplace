@@ -27,7 +27,7 @@ RSpec.describe ProductsController, type: :controller do
       end
     end
 
-    context "as a guest" do
+    context "as a guest trying to view the products" do
       it "redirects to the sign-in page" do
         get :index
         expect(response).to redirect_to(new_user_session_path)

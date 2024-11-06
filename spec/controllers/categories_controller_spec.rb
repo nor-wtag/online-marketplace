@@ -76,7 +76,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "assigns multiple products to the category" do
-        post :create, params: { category: valid_attributes.merge(product_ids: [product1.id, product2.id]) }
+        post :create, params: { category: valid_attributes.merge(product_ids: [ product1.id, product2.id ]) }
         category = Category.last
         expect(category.products).to include(product1, product2)
       end

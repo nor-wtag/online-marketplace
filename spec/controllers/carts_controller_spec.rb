@@ -4,19 +4,26 @@ RSpec.describe CartsController, type: :controller do
   let(:user) { create(:user, role: :buyer) }
   let(:product1) { create(:product, price: 10.0) }
   let(:product2) { create(:product, price: 15.0) }
-  
+  let(:cart) { create(:cart, user: user) }
+
   before do
     sign_in user
     allow(controller).to receive(:current_user).and_return(user)
+  end
+
+  describe "GET /cart page after clicking it" do
+    it "returns http success for cart show when redirected to it" do
+      get :show
+      expect(response).to have_http_status(:success)
+    end
   end
 
   describe "GET #show all the products added to cart" do
     render_views
     context "when cart has items" do
       before do
-        user.create_cart
-        user.cart.cart_items.create(product: product1, quantity: 2)
-        user.cart.cart_items.create(product: product2, quantity: 3)
+        cart.cart_items.create(product: product1, quantity: 2)
+        cart.cart_items.create(product: product2, quantity: 3)
       end
 
       it "displays all items in the cart" do
