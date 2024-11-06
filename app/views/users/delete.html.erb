@@ -1,0 +1,16 @@
+<%= link_to("Back to list", products_path, :class => 'back-link')%>
+<div class = 'users delete'>
+    <h2>Delete User</h2>
+
+    <%= form_for(@user, :method => 'delete') do |f| %>
+    <p> Are you sure?</p>
+    <p class="reference-name"><%= f.object.username%> </p>
+        <div class = 'form-buttons'>
+        
+            <%= f.submit("delete user")%>
+         
+        </div>
+
+   <% end %>
+</div>
+       

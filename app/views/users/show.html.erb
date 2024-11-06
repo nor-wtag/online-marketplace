@@ -1,0 +1,17 @@
+<% @page_title = "User Details" %>
+<%# <%= link_to("Back to Users List", users_path, class: 'back-link') %> %>
+
+<div class='user-details'>
+  <h1>User Details</h1>
+  <p><strong>Username:</strong> <%= @user.username %></p>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>Phone:</strong> <%= @user.phone %></p>
+  <p><strong>Role:</strong> <%= @user.role.present? ? @user.role.humanize : 'Not Assigned' %></p>
+
+  <%= link_to "Edit User", edit_user_path(@user), class: 'btn btn-primary' %>
+  <%=link_to("Delete", delete_user_path(@user),:class => "action delete")%>
+
+
+
+
+</div>
