@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'bootsnap', require: false
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'letter_opener'
