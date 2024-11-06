@@ -7,4 +7,3 @@ FactoryBot.define do
     role { :buyer }
   end
 end
-
