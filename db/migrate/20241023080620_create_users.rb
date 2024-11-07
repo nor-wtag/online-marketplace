@@ -41,7 +41,7 @@ class CreateUsers < ActiveRecord::Migration[7.2]
   def down
     remove_index :users, :email
     remove_index :users, :username
-    remove_index :users, :reset_password_token
+    remove_index :users, :reset_password_token if index_exists?(:users, :reset_password_token)
     # remove_index :users, column: :confirmation_token if index_exists?(:users, :confirmation_token)
     # remove_index :users, column: :unlock_token if index_exists?(:users, :unlock_token)
 
