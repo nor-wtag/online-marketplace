@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_action :set_resource, only: [:edit, :update, :destroy]
+  before_action :set_resource, only: [ :edit, :update, :destroy ]
 
   def destroy
     resource.destroy
