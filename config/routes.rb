@@ -34,11 +34,16 @@ Rails.application.routes.draw do
   resources :cart_items, only: [ :create, :update, :destroy ]
   resource :cart, only: [ :show ]
 
-  resources :orders, only: [:index, :show, :create] do
+  resources :orders, only: [:index, :show, :create ] do
     member do
       patch :cancel
     end
-    resources :order_items, only: [:show, :update, :destroy]
+
+    resources :order_items, only: [:show, :update] do
+      member do
+        patch :update_status
+      end
+    end
   end
 
   # resource :cart, only: [:show] do
