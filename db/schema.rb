@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
     t.bigint "product_id", null: false
     t.integer "quantity"
     t.decimal "price"
+    t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -60,7 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.decimal "total_price"
-    t.string "status"
+    t.string "status", default: "pending"
     t.string "verification_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
