@@ -26,9 +26,9 @@
       </tr>
     <% end %>
   </table>
-  <p><strong>Total Price:</strong> <%= number_to_currency(@cart.total_price) %></p>
-<% else %>
-  <p>Your cart is empty.</p>
+ <p><strong>Total:</strong> <%= number_to_currency(current_user.cart.cart_items.sum { |item| item.quantity * item.product.price }) %></p>
+  <%= button_to 'Place Order', orders_path, method: :post, class: 'btn btn-primary' %>
+
 <% end %>
 
 <%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>
