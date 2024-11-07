@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Marketplace <%= "|#{@page_title}" if @page_title %></title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+</head>
+<body>
+
+<div id="header">
+  <h1>Online Marketplace</h1>
+</div>
+
+<div id="main">
+  <div id="flash_messages">
+    <% flash.each do |key, message| %>
+      <div class="<%= key %>"><%= message %></div>
+    <% end %>
+  </div>
+
+  <div id="content">
+    <%= yield %>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<div id="footer">
+</div>
+
+</body>
+</html>

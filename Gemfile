@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'bootsnap', require: false
+gem 'devise'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'letter_opener'
@@ -20,6 +21,10 @@ group :development, :test do
   gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
   gem 'brakeman', require: false
   gem 'rubocop-rails-omakase', require: false
+  gem 'rspec-rails'
+  gem 'rails-controller-testing'
+  gem 'shoulda-matchers'
+  gem 'factory_bot_rails'
 end
 
 group :development do
