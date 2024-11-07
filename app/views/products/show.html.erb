@@ -32,9 +32,9 @@
     <%= link_to("Delete", delete_product_path(@product), method: :get, class: "btn btn-danger") %>
   <% end %>
 
-<h2>Reviews</h2>
+<%# <h2>Reviews</h2>
 <%= link_to 'Add a Review', new_product_review_path(@product), class: 'btn btn-primary' %>
-<%= render partial: 'reviews/index', locals: { reviews: @product.reviews } %>
+<%# <%= render partial: 'reviews/index', locals: { reviews: @product.reviews } %> %> %>
 
 <%= link_to 'Back to all the Products', products_path, class: 'btn btn-secondary' %>
 <%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>

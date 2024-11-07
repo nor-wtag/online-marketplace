@@ -1,0 +1,28 @@
+<h1>Your Orders</h1>
+
+<% if current_user.buyer? %>
+  <h2>Orders You Have Placed</h2>
+  <% @orders.each do |order| %>
+    <div class="order">
+      <h3>Order #<%= order.id %> - Status: <%= order.status %></h3>
+      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
+      <%= link_to 'View Order', order_path(order) %>
+    </div>
+    <hr>
+  <% end %>
+
+
+<% elsif current_user.seller? %>
+  <h2>Orders Containing Your Products</h2>
+  <% @orders.each do |order| %>
+    <div class="order">
+      <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
+      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
+      <p>Status: <%= order.status %></p>
+      <%= link_to 'View Order', order_path(order) %>
+    </div>
+    <hr>
+  <% end %>
+<% end %>
+
+<%= link_to 'Go back to homepage', homepage_path %>

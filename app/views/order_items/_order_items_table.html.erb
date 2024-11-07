@@ -1,0 +1,33 @@
+<h2>Order Items</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.title %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td>
+        <td><%= number_to_currency(item.price * item.quantity) %></td>
+        <td><%= item.status %></td>
+        <% if current_user.seller? %>
+          <td>
+            <%= form_with url: update_status_order_order_item_path(@order, item), method: :patch do |f| %>
+              <%= f.select :status, options_for_select([['Pending', 'pending'], ['Processing', 'processing'], ['Delivered', 'delivered'], ['Assigned to Rider', 'assigned']], selected: item.status) %>
+              <%= f.submit "Update" %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back to Order', orders_path %>

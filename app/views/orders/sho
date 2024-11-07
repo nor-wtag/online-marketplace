@@ -1,0 +1,41 @@
+<h1>Order Details</h1>
+<p><strong>Order Status:</strong> <%= @order.status %></p>
+
+<h2>Order Items</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+      <% if current_user.seller? %>
+        <th>Update Status</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.title %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td>
+        <td><%= number_to_currency(item.price * item.quantity) %></td>
+        <td><%= item.status.humanize %></td>
+        <% if current_user.seller? && current_user == item.product.user %>
+          <td>
+            <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
+
+             <%= f.select :status, options_for_select([['Pending', 'pending'], ['Sent to Delivery Company', 'sent_to_delivery_company'], ['Rider Assigned', 'rider_assigned'], ['Delivered', 'delivered'], ['Received', 'received']], selected: item.status) %>
+              <%= f.submit "Update" %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back to all Orders', orders_path, class: 'btn btn-secondary' %>
+<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>

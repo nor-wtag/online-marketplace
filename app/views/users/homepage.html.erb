@@ -15,6 +15,10 @@
   <%= link_to 'View Cart', cart_path, class: 'btn btn-primary' %>
 <% end %>
 
+<% if can?(:read, Order) %>
+  <%= link_to 'View Order', orders_path, class: 'btn btn-primary' %>
+<% end %>
+
 <h1>Product</h1>
 <%= link_to 'All Products', products_path, class: 'btn btn-secondary' %>
 <%= render 'products/products_table', products: @products %>
