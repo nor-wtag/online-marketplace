@@ -44,6 +44,7 @@ RSpec.describe User, type: :model do
   describe 'associations with related models' do
     it { should have_many(:products) }
     it { should have_many(:reviews) }
+    it { should have_many(:orders) }
     it { should have_one(:cart) }
   end
 end
