@@ -4,7 +4,7 @@ FactoryBot.define do
     email { 'test@example.com' }
     phone { '01712345678' }
     password { 'password' }
-    role { 'buyer' }
+    role { :buyer }
   end
 
   factory :invalid_user, parent: :user do
