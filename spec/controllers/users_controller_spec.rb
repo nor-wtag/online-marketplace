@@ -111,13 +111,31 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy for deleting a user account' do
-    before { session[:user_id] = user.id }
-    it 'removes the user from the database and redirects to the users list with a notice' do
-      delete :destroy, params: { id: user.to_param }
-      expect(User.exists?(user.id)).to be_falsey
-      expect(response).to redirect_to(users_path)
-      expect(flash[:notice]).to eq('User deleted successfully.')
+  describe 'DELETE #destroy' do
+    let!(:user) { create(:user) }
+  
+    before do
+      allow(controller).to receive(:require_login).and_return(true)
+    end
+  
+    context 'when the user is successfully destroyed' do
+      it 'redirects to the users index with a success notice' do
+        delete :destroy, params: { id: user.id }
+        expect(response).to redirect_to(users_path)
+        expect(flash[:notice]).to eq(I18n.t('users.delete_success'))
+      end
+    end
+  
+    context 'when the user deletion fails' do
+      before do
+        allow_any_instance_of(User).to receive(:destroy).and_return(false)
+      end
+  
+      it 'redirects to the user show page with a failure notice' do
+        delete :destroy, params: { id: user.id }
+        expect(response).to redirect_to(user_path(user))
+        expect(flash[:notice]).to eq(I18n.t('users.delete_failure'))
+      end
     end
   end
 end

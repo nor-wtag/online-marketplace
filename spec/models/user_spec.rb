@@ -12,7 +12,6 @@ RSpec.describe User do
   end
 
   before(:each) do
-    # Create a valid user record to test uniqueness validations
     User.create!(valid_attributes)
   end
 
