@@ -11,6 +11,11 @@ RSpec.describe User do
     }
   end
 
+  before(:each) do
+    # Create a valid user record to test uniqueness validations
+    User.create!(valid_attributes)
+  end
+
   describe 'validations for user attributes including presence, uniqueness, format, and length constraints' do
     it { is_expected.to validate_presence_of(:username) }
     it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
@@ -29,9 +34,8 @@ RSpec.describe User do
     it { is_expected.to allow_value('01712345678').for(:phone) }
 
     invalid_phone_numbers = [ '11234567890', '0171234567', '0171234567890' ]
-
     invalid_phone_numbers.each do |phone|
-      it 'is invalid with phone number #{phone}' do
+      it "is invalid with phone number #{phone}" do
         user = User.new(valid_attributes.merge(phone: phone))
         expect(user).not_to be_valid
         expect(user.errors[:phone]).to be_present
