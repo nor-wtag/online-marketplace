@@ -21,8 +21,7 @@ class OrderItemsController < ApplicationController
 
   def update_status
     if current_user.seller? && current_user == @order_item.product.user
-      if @order_item.update(status: params[:order_item][:status])
-      # if @order_item.update(status: params[:status])
+      if @order_item.update(status: params[:status])
         @order_item.order.update_order_status!
         redirect_to order_path(@order_item.order), notice: 'Order item status updated successfully.'
       else
@@ -32,6 +31,20 @@ class OrderItemsController < ApplicationController
       redirect_to root_path, alert: 'You are not authorized to update this item.'
     end
   end
+
+  # def update_status
+  #   if current_user.seller? && current_user == @order_item.product.user
+  #     if @order_item.update(status: params[:order_item][:status])
+  #     # if @order_item.update(status: params[:status])
+  #       @order_item.order.update_order_status!
+  #       redirect_to order_path(@order_item.order), notice: 'Order item status updated successfully.'
+  #     else
+  #       redirect_to order_path(@order_item.order), alert: 'Failed to update order item status.'
+  #     end
+  #   else
+  #     redirect_to root_path, alert: 'You are not authorized to update this item.'
+  #   end
+  # end
   
 
   private

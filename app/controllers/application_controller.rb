@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   before_action :set_locale
+  before_action :authenticate_user!, unless: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  require 'cancan'
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -8,9 +11,7 @@ class ApplicationController < ActionController::Base
   def default_url_options
     { locale: I18n.locale }
   end
-  before_action :authenticate_user!, unless: :devise_controller?
-  before_action :configure_permitted_parameters, if: :devise_controller?
-  require 'cancan'
+ 
 
   # rescue_from CanCan::AccessDenied do |exception|
   #   flash[:alert] = exception.message
@@ -18,20 +19,19 @@ class ApplicationController < ActionController::Base
   # end
 
   def after_sign_up_path_for(resource)
-    homepage_path
+    homepage_path(locale: I18n.locale)
   end
 
   def after_sign_in_path_for(resource)
-    homepage_path
+    homepage_path(locale: I18n.locale)
   end
 
   def after_update_path_for(resource)
-    homepage_path
+    homepage_path(locale: I18n.locale)
   end
 
   def after_sign_out_path_for(resource_or_scope)
-    root_path
-  end
+    root_path(locale: I18n.locale)  end
 
   protected
 

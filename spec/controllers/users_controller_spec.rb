@@ -1,6 +1,8 @@
 require 'rails_helper'
 
+
 RSpec.describe UsersController, type: :controller do
+  include Devise::Test::ControllerHelpers
   let(:user) { create(:user) }
 
   before do
@@ -19,24 +21,24 @@ RSpec.describe UsersController, type: :controller do
         sign_in user
         sign_out user
         get :homepage
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path(locale: I18n.locale))
       end
     end
 
     it "redirects to homepage after sign up" do
-      expect(controller.send(:after_sign_up_path_for, user)).to eq(homepage_path)
+      expect(controller.send(:after_sign_up_path_for, user)).to eq(homepage_path(locale: I18n.locale))
     end
 
     it "redirects to homepage after sign in" do
-      expect(controller.send(:after_sign_in_path_for, user)).to eq(homepage_path)
+      expect(controller.send(:after_sign_in_path_for, user)).to eq(homepage_path(locale: I18n.locale))
     end
 
     it "redirects to homepage after account update" do
-      expect(controller.send(:after_update_path_for, user)).to eq(homepage_path)
+      expect(controller.send(:after_update_path_for, user)).to eq(homepage_path(locale: I18n.locale))
     end
 
     it "redirects to root after sign out" do
-      expect(controller.send(:after_sign_out_path_for, user)).to eq(root_path)
+      expect(controller.send(:after_sign_out_path_for, user)).to eq(root_path(locale: I18n.locale))
     end
   end
 end
