@@ -1,20 +1,20 @@
-<h1>Sign In</h1>
+<h1><%= t('users.sign_in_title') %></h1>
 <%= form_with(url: create_session_users_path, local: true) do |form| %>
   <div>
-    <%= form.label :email %>
+    <%= form.label :email, t('activerecord.attributes.user.email') %>
     <%= form.email_field :email, required: true %>
   </div>
 
   <div>
-    <%= form.label :password %>
+    <%= form.label :password, t('activerecord.attributes.user.password') %>
     <%= form.password_field :password, required: true %>
   </div>
 
   <div>
-    <%= form.submit "Sign In" %>
+    <%= form.submit t('actions.sign_in') %>
   </div>
 
-  <%= link_to "Sign Up here", root_path %>
+  <%= link_to t('users.sign_up_here'), root_path %>
 
   <% if flash[:alert] %>
     <div class="alert alert-danger">

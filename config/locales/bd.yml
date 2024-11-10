@@ -1,13 +1,44 @@
 bd:
-  hello: "হ্যালো"
+  users:
+    create_success: "ইউজার সফলভাবে তৈরি হয়েছে! সাইন ইন করুন।"
+    sign_in_success: "সফলভাবে সাইন ইন হয়েছে!"
+    invalid_credentials: "ইমেইল বা পাসওয়ার্ড সঠিক নয়"
+    sign_out_success: "সফলভাবে সাইন আউট হয়েছে!"
+    update_success: "ইউজার সফলভাবে আপডেট হয়েছে!"
+    delete_success: "ইউজার সফলভাবে মুছে ফেলা হয়েছে।"
+    delete_user_title: "ইউজার মুছুন"
+    delete_confirmation: "আপনি কি এই ইউজারটি মুছতে চান?"
+    require_login: "অনুগ্রহ করে প্রথমে সাইন ইন করুন"
+    not_found: "ইউজার পাওয়া যায়নি"
+
+  actions:
+    create_user: "ইউজার তৈরি করুন"
+    update_user: "ইউজার আপডেট করুন"
+    delete_user: "ইউজার মুছুন"
+    sign_in: "সাইন ইন"
+    back_to_list: "ইউজার লিস্টে ফিরে যান"
+    edit_user: "ইউজার সম্পাদনা করুন"
+    no_users_found: "কোনো ইউজার পাওয়া যায়নি।"
+
   activerecord:
     models:
-      user: "ব্যবহারকারী"
+      user: "ইউজার"
     attributes:
       user:
-        email: "ইমেল"
+        username: "ইউজারনেম"
+        email: "ইমেইল"
         password: "পাসওয়ার্ড"
+        phone: "ফোন"
+        role: "রোল"
+        roles:
+          buyer: "ক্রেতা"
+          seller: "বিক্রেতা"
+          rider: "রাইডার"
+          admin: "অ্যাডমিন"
+
   errors:
+    template:
+      header: "%{count} টি সমস্যা রয়েছে যা এই রেকর্ড সংরক্ষণ করতে বাধা দিচ্ছে:"
     messages:
-      blank: "ফাঁকা থাকা যাবে না"
+      blank: "ফাঁকা থাকতে পারবে না"
 

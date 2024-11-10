@@ -1,7 +1,7 @@
 <%= form_with model: user, local: true do |f| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <h2><%= t('errors.template.header', count: user.errors.count) %></h2>
       <ul>
         <% user.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,31 +11,31 @@
   <% end %>
 
   <div>
-    <%= f.label :username %>
+    <%= f.label :username, t('activerecord.attributes.user.username') %>
     <%= f.text_field :username, required: true %>
   </div>
 
   <div>
-    <%= f.label :email %>
+    <%= f.label :email, t('activerecord.attributes.user.email') %>
     <%= f.email_field :email, required: true %>
   </div>
 
   <div>
-    <%= f.label :password %>
+    <%= f.label :password, t('activerecord.attributes.user.password') %>
     <%= f.password_field :password, required: true %>
   </div>
 
   <div>
-    <%= f.label :phone %>
+    <%= f.label :phone, t('activerecord.attributes.user.phone') %>
     <%= f.number_field :phone, required: true %>
   </div>
 
   <div>
-    <%= f.label :role %>
-    <%= f.select :role, options_for_select([['Buyer', 'buyer'], ['Seller', 'seller'], ['Rider', 'rider']]), include_blank: true %>
+    <%= f.label :role, t('activerecord.attributes.user.role') %>
+    <%= f.select :role, options_for_select(User.roles.keys.map { |role| [t("activerecord.attributes.user.roles.#{role}"), role] }), include_blank: true %>
   </div>
 
   <div>
-    <%= f.submit user.new_record? ? "Create User" : "Update User" %>
+    <%= f.submit user.new_record? ? t('actions.create_user') : t('actions.update_user') %>
   </div>
 <% end %>
