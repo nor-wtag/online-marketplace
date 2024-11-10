@@ -1,4 +1,3 @@
-require 'devise'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
@@ -8,12 +7,15 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 
 RSpec.configure do |config|
-  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include FactoryBot::Syntax::Methods
 
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
+
+  config.before(:each) do
+    I18n.locale = :en
+  end
 
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
