@@ -60,11 +60,15 @@ class UsersController < ApplicationController
 
   def delete
   end
-
   def destroy
-    @user.destroy
-    redirect_to users_path, notice: t('users.delete_success')
+    @user = User.find(params[:id])
+    if @user.destroy
+      redirect_to users_path, notice: t('users.delete_success')
+    else
+      redirect_to user_path(@user), notice: t('users.delete_failure')
+    end
   end
+
 
   private
 
