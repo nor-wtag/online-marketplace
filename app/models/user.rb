@@ -16,9 +16,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone, phony_plausible: true, presence: true
-  validates :password, presence: true, length: { minimum: 6 }
-  validates :role, presence: true, inclusion: { in: roles.keys }
-
+  # validates :password, presence: true, length: { minimum: 6 }, confirmation: true, allow_blank: true
+  
   def admin?
     role == 'admin'
   end
