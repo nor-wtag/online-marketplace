@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
     t.bigint "product_id", null: false
     t.integer "quantity"
     t.decimal "price"
+    t.string "status", default: "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"
@@ -60,7 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.decimal "total_price"
-    t.string "status"
+    t.string "status", default: "pending"
     t.string "verification_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,6 +76,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["price"], name: "index_products_on_price"
+    t.index ["title"], name: "index_products_on_title"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -93,10 +96,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_29_050139) do
     t.string "username"
     t.string "email"
     t.integer "role"
-    t.string "password", null: false
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "cart_items", "carts"
