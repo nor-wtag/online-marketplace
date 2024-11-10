@@ -8,6 +8,8 @@ gem 'importmap-rails'
 gem 'jbuilder'
 gem 'letter_opener'
 gem 'pg'
+gem 'phony_rails'
+gem 'puma', '>= 5.0'
 gem 'pundit'
 gem 'rails-i18n'
 gem 'redis'
@@ -17,7 +19,7 @@ gem 'sprockets-rails'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
-gem 'puma', '>= 5.0'
+
 gem 'rails', '~> 7.2.1', '>= 7.2.1.1'
 
 group :development, :test do
