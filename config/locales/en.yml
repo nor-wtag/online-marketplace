@@ -1,12 +1,45 @@
 en:
-  hello: "Hello"
+  users:
+    create_success: "User created successfully! Please sign in."
+    sign_in_success: "Successfully signed in!"
+    invalid_credentials: "Invalid email or password"
+    sign_out_success: "Successfully signed out!"
+    update_success: "User updated successfully!"
+    delete_success: "User deleted successfully."
+    delete_failure: 'Failed to delete the user. Please try again.'
+    delete_user_title: "Delete User"
+    delete_confirmation: "Are you sure you want to delete this user?"
+    require_login: "Please sign in first"
+    not_found: "User not found"
+
+  actions:
+    create_user: "Create User"
+    update_user: "Update User"
+    delete_user: "Delete User"
+    sign_in: "Sign In"
+    back_to_list: "Back to Users List"
+    edit_user: "Edit User"
+    no_users_found: "No users available."
+
   activerecord:
     models:
       user: "User"
     attributes:
       user:
+        username: "Username"
         email: "Email"
         password: "Password"
+        phone: "Phone"
+        role: "Role"
+        roles:
+          buyer: "Buyer"
+          seller: "Seller"
+          rider: "Rider"
+          admin: "Admin"
+
   errors:
+    template:
+      header: "%{count} error(s) prohibited this record from being saved:"
     messages:
       blank: "can't be blank"
+

@@ -1,0 +1,12 @@
+<div class='users delete'>
+  <h2><%= t('users.delete_user_title') %></h2>
+
+  <%= form_for(@user, method: :delete) do |f| %>
+    <p><%= t('users.delete_confirmation') %></p>
+    <p class="reference-name"><%= f.object.username %></p>
+    
+    <div class='form-buttons'>
+      <%= f.submit t('actions.delete_user'), class: 'btn btn-danger' %>
+    </div>
+  <% end %>
+</div>

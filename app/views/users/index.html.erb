@@ -1,0 +1,36 @@
+<h1><%= t('users.create_user') %></h1>
+<%= link_to t('actions.sign_in'), sign_in_users_path %>
+
+<div>
+  <h2><%= t('actions.back_to_list') %></h2>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t('activerecord.attributes.user.username') %></th>
+        <th><%= t('activerecord.attributes.user.email') %></th>
+        <th><%= t('activerecord.attributes.user.phone') %></th>
+        <th><%= t('activerecord.attributes.user.role') %></th>
+        <th><%= t('actions.edit_user') %></th>
+        <th><%= t('actions.delete_user') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @users.any? %>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= link_to user.username, user_path(user) %></td>
+            <td><%= user.email %></td>
+            <td><%= user.phone %></td>
+            <td><%= t("activerecord.attributes.user.roles.#{user.role}") %></td>
+            <td><%= link_to t('actions.edit_user'), edit_user_path(user), class: 'btn btn-warning' %></td>
+            <td><%= link_to t('actions.delete_user'), user_path(user), method: :delete, data: { confirm: t('users.delete_confirmation') }, class: 'btn btn-danger' %></td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="5"><%= t('actions.no_users_found') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
