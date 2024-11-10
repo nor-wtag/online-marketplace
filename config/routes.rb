@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get 'destroy_session', to: 'users#destroy_session', as: 'destroy_session'
     end
     member do
-      get 'delete', to: 'users#delete', as: 'delete'  # Route for the delete confirmation page
+      get 'delete', to: 'users#delete', as: 'delete'
     end
   end
 
@@ -17,11 +17,4 @@ Rails.application.routes.draw do
       get 'delete', to: 'products#delete', as: 'delete'
     end
   end
-
-  # resources :products do
-  #   member do
-  #     get 'edit'
-  #     patch 'update'
-  #   end
-  # end
 end
