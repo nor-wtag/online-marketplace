@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     unless current_user
       redirect_to sign_in_users_path, alert: 'You need to sign in first.'
     end
+  end
 
   before_action :set_locale
 

@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user
   end
 
   def new
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to sign_in_users_path, notice: 'User created successfully! Please sign in.'
+      redirect_to sign_in_users_path, notice: t('users.create_success')
     else
       flash.now[:alert] = @user.errors.full_messages.join(', ')
       render :new
@@ -35,27 +34,26 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user&.authenticate_the_login(params[:password])
       session[:user_id] = user.id
-      redirect_to products_path, notice: 'Successfully signed in!'
+      redirect_to products_path, notice: t('users.sign_in_success')
     else
-      flash.now[:alert] = 'Invalid email or password'
+      flash.now[:alert] = t('users.invalid_credentials')
       render :sign_in
     end
   end
 
   def destroy_session
     session[:user_id] = nil
-    redirect_to sign_in_users_path, notice: 'Successfully signed out!'
+    redirect_to sign_in_users_path, notice: t('users.sign_out_success')
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to products_path, notice: 'User updated successfully!'
+      redirect_to products_path, notice: t('users.update_success')
     else
+      flash.now[:alert] = @user.errors.full_messages.join(', ')
       render :edit
     end
   end
@@ -64,17 +62,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
-    flash[:notice] = 'User deleted successfully.'
-    redirect_to users_path
+    redirect_to users_path, notice: t('users.delete_success')
   end
 
   private
 
   def set_user
     @user = User.find_by(id: params[:id])
-    redirect_to users_path, alert: 'User not found' unless @user
+    redirect_to users_path, alert: t('users.not_found') unless @user
   end
 
   def user_params
@@ -82,6 +78,6 @@ class UsersController < ApplicationController
   end
 
   def require_login
-    redirect_to sign_in_users_path, alert: 'Please sign in first' unless session[:user_id]
+    redirect_to sign_in_users_path, alert: t('users.require_login') unless session[:user_id]
   end
 end
