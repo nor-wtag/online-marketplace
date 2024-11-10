@@ -113,11 +113,11 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:user) { create(:user) }
-  
+
     before do
       allow(controller).to receive(:require_login).and_return(true)
     end
-  
+
     context 'when the user is successfully destroyed' do
       it 'redirects to the users index with a success notice' do
         delete :destroy, params: { id: user.id }
@@ -125,12 +125,12 @@ RSpec.describe UsersController, type: :controller do
         expect(flash[:notice]).to eq(I18n.t('users.delete_success'))
       end
     end
-  
+
     context 'when the user deletion fails' do
       before do
         allow_any_instance_of(User).to receive(:destroy).and_return(false)
       end
-  
+
       it 'redirects to the user show page with a failure notice' do
         delete :destroy, params: { id: user.id }
         expect(response).to redirect_to(user_path(user))
