@@ -4,13 +4,12 @@
   <h2>Orders You Have Placed</h2>
   <% @orders.each do |order| %>
     <div class="order">
-      <h3>Order #<%= order.id %> - Status: <%= order.status %></h3>
+      <h3>Order #<%= order.id %> - Status: <%= order.status.humanize %></h3>
       <p>Total Price: <%= number_to_currency(order.total_price) %></p>
       <%= link_to 'View Order', order_path(order) %>
     </div>
     <hr>
   <% end %>
-
 
 <% elsif current_user.seller? %>
   <h2>Orders Containing Your Products</h2>
@@ -18,11 +17,34 @@
     <div class="order">
       <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
       <p>Total Price: <%= number_to_currency(order.total_price) %></p>
-      <p>Status: <%= order.status %></p>
+      <p>Status: <%= order.status.humanize %></p>
       <%= link_to 'View Order', order_path(order) %>
+    </div>
+    <hr>
+  <% end %>
+
+<% elsif current_user.rider? %>
+  <h2>Orders Assigned to You</h2>
+  <% @orders.each do |order| %>
+    <div class="order">
+      <h3>Order #<%= order.id %> - Status: <%= order.status.humanize %></h3>
+      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
+      <%= link_to 'View Assigned Items', order_path(order) %>
+    </div>
+    <hr>
+  <% end %>
+
+<% elsif current_user.admin? %>
+  <h2>All Orders with "Sent to Delivery Company" Status</h2>
+  <% @orders.each do |order| %>
+    <div class="order">
+      <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
+      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
+      <p>Status: <%= order.status.humanize %></p>
+      <%= link_to 'Manage Order Items', order_path(order) %>
     </div>
     <hr>
   <% end %>
 <% end %>
 
-<%= link_to 'Go back to homepage', homepage_path %>
+<%= link_to 'Go back to homepage', homepage_path, class: 'btn btn-secondary' %>
