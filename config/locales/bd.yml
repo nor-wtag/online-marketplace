@@ -10,4 +10,5 @@ bd:
   errors:
     messages:
       blank: "ফাঁকা থাকা যাবে না"
+      invalid: "যাবে না"
 
