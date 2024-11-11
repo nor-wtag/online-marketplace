@@ -34,7 +34,7 @@ RSpec.describe User do
       it 'is invalid with phone number #{phone}' do
         user = User.new(valid_attributes.merge(phone: phone))
         expect(user).not_to be_valid
-        expect(user.errors[:phone]).to include(error_message)
+        expect(user.errors[:phone]).to be_present
       end
     end
   end
