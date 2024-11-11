@@ -1,7 +1,7 @@
 class CartItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_cart
-  before_action :set_cart_item, only: [ :update, :destroy ]
+  before_action :set_cart_item, only: [ :update, :destroy, :delete ]
 
   def create
     product = Product.find(params[:product_id])
@@ -57,6 +57,9 @@ class CartItemsController < ApplicationController
   #   end
   #   redirect_to cart_path, notice: 'Cart item updated.'
   # end
+  # 
+  def delete
+  end
 
   def destroy
     @cart_item.destroy

@@ -1,5 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_action :set_resource, only: [ :edit, :update, :destroy ]
+  before_action :set_resource, only: [ :edit, :update, :destroy, :delete ]
+
+  def delete
+  end
 
   def destroy
     resource.destroy
@@ -8,6 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     respond_with_navigational(resource) { redirect_to after_sign_out_path_for(resource_name) }
   end
+
 
   protected
 

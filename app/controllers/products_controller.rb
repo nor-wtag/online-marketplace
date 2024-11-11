@@ -15,7 +15,8 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product
+    # @product
+    @reviews = @product.reviews.includes(:user)
   end
 
   def create
@@ -45,14 +46,20 @@ class ProductsController < ApplicationController
 
   def delete
   end
+  
   def destroy
     @product = Product.find(params[:id])
-    @product.destroy
+    @product.transaction do
+      @product.order_items.update_all(availibility: 'unavailable')
+      @product.order_items.each do |order_item|
+        order_item.order.recalculate_total_price
+      end
+      @product.destroy
+    end
     redirect_to products_path, notice: 'Product was successfully deleted.'
   end
 
   private
-
   def set_product
     @product = Product.find(params[:id])
   rescue ActiveRecord::RecordNotFound
