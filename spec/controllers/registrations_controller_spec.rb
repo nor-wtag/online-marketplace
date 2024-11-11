@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RegistrationsController, type: :controller do
+  include Devise::Test::ControllerHelpers
+
   let(:user) { create(:user, email: "test@example.com", password: "password") }
 
   before do
