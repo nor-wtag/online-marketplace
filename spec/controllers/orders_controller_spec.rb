@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
+  include Devise::Test::ControllerHelpers
+  
+  before(:each) do
+    I18n.locale = :en
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
+
   let(:buyer) { create(:user, role: 'buyer') }
   let(:seller) { create(:user, role: 'seller') }
   let(:other_seller) { create(:user, role: 'seller') }
@@ -9,10 +16,6 @@ RSpec.describe OrdersController, type: :controller do
   let(:order) { create(:order, user: buyer, total_price: 100, status: 'pending') }
   let!(:order_item1) { create(:order_item, order: order, product: product1, quantity: 2, price: product1.price) }
   let!(:order_item2) { create(:order_item, order: order, product: product2, quantity: 1, price: product2.price) }
-
-  before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
 
   describe "GET #index to view orders" do
     context "as a buyer" do

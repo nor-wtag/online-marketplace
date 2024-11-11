@@ -1,12 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
+  include Devise::Test::ControllerHelpers
+
   let(:admin) { create(:user, role: 'admin') }
   let(:seller) { create(:user, role: 'seller') }
-  let(:buyer) { create(:user, role: 'buyer') }
+  let(:buyer)  { create(:user, role: 'buyer') }
   let(:product) { create(:product, user: seller) }
   let(:category1) { create(:category) }
   let(:category2) { create(:category) }
+
+  before(:each) do
+    I18n.locale = :en
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
 
   describe "GET #index to go to the products page" do
     context "with a valid product ID" do

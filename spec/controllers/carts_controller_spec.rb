@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CartsController, type: :controller do
+  include Devise::Test::ControllerHelpers
+  
+  before(:each) do
+    I18n.locale = :en
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
+
   let(:user) { create(:user, role: :buyer) }
   let(:product1) { create(:product, price: 10.0) }
   let(:product2) { create(:product, price: 15.0) }

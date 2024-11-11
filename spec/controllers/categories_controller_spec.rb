@@ -1,5 +1,12 @@
 require 'rails_helper'
 RSpec.describe CategoriesController, type: :controller do
+  include Devise::Test::ControllerHelpers
+  
+  before(:each) do
+    I18n.locale = :en
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
+  
   let(:admin) { create(:user, role: 'admin') }
   let(:seller) { create(:user, role: 'seller') }
   let(:buyer) { create(:user, role: 'buyer') }

@@ -15,7 +15,7 @@ RSpec.describe RegistrationsController, type: :controller do
         post :create, params: { user: attributes_for(:user, email: "newuser@example.com", password: "password", password_confirmation: "password") }
         new_user = User.find_by(email: "newuser@example.com")
         expect(new_user).not_to be_nil
-        expect(response).to redirect_to(homepage_path)
+        expect(response).to redirect_to(homepage_path(locale: I18n.locale))
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe RegistrationsController, type: :controller do
     it "deletes the user account and redirects to root path" do
       delete :destroy
       expect(User.exists?(user.id)).to be_falsey
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(root_path(locale: I18n.locale))
     end
   end
 end

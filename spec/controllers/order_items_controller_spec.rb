@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe OrderItemsController, type: :controller do
+  include Devise::Test::ControllerHelpers
+  
+  before(:each) do
+    I18n.locale = :en
+    @request.env["devise.mapping"] = Devise.mappings[:user]
+  end
+
   let(:buyer) { create(:user, role: 'buyer') }
   let(:seller) { create(:user, role: 'seller') }
   let(:product) { create(:product, user: seller) }
@@ -8,10 +15,6 @@ RSpec.describe OrderItemsController, type: :controller do
   let(:completed_order) { create(:order, :completed) }
   let(:canceled_order) { create(:order, :canceled) }
   let!(:order_item) { create(:order_item, order: order, product: product, quantity: 2, price: 50) }
-
-  before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-  end
 
   describe "GET #show all the product added to their order" do
     context "as a buyer" do
