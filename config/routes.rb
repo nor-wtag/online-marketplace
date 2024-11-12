@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    registrations: 'registrations'
-  }
+  # devise_for :users, controllers: {
+  #   registrations: 'registrations'
+  # }
+  devise_for :users, controllers: { registrations: 'registrations' }
 
+  # Add the custom route for update_profile here
+  devise_scope :user do
+    patch 'users/update_profile', to: 'registrations#update_profile', as: :update_profile
+  end
   devise_scope :user do
     get '/logout', to: 'devise/sessions#destroy', as: :logout
     get 'users/delete', to: 'registrations#delete', as: :delete_account
@@ -45,9 +50,9 @@ Rails.application.routes.draw do
   resource :cart, only: [ :show ]
 
   resources :orders, only: [:index, :show, :create ] do
-    member do
-      patch :cancel
-    end
+    # member do
+    #   patch :cancel
+    # end
 
     resources :order_items, only: [:show, :update] do
       member do
