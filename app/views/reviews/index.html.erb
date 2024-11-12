@@ -1,18 +1,18 @@
-<h2>Reviews for <%= @product.title %></h2>
-
-<% @reviews.each do |review| %>
-  <div class="review">
-    <p><strong><%= review.user.username %>:</strong> <%= review.comment %></p>
-    <p>Rating: <%= review.rating %>/5</p>
-
-    <% if can?(:update, review) %>
-      <%= link_to 'Edit Review', edit_product_review_path(@product, review) %>
-    <% end %>
-    <% if can?(:destroy, review) %>
-      <%= link_to 'Delete Review', product_review_path(@product, review), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <div class="reviews">
+    <% @product.reviews.each do |review| %>
+      <div class="review">
+        <p><strong>Rating:</strong> <%= review.rating %> / 5</p>
+        <p><strong>Comment:</strong> <%= review.comment %></p>
+        <p><small>Reviewed by: <%= review.user.username %></small></p>
+        
+        <% if review.user == current_user %>
+          <%= link_to 'Edit Review', edit_product_review_path(@product, review), class: 'btn btn-warning' %>
+          <%= link_to 'Delete Review', delete_product_review_path(@product, review), method: :get, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        <% end %>
+      </div>
+      <hr>
     <% end %>
   </div>
-<% end %>
 
 <% if can?(:create, Review.new(product: @product)) %>
   <%= link_to 'Add a Review', new_product_review_path(@product) %>
