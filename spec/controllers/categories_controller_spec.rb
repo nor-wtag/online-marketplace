@@ -1,9 +1,9 @@
 require 'rails_helper'
+
 RSpec.describe CategoriesController, type: :controller do
   include Devise::Test::ControllerHelpers
   
   before(:each) do
-    I18n.locale = :en
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
   
@@ -27,7 +27,7 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a guest" do
       it "redirects to the sign-in page" do
         get :index
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path(locale: nil))
       end
     end
   end
@@ -64,7 +64,9 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a seller or buyer" do
       it "denies access to new category for a seller" do
         sign_in seller
-        expect { get :new }.to raise_error(CanCan::AccessDenied)
+        get :new
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -83,7 +85,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "assigns multiple products to the category" do
-        post :create, params: { category: valid_attributes.merge(product_ids: [ product1.id, product2.id ]) }
+        post :create, params: { category: valid_attributes.merge(product_ids: [product1.id, product2.id]) }
         category = Category.last
         expect(category.products).to include(product1, product2)
       end
@@ -92,9 +94,9 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a seller or buyer" do
       it "does not allow category creation for a seller" do
         sign_in seller
-        expect {
-          post :create, params: { category: valid_attributes }
-        }.to raise_error(CanCan::AccessDenied)
+        post :create, params: { category: valid_attributes }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -111,7 +113,9 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a seller or buyer" do
       it "denies editing for a seller" do
         sign_in seller
-        expect { get :edit, params: { id: category.id } }.to raise_error(CanCan::AccessDenied)
+        get :edit, params: { id: category.id }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -130,9 +134,9 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a seller or buyer" do
       it "denies updating for a seller" do
         sign_in seller
-        expect {
-          patch :update, params: { id: category.id, category: { name: "Updated Name" } }
-        }.to raise_error(CanCan::AccessDenied)
+        patch :update, params: { id: category.id, category: { name: "Updated Name" } }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -150,7 +154,9 @@ RSpec.describe CategoriesController, type: :controller do
     context "as a seller or buyer" do
       it "denies deletion for a seller" do
         sign_in seller
-        expect { delete :destroy, params: { id: category.id } }.to raise_error(CanCan::AccessDenied)
+        delete :destroy, params: { id: category.id }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end

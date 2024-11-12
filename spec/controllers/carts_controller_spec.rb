@@ -4,7 +4,6 @@ RSpec.describe CartsController, type: :controller do
   include Devise::Test::ControllerHelpers
   
   before(:each) do
-    I18n.locale = :en
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
@@ -18,14 +17,15 @@ RSpec.describe CartsController, type: :controller do
     allow(controller).to receive(:current_user).and_return(user)
   end
 
-  describe "GET /cart page after clicking it" do
-    it "returns http success for cart show when redirected to it" do
+  describe "GET /cart page" do
+    it "returns http success for cart show" do
       get :show
       expect(response).to have_http_status(:success)
+      expect(assigns(:cart_items)).to be_empty
     end
   end
 
-  describe "GET #show all the products added to cart" do
+  describe "GET #show with items" do
     render_views
     context "when cart has items" do
       before do
@@ -37,6 +37,8 @@ RSpec.describe CartsController, type: :controller do
         get :show
         expect(response).to render_template(:show)
         expect(assigns(:cart_items).size).to eq(2)
+        expect(response.body).to include(product1.title)
+        expect(response.body).to include(product2.title)
       end
 
       it "calculates the correct total price" do

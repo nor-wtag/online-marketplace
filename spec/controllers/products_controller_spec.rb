@@ -11,7 +11,6 @@ RSpec.describe ProductsController, type: :controller do
   let(:category2) { create(:category) }
 
   before(:each) do
-    I18n.locale = :en
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
@@ -37,7 +36,7 @@ RSpec.describe ProductsController, type: :controller do
     context "as a guest trying to view the products" do
       it "redirects to the sign-in page" do
         get :index
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path(locale: nil))
       end
     end
   end
@@ -72,11 +71,12 @@ RSpec.describe ProductsController, type: :controller do
     end
 
     context "as a buyer" do
+      before { sign_in buyer }
+
       it "denies access to new product" do
-        sign_in buyer
-        expect {
-          get :new
-        }.to raise_error(CanCan::AccessDenied)
+        get :new
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -103,11 +103,12 @@ RSpec.describe ProductsController, type: :controller do
     end
 
     context "as a buyer" do
+      before { sign_in buyer }
+
       it "does not allow product creation" do
-        sign_in buyer
-        expect {
-          post :create, params: { product: valid_attributes }
-        }.to raise_error(CanCan::AccessDenied)
+        post :create, params: { product: valid_attributes }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -122,12 +123,14 @@ RSpec.describe ProductsController, type: :controller do
     end
 
     context "as a different seller" do
+      let(:other_seller) { create(:user, role: 'seller') }
+
+      before { sign_in other_seller }
+
       it "denies editing another seller's product" do
-        other_seller = create(:user, role: 'seller')
-        sign_in other_seller
-        expect {
-          get :edit, params: { id: product.id }
-        }.to raise_error(CanCan::AccessDenied)
+        get :edit, params: { id: product.id }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -147,9 +150,9 @@ RSpec.describe ProductsController, type: :controller do
       it "denies updating another seller's product" do
         other_seller = create(:user, role: 'seller')
         sign_in other_seller
-        expect {
-          patch :update, params: { id: product.id, product: { title: "Updated Title" } }
-        }.to raise_error(CanCan::AccessDenied)
+        patch :update, params: { id: product.id, product: { title: "Updated Title" } }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -175,9 +178,9 @@ RSpec.describe ProductsController, type: :controller do
     context "as a buyer" do
       it "does not allow deletion" do
         sign_in buyer
-        expect {
-          delete :destroy, params: { id: product.id }
-        }.to raise_error(CanCan::AccessDenied)
+        delete :destroy, params: { id: product.id }
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to be_present
       end
     end
   end
