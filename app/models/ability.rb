@@ -19,9 +19,10 @@ class Ability
 
       can :read, Category
 
-      can :read, Review, product: { user_id: user.id }
+      can :read, Review
       
       can :read, Order, order_items: { product: { user_id: user.id } }
+
       can :read, OrderItem, order: { order_items: { product: { user_id: user.id } } }
       can :update_status, OrderItem, product: { user_id: user.id }
 
@@ -29,11 +30,10 @@ class Ability
       can :read, Product
       can :read, Category
 
-      can :create, Review do |review|
-        review.product.orders.where(user_id: user.id, status: 'completed').exists?
-      end
+      can :create, Review
       can :read, Review
       can [:update, :destroy], Review, user_id: user.id
+      can :delete, Review, user_id: user.id
 
       can :create, Cart
       can :read, Cart, user_id: user.id
@@ -66,8 +66,6 @@ class Ability
       can :read, OrderItem, rider_id: user.id
       can :update, OrderItem, rider_id: user.id
       can :update_status, OrderItem, rider_id: user.id, status: 'rider_assigned'
-
-
     end
   end
 end

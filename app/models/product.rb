@@ -1,7 +1,5 @@
 class Product < ApplicationRecord
   before_destroy :mark_order_items_unavailable
-  # before_delete :mark_order_items_unavailable
-
 
   belongs_to :user
   has_many :reviews, dependent: :destroy

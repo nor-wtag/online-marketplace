@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :user, foreign_key: 'user_id'
   has_many :order_items
+  has_many :products, through: :order_items
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :status, presence: true, inclusion: { in: %w[pending completed] }
   
@@ -17,4 +18,3 @@ class Order < ApplicationRecord
     update(total_price: total_price)
   end
 end
-
