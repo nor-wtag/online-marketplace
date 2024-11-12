@@ -10,12 +10,14 @@ class Ability
 
     when 'seller'
       can [ :read, :update, :destroy ], User, id: user.id
-
       can :create, Product
+      can [:read, :update, :destroy, :delete], Product, user_id: user.id
       can :read, Product
-      can :update, Product, user_id: user.id
-      can :destroy, Product, user_id: user.id
-      can :delete, Product, user_id: user.id
+      # can :create, Product
+      # can :read, Product
+      # can :update, Product, user_id: user.id
+      # can :destroy, Product, user_id: user.id
+      # can :delete, Product, user_id: user.id
 
       can :read, Category
 
