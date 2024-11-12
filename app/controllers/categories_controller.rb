@@ -19,7 +19,7 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     if @category.save
-      redirect_to categories_path, notice: 'Category was successfully created.'
+      redirect_to categories_path, notice: t('categories.category_created')
     else
       flash.now[:alert] = @category.errors.full_messages.join(', ')
       render :new
@@ -31,7 +31,7 @@ class CategoriesController < ApplicationController
 
   def update
     if @category.update(category_params)
-      redirect_to categories_path, notice: 'Category was successfully updated.'
+      redirect_to categories_path, notice: t('categories.category_updated')
     else
       flash.now[:alert] = @category.errors.full_messages.join(', ')
       render :edit
@@ -44,7 +44,7 @@ class CategoriesController < ApplicationController
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
-    redirect_to categories_path, notice: 'Category was successfully deleted.'
+    redirect_to categories_path, notice: t('categories.category_deleted')
   end
 
   private
@@ -52,11 +52,11 @@ class CategoriesController < ApplicationController
   def set_category
     @category = Category.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to categories_path, alert: 'Category not found'
+    redirect_to_index_with_alert
   end
 
   def redirect_to_index_with_alert
-    redirect_to categories_path, alert: 'Category not found'
+    redirect_to categories_path, alert: t('categories.not_found')
   end
 
   def category_params
