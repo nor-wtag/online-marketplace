@@ -7,9 +7,6 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, alert: I18n.t('errors.access_denied')
   end
-  # rescue_from ActionController::InvalidAuthenticityToken do
-  #   redirect_to new_user_session_path, alert: 'Session expired. Please sign in again.'
-  # end
 
   def after_sign_in_path_for(resource)
     homepage_path
@@ -31,6 +28,5 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :username, :email, :phone, :role, :password, :password_confirmation ])
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :username, :email, :phone, :role, :password, :password_confirmation, :current_password ])
   end
 end
