@@ -1,0 +1,6 @@
+<div class="reviews">
+    <% @product.reviews.each do |review| %>
+      <div class="review">
+        <p><strong>Rating:</strong> <%= review.rating %> / 5</p>
+        <p><strong>Comment:</strong> <%= review.comment %></p>
+        <p><small>Reviewed by: <%= review.user.username %></small></p>
