@@ -11,14 +11,13 @@
       <th>Price</th>
       <th>Subtotal</th>
       <th>Status</th>
-      <th>Actions</th>
       <th>Review</th>
     </tr>
   </thead>
   <tbody>
     <% @order_items.each do |item| %>
       <tr>
-        <td><%= item.product&.title || 'Unavailable Product' %></td>
+        <td><%= item.product.present? ? link_to(item.product.title, product_path(item.product)) : 'Unavailable Product' %></td>
         <td><%= item.availibility == 'available' ? 'Yes' : 'No' %></td>
         <td><%= item.quantity %></td>
         <td><%= number_to_currency(item.price) %></td>

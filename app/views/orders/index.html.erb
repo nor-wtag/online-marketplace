@@ -16,7 +16,6 @@
   <% @orders.each do |order| %>
     <div class="order">
       <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
-      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
       <p>Status: <%= order.status.humanize %></p>
       <%= link_to 'View Order', order_path(order) %>
     </div>
@@ -28,7 +27,6 @@
   <% @orders.each do |order| %>
     <div class="order">
       <h3>Order #<%= order.id %> - Status: <%= order.status.humanize %></h3>
-      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
       <%= link_to 'View Assigned Items', order_path(order) %>
     </div>
     <hr>

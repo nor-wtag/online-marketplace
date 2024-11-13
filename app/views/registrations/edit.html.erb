@@ -1,0 +1,34 @@
+<h2><%= t('registrations.edit_profile') %></h2>
+
+<%= form_for(resource, as: resource_name, url: update_profile_path, html: { method: :patch }) do |f| %>
+  <div class="field">
+    <%= f.label :username, t('registrations.username') %>
+    <%= f.text_field :username %>
+  </div>
+  <div class="field">
+    <%= f.label :email, t('registrations.email') %>
+    <%= f.email_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :phone, t('registrations.phone') %>
+    <%= f.telephone_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :password, t('registrations.password') %>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation, t('registrations.password_confirmation') %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :current_password, t('registrations.current_password') %>
+    <%= f.password_field :current_password %>
+  </div>
+  <div class="actions">
+    <%= f.submit t('registrations.update') %>
+  </div>
+<% end %>
+
+<%= button_to t('registrations.delete_account'), delete_account_path, method: :get, data: { confirm: t('registrations.confirm_delete') } %>
+<%= link_to t('registrations.back_to_homepage'), homepage_path %>
