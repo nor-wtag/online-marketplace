@@ -4,7 +4,8 @@
     <p><strong>Welcome, <%= current_user.username %></strong></p>
      
     <%= button_to "Log out", destroy_user_session_path, method: :delete %>
-    <%= link_to 'Edit Account', edit_user_registration_path %>
+    <%= link_to 'Edit Account', edit_user_registration_path, class: 'btn btn-secondary' %>
+
   </div>
 <% end %>
 
