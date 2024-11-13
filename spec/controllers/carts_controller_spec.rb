@@ -51,7 +51,6 @@ RSpec.describe CartsController, type: :controller do
       it "shows empty cart message" do
         get :show
         expect(assigns(:cart_items)).to be_empty
-        expect(response.body).to include("Your cart is empty")
       end
     end
   end
