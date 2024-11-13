@@ -10,7 +10,7 @@ RSpec.describe Cart, type: :model do
     it 'allows only buyer to have a cart' do
       cart.user.role = :seller
       expect(cart).not_to be_valid
-      expect(cart.errors[:user]).to include('can only have a cart if they are a buyer')
+      expect(cart.errors[:user]).to include(I18n.t('cart.errors.buyer_only'))
     end
   end
 
