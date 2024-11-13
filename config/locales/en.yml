@@ -2,8 +2,20 @@ en:
   users:
     homepage_title: "Homepage"
   registrations:
-    account_deleted: "Your account has been successfully deleted."
-    account_updated: "Your account has been successfully updated."
+    edit_profile: "Edit Profile"
+    username: "Username"
+    email: "Email"
+    phone: "Phone"
+    password: "Password (leave blank if you don't want to change it)"
+    password_confirmation: "Password Confirmation"
+    current_password: "Current Password (required only to change your password)"
+    update: "Update"
+    delete_account: "Delete Account"
+    confirm_delete: "Are you sure you want to delete your account?"
+    back_to_homepage: "Back to Homepage"
+    profile_updated: "Profile updated successfully."
+    profile_update_failed: "Failed to update profile. Please check the errors: %{errors}"
+    password_updated: "Password"
   products:
     product_created: "Product was successfully created."
     product_updated: "Product was successfully updated."
@@ -14,6 +26,11 @@ en:
     category_updated: "Category was successfully updated."
     category_deleted: "Category was successfully deleted."
     not_found: "Category not found"
+
+  cart:
+    errors:
+      buyer_only: "Only buyers can have a cart"
+
   cart_items:
     exceed_stock: "Cannot exceed available stock. "
     quantity_updated: "Product quantity updated in cart."
@@ -21,6 +38,8 @@ en:
     updated: "Cart item updated."
     removed: "Item was removed from the cart."
     not_found: "Cart item not found."
+    errors:
+      quantity_stock: "Not enough product available in stock"
 
   orders:
     created: "Order was successfully created."
