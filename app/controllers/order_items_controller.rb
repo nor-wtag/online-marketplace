@@ -36,12 +36,12 @@ class OrderItemsController < ApplicationController
       @order_item.update!(status: 'received')
       @order_item.order.update_order_status!
       redirect_to order_path(@order_item.order), notice: t('order_items.received')
-  
+
     elsif current_user.rider? && @order_item.status == 'rider_assigned' && @order_item.rider_id == current_user.id
       authorize! :update_status, @order_item
       @order_item.update!(status: 'delivered')
       redirect_to order_path(@order_item.order), notice: t('order_items.delivered')
-  
+
     elsif current_user.seller? && current_user == @order_item.product.user && %w[pending sent_to_delivery_company].include?(params[:status])
       authorize! :update_status, @order_item
       @order_item.update!(status: params[:status])
@@ -51,7 +51,7 @@ class OrderItemsController < ApplicationController
       authorize! :update_status, @order_item
       @order_item.update(status: 'rider_assigned', rider_id: params[:rider_id])
       redirect_to order_path(@order_item.order), notice: t('order_items.rider_assigned')
-  
+
     else
       redirect_to root_path, alert: t('order_items.unauthorized_update')
     end

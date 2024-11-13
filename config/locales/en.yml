@@ -44,5 +44,17 @@ en:
     received: "Order item marked as received."
     delivered: "Order item marked as delivered."
     rider_assigned: "Rider assigned successfully."
+
+  reviews:
+    alerts:
+      not_purchased: "You can only review products you have received."
+      not_owner_edit: "You can only edit your own reviews."
+      not_owner_update: "You can only update your own reviews."
+      not_owner_delete: "You can only delete your own reviews."
+    notices:
+      created: "Review was successfully created."
+      updated: "Review was successfully updated."
+      deleted: "Review was successfully deleted."
+
   errors:
     access_denied: "You are not authorized to access this page."

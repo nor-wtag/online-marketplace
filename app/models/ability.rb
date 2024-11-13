@@ -11,7 +11,7 @@ class Ability
     when 'seller'
       can [ :read, :update, :destroy ], User, id: user.id
       can :create, Product
-      can [:read, :update, :destroy, :delete], Product, user_id: user.id
+      can [ :read, :update, :destroy, :delete ], Product, user_id: user.id
       can :read, Product
       # can :create, Product
       # can :read, Product
@@ -22,7 +22,7 @@ class Ability
       can :read, Category
 
       can :read, Review
-      
+
       can :read, Order, order_items: { product: { user_id: user.id } }
 
       can :read, OrderItem, order: { order_items: { product: { user_id: user.id } } }
@@ -34,7 +34,7 @@ class Ability
 
       can :create, Review
       can :read, Review
-      can [:update, :destroy], Review, user_id: user.id
+      can [ :update, :destroy ], Review, user_id: user.id
       can :delete, Review, user_id: user.id
 
       can :create, Cart
@@ -59,7 +59,7 @@ class Ability
       can :update_status, OrderItem, order: { user_id: user.id }, status: 'delivered'
 
       can [ :read, :update, :destroy ], User, id: user.id
-    
+
     when 'rider'
       can [ :read, :update, :destroy ], User, id: user.id
 

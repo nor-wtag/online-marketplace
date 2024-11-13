@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe CategoriesController, type: :controller do
   include Devise::Test::ControllerHelpers
-  
+
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
-  
+
   let(:admin) { create(:user, role: 'admin') }
   let(:seller) { create(:user, role: 'seller') }
   let(:buyer) { create(:user, role: 'buyer') }
@@ -85,7 +85,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "assigns multiple products to the category" do
-        post :create, params: { category: valid_attributes.merge(product_ids: [product1.id, product2.id]) }
+        post :create, params: { category: valid_attributes.merge(product_ids: [ product1.id, product2.id ]) }
         category = Category.last
         expect(category.products).to include(product1, product2)
       end

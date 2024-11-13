@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     member do
       get 'delete', to: 'products#delete', as: 'delete'
     end
-    resources :reviews, only: [:index, :new, :create, :edit, :update, :destroy] do
+    resources :reviews, only: [ :index, :new, :create, :edit, :update, :destroy ] do
       member do
         get 'delete', to: 'reviews#delete', as: 'delete'
       end
@@ -42,19 +42,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cart_items, only: [:create, :update, :destroy] do
+  resources :cart_items, only: [ :create, :update, :destroy ] do
     member do
       get 'delete', to: 'cart_items#delete', as: 'delete'
     end
   end
   resource :cart, only: [ :show ]
 
-  resources :orders, only: [:index, :show, :create ] do
+  resources :orders, only: [ :index, :show, :create ] do
     # member do
     #   patch :cancel
     # end
 
-    resources :order_items, only: [:show, :update] do
+    resources :order_items, only: [ :show, :update ] do
       member do
         patch :update_status
         patch :assign_rider

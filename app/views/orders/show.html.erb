@@ -16,7 +16,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @order_items.each do |item| %> <!-- Use filtered @order_items -->
+    <% @order_items.each do |item| %>
       <tr>
         <td><%= item.product&.title || 'Unavailable Product' %></td>
         <td><%= item.availibility == 'available' ? 'Yes' : 'No' %></td>
@@ -26,7 +26,6 @@
         <td><%= item.status.humanize %></td>
 
         <td>
-          <!-- Admin actions -->
           <% if current_user.admin? && item.status == 'sent_to_delivery_company' %>
             <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
               <%= f.hidden_field :status, value: 'rider_assigned' %>
@@ -36,7 +35,6 @@
             <% end %>
           <% end %>
 
-          <!-- Seller actions -->
           <% if current_user.seller? && current_user == item.product.user && %w[pending sent_to_delivery_company].include?(item.status) %>
             <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
               <%= f.select :status, options_for_select([
@@ -47,7 +45,6 @@
             <% end %>
           <% end %>
 
-          <!-- Rider actions -->
           <% if current_user.rider? && item.status == 'rider_assigned' && item.rider_id == current_user.id %>
             <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
               <%= f.hidden_field :status, value: 'delivered' %>
@@ -55,7 +52,6 @@
             <% end %>
           <% end %>
 
-          <!-- Buyer actions -->
           <% if current_user.buyer? && item.status == 'delivered' %>
             <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
               <%= f.hidden_field :status, value: 'received' %>
@@ -65,7 +61,6 @@
         </td>
 
         <td>
-          <!-- Review actions for buyers -->
           <% if current_user.buyer? && item.status == 'received' %>
             <% existing_review = item.product.reviews.find_by(user_id: current_user.id) %>
             <% if existing_review %>

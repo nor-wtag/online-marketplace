@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe CartItemsController, type: :controller do
   include Devise::Test::ControllerHelpers
-  
+
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
-  
+
   let(:buyer) { create(:user, role: :buyer) }
   let(:other_user) { create(:user, role: :buyer) }
   let(:product) { create(:product, price: 20.0, stock: 5) }

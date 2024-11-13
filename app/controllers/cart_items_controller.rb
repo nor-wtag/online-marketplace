@@ -1,7 +1,7 @@
 class CartItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_cart
-  before_action :set_cart_item, only: [:update, :destroy, :delete]
+  before_action :set_cart_item, only: [ :update, :destroy, :delete ]
 
   def create
     product = Product.find(params[:product_id])
@@ -26,7 +26,7 @@ class CartItemsController < ApplicationController
       redirect_to cart_path, notice: t('cart_items.added_to_cart')
     end
   end
-  
+
   def update
     new_quantity = params[:quantity].to_i
     if new_quantity > @cart_item.product.stock

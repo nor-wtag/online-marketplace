@@ -50,7 +50,7 @@ class ProductsController < ApplicationController
 
   def delete
   end
-  
+
   def destroy
     authorize! :destroy, Product
 

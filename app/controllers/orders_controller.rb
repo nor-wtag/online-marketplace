@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: [:show, :update_status]
+  before_action :set_order, only: [ :show, :update_status ]
   load_and_authorize_resource
   layout 'index'
 

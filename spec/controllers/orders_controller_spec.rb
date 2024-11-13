@@ -2,7 +2,7 @@
 
 # RSpec.describe OrdersController, type: :controller do
 #   include Devise::Test::ControllerHelpers
-  
+
 #   before(:each) do
 #     @request.env["devise.mapping"] = Devise.mappings[:user]
 #   end

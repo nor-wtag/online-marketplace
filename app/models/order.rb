@@ -4,7 +4,7 @@ class Order < ApplicationRecord
   has_many :products, through: :order_items
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :status, presence: true, inclusion: { in: %w[pending completed] }
-  
+
   def update_order_status!
     if order_items.all? { |item| item.status == 'received' }
       update(status: 'completed')
