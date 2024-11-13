@@ -1,0 +1,7 @@
+Order Confirmation
+Dear <%= @order.user.username %>,
+
+Thank you for your order!
+
+Order ID: <%= @order.id %>
+Total Price: <%= number_to_currency(@order.total_price) %>
