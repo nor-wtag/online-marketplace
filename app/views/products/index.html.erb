@@ -1,7 +1,7 @@
-<h1>All Products</h1>
+<h1><%= t('products.index.title') %></h1>
 <% if can?(:create, Product) %>
-  <%= link_to 'New Product', new_product_path, class: 'btn btn-primary' %>
+  <%= link_to t('products.index.new_product_button'), new_product_path, class: 'btn btn-primary' %>
 <% end %>
 
 <%= render 'products_table' %>
-<%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>
+<%= link_to t('products.index.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>

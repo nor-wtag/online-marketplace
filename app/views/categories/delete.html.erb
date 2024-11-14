@@ -1,16 +1,15 @@
-<%= link_to("Back to list", categories_path, class: 'back-link') %>
 <div class='categories delete'>
-  <h2>Delete Category</h2>
+  <h2><%= t('categories.delete_title') %></h2>
 
   <% if can?(:destroy, @category) %>
     <%= form_with(model: @category, local: true, method: :delete) do |f| %>
-      <p>Are you sure you want to delete this category?</p>
+      <p><%= t('categories.delete_confirmation') %></p>
       <p class="reference-name"><%= f.object.name %></p>
       <div class='form-buttons'>
-        <%= f.submit("Delete Category", class: 'btn btn-danger') %>
+        <%= f.submit t('categories.delete_button'), class: 'btn btn-danger' %>
       </div>
     <% end %>
   <% else %>
-    <p>You are not authorized to delete this category.</p>
+    <p><%= t('categories.unauthorized_delete') %></p>
   <% end %>
 </div>

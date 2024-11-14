@@ -1,9 +1,9 @@
-<h1><%= @category.new_record? ? "Create New Category" : "Edit Category" %></h1>
+<h1><%= @category.new_record? ? t('categories.new') : t('categories.edit') %></h1>
 
 <% if can?(:update, @category) %>
   <%= render 'form', category: @category %>
 <% else %>
-  <p>You are not authorized to edit this category.</p>
+  <p><%= t('categories.unauthorized_edit') %></p>
 <% end %>
 
-<%= link_to 'Back to Categories', categories_path, class: 'btn btn-secondary' %>
+<%= link_to t('categories.back_to_categories'), categories_path, class: 'btn btn-secondary' %>

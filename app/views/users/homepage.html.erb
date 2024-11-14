@@ -1,31 +1,29 @@
 <% if current_user %>
   <div class="user-settings">
-    <h1>User Settings</h1>
-    <p><strong>Welcome, <%= current_user.username %></strong></p>
+    <h1><%= t('users.homepage.settings_title') %></h1>
+    <p><strong><%= t('users.homepage.welcome', username: current_user.username) %></strong></p>
      
-    <%= button_to "Log out", destroy_user_session_path, method: :delete %>
-    <%= link_to 'Edit Account', edit_user_registration_path, class: 'btn btn-secondary' %>
-
+    <%= button_to t('users.homepage.log_out'), destroy_user_session_path, method: :delete %>
+    <%= link_to t('users.homepage.edit_account'), edit_user_registration_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>
 
-
 <% if can?(:read, Cart) %>
-  <%= link_to 'View Cart', cart_path, class: 'btn btn-primary' %>
+  <%= link_to t('users.homepage.view_cart'), cart_path, class: 'btn btn-primary' %>
 <% end %>
 
 <% if can?(:read, Order) %>
-  <%= link_to 'View Order', orders_path, class: 'btn btn-primary' %>
+  <%= link_to t('users.homepage.view_order'), orders_path, class: 'btn btn-primary' %>
 <% end %>
 
 <% if can?(:read, Product) %>
-  <h1>Product</h1>
-  <%= link_to 'All Products', products_path, class: 'btn btn-secondary' %>
+  <h1><%= t('users.homepage.product_section_title') %></h1>
+  <%= link_to t('users.homepage.all_products'), products_path, class: 'btn btn-secondary' %>
   <%= render 'products/products_table', products: @products %>
 <% end %>
 
 <% if can?(:read, Category) %>
-  <h1>Category</h1>
-  <%= link_to 'All Categories', categories_path, class: 'btn btn-secondary' %>
+  <h1><%= t('users.homepage.category_section_title') %></h1>
+  <%= link_to t('users.homepage.all_categories'), categories_path, class: 'btn btn-secondary' %>
   <%= render 'categories/categories_table', categories: @categories %>
-<%end%>
+<% end %>

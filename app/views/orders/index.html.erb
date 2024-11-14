@@ -1,48 +1,48 @@
-<h1>Your Orders</h1>
+<h1><%= t('orders.index.title') %></h1>
 
 <% if current_user.buyer? %>
-  <h2>Orders You Have Placed</h2>
+  <h2><%= t('orders.index.buyer_orders') %></h2>
   <% @orders.each do |order| %>
     <div class="order">
-      <h3>Order #<%= order.id %> - Status: <%= order.status.humanize %></h3>
-      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
-      <%= link_to 'View Order', order_path(order) %>
+      <h3><%= t('orders.index.order_number', id: order.id, status: order.status.humanize) %></h3>
+      <p><%= t('orders.index.total_price', price: number_to_currency(order.total_price)) %></p>
+      <%= link_to t('orders.index.view_order'), order_path(order) %>
     </div>
     <hr>
   <% end %>
 
 <% elsif current_user.seller? %>
-  <h2>Orders Containing Your Products</h2>
+  <h2><%= t('orders.index.seller_orders') %></h2>
   <% @orders.each do |order| %>
     <div class="order">
-      <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
-      <p>Status: <%= order.status.humanize %></p>
-      <%= link_to 'View Order', order_path(order) %>
+      <h3><%= t('orders.index.order_number_buyer', id: order.id, buyer_id: order.user_id) %></h3>
+      <p><%= t('orders.index.status', status: order.status.humanize) %></p>
+      <%= link_to t('orders.index.view_order'), order_path(order) %>
     </div>
     <hr>
   <% end %>
 
 <% elsif current_user.rider? %>
-  <h2>Orders Assigned to You</h2>
+  <h2><%= t('orders.index.rider_orders') %></h2>
   <% @orders.each do |order| %>
     <div class="order">
-      <h3>Order #<%= order.id %> - Status: <%= order.status.humanize %></h3>
-      <%= link_to 'View Assigned Items', order_path(order) %>
+      <h3><%= t('orders.index.order_number', id: order.id, status: order.status.humanize) %></h3>
+      <%= link_to t('orders.index.view_assigned_items'), order_path(order) %>
     </div>
     <hr>
   <% end %>
 
 <% elsif current_user.admin? %>
-  <h2>All Orders with "Sent to Delivery Company" Status</h2>
+  <h2><%= t('orders.index.admin_orders') %></h2>
   <% @orders.each do |order| %>
     <div class="order">
-      <h3>Order #<%= order.id %> - Buyer ID: <%= order.user_id %></h3>
-      <p>Total Price: <%= number_to_currency(order.total_price) %></p>
-      <p>Status: <%= order.status.humanize %></p>
-      <%= link_to 'Manage Order Items', order_path(order) %>
+      <h3><%= t('orders.index.order_number_buyer', id: order.id, buyer_id: order.user_id) %></h3>
+      <p><%= t('orders.index.total_price', price: number_to_currency(order.total_price)) %></p>
+      <p><%= t('orders.index.status', status: order.status.humanize) %></p>
+      <%= link_to t('orders.index.manage_order_items'), order_path(order) %>
     </div>
     <hr>
   <% end %>
 <% end %>
 
-<%= link_to 'Go back to homepage', homepage_path, class: 'btn btn-secondary' %>
+<%= link_to t('orders.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
