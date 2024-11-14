@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
   before_action :set_product, only: [ :new, :create, :edit, :update, :destroy, :delete ]
   before_action :set_review, only: [ :edit, :update, :destroy, :delete ]
   layout 'index'
-  
+
   def show
     @reviews = Review.all
   end
