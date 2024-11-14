@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Product do
   let(:user) { User.create(email: "test@example.com", password: "password", username: "testuser") }
-  let(:product) { Product.new(user: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
-
+  let(:product) { Product.new(seller: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
+  
   describe 'validations' do
     subject { product }
 
@@ -16,7 +16,7 @@ RSpec.describe Product do
   end
 
   describe "associations" do
-    it { is_expected.to belong_to(:user) }
+    it { should belong_to(:seller).class_name('User') }
     it { is_expected.to have_many(:reviews).dependent(:destroy) }
     it { is_expected.to have_many(:order_items).dependent(:destroy) }
     it { is_expected.to have_many(:cart_items).dependent(:destroy) }
