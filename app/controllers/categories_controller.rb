@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   load_and_authorize_resource
   before_action :set_category, only: [ :show, :edit, :update, :destroy, :delete ]
   rescue_from ActiveRecord::RecordNotFound, with: :redirect_to_index_with_alert
-
+  layout 'index'
 
   def index
     @categories = Category.all

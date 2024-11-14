@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :set_resource, only: [:edit, :update, :destroy, :delete, :update_profile]
   before_action :configure_permitted_parameters, if: :devise_controller?
-
+  layout 'index'
 
   def delete
   end

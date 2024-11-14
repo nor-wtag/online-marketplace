@@ -2,7 +2,7 @@ class CartItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_cart
   before_action :set_cart_item, only: [ :update, :destroy, :delete ]
-
+  layout 'index'
   def create
     product = Product.find(params[:product_id])
     quantity = params[:quantity].to_i
