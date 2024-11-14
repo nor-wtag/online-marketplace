@@ -42,6 +42,7 @@ class ProductsController < ApplicationController
 
   def delete
   end
+  
   def destroy
     @product = Product.find(params[:id])
     @product.destroy
