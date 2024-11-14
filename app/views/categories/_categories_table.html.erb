@@ -1,24 +1,22 @@
 <table>
   <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Actions</th>
+    <th><%= t('categories.name') %></th>
+    <th><%= t('categories.description') %></th>
+    <th><%= t('categories.actions') %></th>
   </tr>
   <% @categories.each do |category| %>
     <tr>
       <td><%= category.name %></td>
       <td><%= category.description %></td>
       <td>
-        <%= link_to 'Show', category_path(category), class: 'btn btn-info' %>
+        <%= link_to t('categories.show'), category_path(category), class: 'btn btn-info' %>
         <% if can?(:update, category) %>
-          <%= link_to 'Edit', edit_category_path(category), class: 'btn btn-warning' %>
+          <%= link_to t('categories.edit'), edit_category_path(category), class: 'btn btn-warning' %>
         <% end %>
         <% if can?(:destroy, category) %>
-          <%= link_to 'Delete', delete_category_path(category), method: :get, class: 'btn btn-danger' %>
+          <%= link_to t('categories.delete'), delete_category_path(category), method: :get, class: 'btn btn-danger' %>
         <% end %>
       </td>
     </tr>
   <% end %>
 </table>
-
-

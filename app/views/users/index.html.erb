@@ -1,11 +1,11 @@
-<h1>Welcome to the Marketplace</h1>
+<h1><%= t('users.index.welcome_title') %></h1>
 
 <div>
-  <h2>Sign Up</h2>
-  <%= link_to 'Click here to sign up', new_user_registration_path, class: 'btn btn-primary' %>
+  <h2><%= t('users.index.sign_up_title') %></h2>
+  <%= link_to t('users.index.sign_up_link'), new_user_registration_path, class: 'btn btn-primary' %>
 </div>
 
 <div>
-  <h2>Sign In</h2>
-  <%= link_to 'Click here to sign in', new_user_session_path, class: 'btn btn-secondary' %>
+  <h2><%= t('users.index.sign_in_title') %></h2>
+  <%= link_to t('users.index.sign_in_link'), new_user_session_path, class: 'btn btn-secondary' %>
 </div>

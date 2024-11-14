@@ -9,15 +9,10 @@ class Ability
       can :manage, :all
 
     when 'seller'
-      can [ :read, :update, :destroy ], User, id: user.id
+      can [ :read, :update, :destroy, :update_profile ], User, id: user.id
       can :create, Product
       can [ :read, :update, :destroy, :delete ], Product, user_id: user.id
       can :read, Product
-      # can :create, Product
-      # can :read, Product
-      # can :update, Product, user_id: user.id
-      # can :destroy, Product, user_id: user.id
-      # can :delete, Product, user_id: user.id
 
       can :read, Category
 
@@ -58,10 +53,10 @@ class Ability
       can :destroy, OrderItem, order: { user_id: user.id }
       can :update_status, OrderItem, order: { user_id: user.id }, status: 'delivered'
 
-      can [ :read, :update, :destroy ], User, id: user.id
+      can [ :read, :update, :destroy, :update_profile ], User, id: user.id
 
     when 'rider'
-      can [ :read, :update, :destroy ], User, id: user.id
+      can [ :read, :update, :destroy, :update_profile ], User, id: user.id
 
       can :read, Order, order_items: { rider_id: user.id }
 

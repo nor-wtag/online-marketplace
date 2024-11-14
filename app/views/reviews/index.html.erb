@@ -1,19 +1,19 @@
-  <div class="reviews">
-    <% @product.reviews.each do |review| %>
-      <div class="review">
-        <p><strong>Rating:</strong> <%= review.rating %> / 5</p>
-        <p><strong>Comment:</strong> <%= review.comment %></p>
-        <p><small>Reviewed by: <%= review.user.username %></small></p>
-        
-        <% if review.user == current_user %>
-          <%= link_to 'Edit Review', edit_product_review_path(@product, review), class: 'btn btn-warning' %>
-          <%= link_to 'Delete Review', delete_product_review_path(@product, review), method: :get, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-        <% end %>
-      </div>
-      <hr>
-    <% end %>
-  </div>
+<div class="reviews">
+  <% @product.reviews.each do |review| %>
+    <div class="review">
+      <p><strong><%= t('reviews.index.rating') %>:</strong> <%= review.rating %> / 5</p>
+      <p><strong><%= t('reviews.index.comment') %>:</strong> <%= review.comment %></p>
+      <p><small><%= t('reviews.index.reviewed_by') %>: <%= review.user.username %></small></p>
+      
+      <% if review.user == current_user %>
+        <%= link_to t('reviews.index.edit_review'), edit_product_review_path(@product, review), class: 'btn btn-warning' %>
+        <%= link_to t('reviews.index.delete_review'), delete_product_review_path(@product, review), method: :get, data: { confirm: t('reviews.index.confirm_delete') }, class: 'btn btn-danger' %>
+      <% end %>
+    </div>
+    <hr>
+  <% end %>
+</div>
 
 <% if can?(:create, Review.new(product: @product)) %>
-  <%= link_to 'Add a Review', new_product_review_path(@product) %>
+  <%= link_to t('reviews.index.add_review'), new_product_review_path(@product) %>
 <% end %>

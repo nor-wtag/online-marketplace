@@ -15,7 +15,7 @@ RSpec.describe CartItem, type: :model do
     it 'validates quantity does not exceed product stock' do
       cart_item.quantity = 15
       expect(cart_item).not_to be_valid
-      expect(cart_item.errors[:quantity]).to include('Not enough product available in stock')
+      expect(cart_item.errors[:quantity]).to include(I18n.t('cart_item.errors.quantity_stock'))
     end
   end
 

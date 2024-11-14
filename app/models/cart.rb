@@ -12,6 +12,6 @@ class Cart < ApplicationRecord
   private
 
   def buyer_only
-    errors.add(:user, 'can only have a cart if they are a buyer') unless user&.buyer?
+    errors.add(:user, I18n.t('cart.errors.buyer_only'))  unless user&.buyer?
   end
 end

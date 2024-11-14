@@ -10,7 +10,7 @@ class CartItem < ApplicationRecord
 
   def quantity_within_stock
     if quantity.present? && product.present? && quantity > product.stock
-      errors.add(:quantity, 'Not enough product available in stock')
+      errors.add(:quantity, I18n.t('cart_item.errors.quantity_stock'))
     end
   end
 end
