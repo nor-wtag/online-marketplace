@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Product do
   let(:user) { User.create(email: "test@example.com", password: "password", username: "testuser") }
   let(:product) { Product.new(seller: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
-  
+
   describe 'validations' do
     subject { product }
 
