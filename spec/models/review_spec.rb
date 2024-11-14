@@ -8,7 +8,7 @@ RSpec.describe Review do
   end
 
   describe 'associations' do
-    it { is_expected.to belong_to(:user) }
+    it { should belong_to(:buyer).class_name('User') }
     it { is_expected.to belong_to(:product) }
   end
 end
