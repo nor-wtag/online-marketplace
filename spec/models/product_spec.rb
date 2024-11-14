@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Product, type: :model do
   let!(:user) { User.create!(email: "test@example.com", password: "password", username: "testuser", phone: "01712345678", role: :buyer) }
-  let!(:product) { Product.create!(user: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
+  let!(:product) { Product.create!(seller: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
   let!(:order) { Order.create!(user: user, total_price: 100.0) }
   let!(:order_item) { OrderItem.create!(order: order, product: product, quantity: 1, price: product.price, availibility: 'available') }
 
@@ -18,7 +18,7 @@ RSpec.describe Product, type: :model do
   end
 
   describe "associations" do
-    it { is_expected.to belong_to(:user) }
+    it { should belong_to(:seller).class_name('User') }
     it { is_expected.to have_many(:reviews).dependent(:destroy) }
     it { is_expected.to have_many(:order_items) }
     it { is_expected.to have_many(:cart_items).dependent(:destroy) }

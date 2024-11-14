@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  belongs_to :user, foreign_key: 'user_id'
+  belongs_to :buyer, class_name: 'User', foreign_key: 'user_id'
   has_many :order_items
   has_many :products, through: :order_items
   validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
