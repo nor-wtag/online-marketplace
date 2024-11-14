@@ -8,7 +8,7 @@
   </div>
 <% end %>
 
-<% if can?(:read, Cart) %>
+<% if current_user.buyer? %>
   <%= link_to t('users.homepage.view_cart'), cart_path, class: 'btn btn-primary' %>
 <% end %>
 

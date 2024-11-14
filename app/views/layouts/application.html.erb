@@ -19,7 +19,9 @@
 
   <body>
     <%= yield %>
-    <%= link_to t('layouts.application.language_english'), url_for(locale: :en) %> |
-    <%= link_to t('layouts.application.language_bangla'), url_for(locale: :bd) %>
+    <div class="language-switcher">
+      <%= link_to "English", url_for(locale: :en), class: "btn btn-secondary" %>
+      <%= link_to "বাংলা", url_for(locale: :bn), class: "btn btn-secondary" %>
+    </div>
   </body>
 </html>
