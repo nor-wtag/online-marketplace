@@ -1,6 +1,10 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  mount Base => '/'
+
+  mount Sidekiq::Web => '/sidekiq'
+
   devise_for :users, controllers: { registrations: 'registrations' }
 
   devise_scope :user do
@@ -56,6 +60,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  mount Sidekiq::Web => '/sidekiq'
 end
