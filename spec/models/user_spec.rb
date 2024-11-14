@@ -40,6 +40,7 @@ RSpec.describe User do
   end
 
   describe 'associations with related models' do
+    it { is_expected.to have_many(:orders) }
     it { is_expected.to have_many(:products) }
     it { is_expected.to have_many(:reviews) }
     it { is_expected.to have_one(:cart) }

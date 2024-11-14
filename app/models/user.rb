@@ -1,4 +1,9 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
   enum :role, { admin: 0, buyer: 1, seller: 2, rider: 3 }
 
   phony_normalize :phone, default_country_code: 'BD'
@@ -13,8 +18,6 @@ class User < ApplicationRecord
   validates :phone, phony_plausible: true, presence: true
   validates :password, presence: true, length: { minimum: 6 }
   validates :role, presence: true, inclusion: { in: roles.keys }
-
-  attr_accessor :password
 
   def admin?
     role == 'admin'
