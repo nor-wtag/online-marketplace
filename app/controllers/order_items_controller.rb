@@ -8,6 +8,10 @@ class OrderItemsController < ApplicationController
   end
 
   def update
+    if @order_item.availibility == 'unavailable'
+      redirect_to order_path(@order_item.order), alert: t('order_items.unavailable_item_update_denied')
+      return
+    end
     if current_user.seller? && current_user == @order_item.product.user
       if %w[pending sent_to_delivery_company rider_assigned].include?(params[:status])
         @order_item.update(status: params[:status])
@@ -30,8 +34,12 @@ class OrderItemsController < ApplicationController
   end
 
   def update_status
+    if @order_item.availibility == 'unavailable'
+      redirect_to order_path(@order_item.order), alert: t('order_items.unavailable_item_update_denied')
+      return
+    end
     @order_item = OrderItem.find(params[:id])
-    if current_user.buyer? && @order_item.status == 'delivered' && @order_item.order.user == current_user
+    if current_user.buyer? && @order_item.status == 'delivered' && @order_item.order.buyer == current_user
       authorize! :update_status, @order_item
       @order_item.update!(status: 'received')
       @order_item.order.update_order_status!
@@ -42,7 +50,7 @@ class OrderItemsController < ApplicationController
       @order_item.update!(status: 'delivered')
       redirect_to order_path(@order_item.order), notice: t('order_items.delivered')
 
-    elsif current_user.seller? && current_user == @order_item.product.user && %w[pending sent_to_delivery_company].include?(params[:status])
+    elsif current_user.seller? && current_user == @order_item.product.seller && %w[pending sent_to_delivery_company].include?(params[:status])
       authorize! :update_status, @order_item
       @order_item.update!(status: params[:status])
       redirect_to order_path(@order_item.order), notice: t('order_items.status_updated')

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :order do
-    association :user, factory: :user # Assumes you have a `user` factory
+    association :buyer, factory: :user, role: :buyer
     total_price { 100.0 }
     status { "pending" }
     verification_code { SecureRandom.hex(8) }

@@ -7,5 +7,16 @@ FactoryBot.define do
     password_confirmation { "password" }
 
     role { :buyer }
+    trait :seller do
+      role { :seller }
+    end
+
+    trait :admin do
+      role { :admin }
+    end
+
+    trait :rider do
+      role { :rider }
+    end
   end
 end

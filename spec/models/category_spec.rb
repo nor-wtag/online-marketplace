@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Category, type: :model do
   let!(:user) { User.create!(email: "test@example.com", password: "password", username: "testuser", phone: "01712345678", role: :buyer) }
-  let(:product) { Product.create!(user: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
+  let(:product) { Product.new(seller: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
   let(:category) { Category.create!(name: "Electronics", description: "All electronic items") }
 
   describe 'validations' do

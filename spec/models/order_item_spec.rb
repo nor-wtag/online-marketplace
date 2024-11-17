@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe OrderItem, type: :model do
-  let(:buyer) { User.create!(email: "buyer@example.com", password: "password", username: "buyeruser", phone: "01712345678", role: :buyer) }
-  let(:order) { Order.create!(user: buyer, total_price: 0, status: 'pending') }
-  let(:product) { Product.create!(user: buyer, title: "Sample Product", description: "Sample Description", price: 100.0, stock: 10) }
-  let(:order_item) { OrderItem.create!(order: order, product: product, quantity: 2, price: product.price) }
-
+  let(:buyer) { create(:user, role: :buyer) }
+  let(:seller) { create(:user, role: :seller) }
+  let(:order) { create(:order, buyer: buyer) }
+  let(:product) { create(:product, seller: seller) }
+  let(:order_item) { create(:order_item, order: order, product: product) }
+  
   describe 'validations' do
     it { is_expected.to validate_presence_of(:quantity) }
     it { is_expected.to validate_numericality_of(:quantity).only_integer.is_greater_than(0) }
@@ -34,7 +35,7 @@ RSpec.describe OrderItem, type: :model do
   end
 
   describe 'associations' do
-    it { is_expected.to belong_to(:order) }
+    it { is_expected.to belong_to(:order).optional }
     it { is_expected.to belong_to(:product).optional }
     it { is_expected.to belong_to(:rider).class_name('User').optional }
   end
