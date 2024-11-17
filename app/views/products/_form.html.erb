@@ -36,6 +36,11 @@
       <%= f.collection_select :category_ids, Category.all, :id, :name, {}, { multiple: true, class: "form-select" } %>
     </div>
 
+    <div class="mb-3">
+    <%= f.label :image, t('products.form.image_label'), class: "form-label" %>
+      <%= f.file_field :image, class: "form-control" %>
+    </div>
+
     <div class="d-grid">
       <%= f.submit product.new_record? ? t('products.form.create_button') : t('products.form.update_button'), class: "'btn btn-primary btn-lg w-10" %>
     </div>

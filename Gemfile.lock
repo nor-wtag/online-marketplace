@@ -60,6 +60,8 @@ GEM
       activerecord (= 7.2.1.2)
       activesupport (= 7.2.1.2)
       marcel (~> 1.0)
+    activestorage-validator (0.4.0)
+      rails (>= 6.1.0)
     activesupport (7.2.1.2)
       base64
       bigdecimal
@@ -424,6 +426,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  activestorage-validator
   bootsnap
   bootstrap
   brakeman
@@ -435,9 +438,11 @@ DEPENDENCIES
   grape
   grape-entity
   grape_on_rails_routes
+  image_processing (~> 1.2)
   importmap-rails
   jbuilder
   letter_opener
+  mini_magick
   pg
   phony_rails
   puma (>= 5.0)

@@ -18,6 +18,7 @@ en:
       all_products: "All Products"
       category_section_title: "Category"
       all_categories: "All Categories"
+      all_products_list: "All product list"
 
   registrations:
     edit_profile: "Edit Profile"
@@ -47,6 +48,7 @@ en:
     product_updated: "Product was successfully updated."
     product_deleted: "Product was successfully deleted."
     not_found: "Product not found"
+
 
     form:
       error_title: "%{count} errors prohibited this product from being saved:"

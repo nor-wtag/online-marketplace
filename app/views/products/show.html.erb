@@ -6,6 +6,14 @@
   <p><strong><%= t('products.show.description_label') %>:</strong> <%= @product.description %></p>
   <p><strong><%= t('products.show.stock_label') %>:</strong> <%= @product.stock %></p>
   <p><strong><%= t('products.show.price_label') %>:</strong> <%= number_to_currency(@product.price) %></p>
+  <% if @product.image.attached? %>
+  <div class="product-image">
+    <%= image_tag @product.image, class: 'img-fluid', alt: @product.title %>
+      </div>
+    <% else %>
+      <p><%= t('products.show.no_image_available') %></p>
+  <% end %>
+
 
   <% if current_user&.buyer? %>
     <div class="my-4">
