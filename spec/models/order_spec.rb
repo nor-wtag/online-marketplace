@@ -6,7 +6,7 @@ RSpec.describe Order, type: :model do
   let(:seller) { create(:user, role: :seller) }
   let(:product) { create(:product, seller: seller) }
   let!(:order_item) { create(:order_item, order: order, product: product, quantity: 2, price: product.price, status: 'pending', availibility: 'available') }
-  
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:total_price) }
     it { is_expected.to validate_numericality_of(:total_price).is_greater_than_or_equal_to(0) }
@@ -42,7 +42,7 @@ RSpec.describe Order, type: :model do
       order.recalculate_total_price
       expect(order.total_price).to eq(20.0)
     end
-  
+
     it 'excludes unavailable order items from total price' do
       order_item.update(availibility: 'unavailable')
       order.recalculate_total_price

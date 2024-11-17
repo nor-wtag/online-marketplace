@@ -5,5 +5,4 @@ class Base <Grape::API
   # mount V1::Resources::Reviews
   # mount V1::Resources::Orders
   # mount V1::Resources::Carts
-
 end

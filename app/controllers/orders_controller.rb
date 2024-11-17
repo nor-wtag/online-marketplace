@@ -39,10 +39,10 @@ class OrdersController < ApplicationController
     if current_user.buyer?
       cart_items = current_user.cart.cart_items.includes(:product)
       total_price = cart_items.sum { |item| item.quantity * item.product.price }
-  
+
       ActiveRecord::Base.transaction do
         @order = current_user.orders.build(total_price: total_price, status: 'pending')
-  
+
         cart_items.each do |cart_item|
           product = cart_item.product
           if product.stock >= cart_item.quantity
@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
             raise ActiveRecord::Rollback
           end
         end
-  
+
         if @order.save
           cart_items.destroy_all
           SendOrderConfirmationJob.perform_later(@order.id)

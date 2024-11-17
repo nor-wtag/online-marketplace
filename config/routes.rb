@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  get "home/index"
+  get 'home/index'
   mount Base => '/'
 
   mount Sidekiq::Web => '/sidekiq'
@@ -51,7 +51,6 @@ Rails.application.routes.draw do
   resource :cart, only: [ :show ]
 
   resources :orders, only: [ :index, :show, :create ] do
-
     resources :order_items, only: [ :show, :update ] do
       member do
         patch :update_status

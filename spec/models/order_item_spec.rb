@@ -6,7 +6,7 @@ RSpec.describe OrderItem, type: :model do
   let(:order) { create(:order, buyer: buyer) }
   let(:product) { create(:product, seller: seller) }
   let(:order_item) { create(:order_item, order: order, product: product) }
-  
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:quantity) }
     it { is_expected.to validate_numericality_of(:quantity).only_integer.is_greater_than(0) }
