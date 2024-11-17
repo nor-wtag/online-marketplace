@@ -39,34 +39,68 @@ class OrdersController < ApplicationController
     if current_user.buyer?
       cart_items = current_user.cart.cart_items.includes(:product)
       total_price = cart_items.sum { |item| item.quantity * item.product.price }
-
-      @order = current_user.orders.build(total_price: total_price, status: 'pending')
-
-      if @order.save
+  
+      ActiveRecord::Base.transaction do
+        @order = current_user.orders.build(total_price: total_price, status: 'pending')
+  
         cart_items.each do |cart_item|
           product = cart_item.product
           if product.stock >= cart_item.quantity
-            product.update(stock: product.stock - cart_item.quantity)
-            @order.order_items.create!(
+            product.update!(stock: product.stock - cart_item.quantity)
+            @order.order_items.build(
               product: product,
               quantity: cart_item.quantity,
               price: product.price
             )
           else
-            @order.destroy
-            redirect_to cart_path, alert: t('orders.insufficient_stock', title: product.title) and return
+            raise ActiveRecord::Rollback
           end
         end
-
-        current_user.cart.cart_items.destroy_all
-        redirect_to @order, notice: t('orders.created')
-      else
-        redirect_to cart_path, alert: t('orders.creation_failed')
+  
+        if @order.save
+          cart_items.destroy_all
+          redirect_to @order, notice: t('orders.created')
+        else
+          redirect_to cart_path, alert: t('orders.creation_failed')
+        end
+      rescue ActiveRecord::Rollback
+        redirect_to cart_path, alert: t('orders.insufficient_stock', title: product.title)
       end
     else
       redirect_to root_path, alert: t('orders.unauthorized_creation')
     end
   end
+  #   if current_user.buyer?
+  #     cart_items = current_user.cart.cart_items.includes(:product)
+  #     total_price = cart_items.sum { |item| item.quantity * item.product.price }
+
+  #     @order = current_user.orders.build(total_price: total_price, status: 'pending')
+
+  #     if @order.save
+  #       cart_items.each do |cart_item|
+  #         product = cart_item.product
+  #         if product.stock >= cart_item.quantity
+  #           product.update(stock: product.stock - cart_item.quantity)
+  #           @order.order_items.create!(
+  #             product: product,
+  #             quantity: cart_item.quantity,
+  #             price: product.price
+  #           )
+  #         else
+  #           @order.destroy
+  #           redirect_to cart_path, alert: t('orders.insufficient_stock', title: product.title) and return
+  #         end
+  #       end
+
+  #       current_user.cart.cart_items.destroy_all
+  #       redirect_to @order, notice: t('orders.created')
+  #     else
+  #       redirect_to cart_path, alert: t('orders.creation_failed')
+  #     end
+  #   else
+  #     redirect_to root_path, alert: t('orders.unauthorized_creation')
+  #   end
+  # end
 
   def update_status
     @order_item = @order.order_items.find(params[:order_item_id])
