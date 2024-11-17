@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'registrations' }
 
@@ -44,6 +46,7 @@ Rails.application.routes.draw do
   resource :cart, only: [ :show ]
 
   resources :orders, only: [ :index, :show, :create ] do
+
     resources :order_items, only: [ :show, :update ] do
       member do
         patch :update_status
@@ -51,4 +54,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 end

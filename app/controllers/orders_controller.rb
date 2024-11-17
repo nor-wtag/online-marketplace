@@ -59,6 +59,7 @@ class OrdersController < ApplicationController
   
         if @order.save
           cart_items.destroy_all
+          SendOrderConfirmationJob.perform_later(@order.id)
           redirect_to @order, notice: t('orders.created')
         else
           redirect_to cart_path, alert: t('orders.creation_failed')
