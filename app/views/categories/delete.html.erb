@@ -1,0 +1,15 @@
+<div class='categories delete'>
+  <h2><%= t('categories.delete_title') %></h2>
+
+  <% if can?(:destroy, @category) %>
+    <%= form_with(model: @category, local: true, method: :delete) do |f| %>
+      <p><%= t('categories.delete_confirmation') %></p>
+      <p class="reference-name"><%= f.object.name %></p>
+      <div class='form-buttons'>
+        <%= f.submit t('categories.delete_button'), class: 'btn btn-danger' %>
+      </div>
+    <% end %>
+  <% else %>
+    <p><%= t('categories.unauthorized_delete') %></p>
+  <% end %>
+</div>

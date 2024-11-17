@@ -7,5 +7,9 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.before(:each) do
+    allow_any_instance_of(ActionController::Base).to receive(:default_url_options).and_return(locale: I18n.locale)
+  end
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end

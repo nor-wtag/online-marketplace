@@ -1,0 +1,78 @@
+<h1>Order Details</h1>
+<p><strong>Order Status:</strong> <%= @order.status.humanize %></p>
+
+<h2>Order Items</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Available</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+      <th>Status</th>
+      <th>Review</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product&.title || 'Unavailable Product' %></td>
+        <td><%= item.availibility == 'available' ? 'Yes' : 'No' %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.price) %></td>
+        <td><%= number_to_currency(item.price * item.quantity) %></td>
+        <td><%= item.status.humanize %></td>
+
+        <td>
+          <% if current_user.admin? && item.status == 'sent_to_delivery_company' %>
+            <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
+              <%= f.hidden_field :status, value: 'rider_assigned' %>
+              <%= f.label :rider_id, "Assign Rider" %>
+              <%= f.collection_select :rider_id, User.where(role: :rider), :id, :username, prompt: "Select Rider" %>
+              <%= f.submit "Assign Rider" %>
+            <% end %>
+
+          <% elsif current_user.seller? && current_user == item.product.user && %w[pending sent_to_delivery_company].include?(item.status) %>
+            <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
+              <%= f.select :status, options_for_select([
+                ['Pending', 'pending'],
+                ['Sent to Delivery Company', 'sent_to_delivery_company']
+              ], selected: item.status) %>
+              <%= f.submit "Update Status" %>
+            <% end %>
+
+          <% elsif current_user.rider? && item.status == 'rider_assigned' && item.rider_id == current_user.id %>
+            <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
+              <%= f.hidden_field :status, value: 'delivered' %>
+              <%= f.submit "Mark as Delivered" %>
+            <% end %>
+
+          <% elsif current_user.buyer? && item.status == 'delivered' %>
+            <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
+              <%= f.hidden_field :status, value: 'received' %>
+              <%= f.submit "Confirm Received" %>
+            <% end %>
+          <% end %>
+        </td>
+       <td>
+          <% if current_user.buyer? && item.status == 'received' %>
+            <% existing_review = item.product.reviews.find_by(user_id: current_user.id) %>
+            <% if existing_review %>
+              <%= link_to 'Edit my Review', edit_product_review_path(item.product, existing_review), class: 'btn btn-warning' %>
+            <% else %>
+              <%= link_to 'Add Review', new_product_review_path(item.product), class: 'btn btn-primary' %>
+            <% end %>
+          <% else %>
+            <% if current_user.buyer? %>
+              <p>You can add a review after receiving this item</p>
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back to Orders', orders_path, class: 'btn btn-secondary' %>
+<%= link_to 'Back to Homepage', homepage_path, class: 'btn btn-secondary' %>

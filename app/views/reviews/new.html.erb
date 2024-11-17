@@ -1,0 +1,3 @@
+<h1><%= t('reviews.new.title', product: @product.title) %></h1>
+<%= render 'form', product: @product, review: @review %>
+<%= link_to t('reviews.new.back_to_product'), product_path(@product) %>

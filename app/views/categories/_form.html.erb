@@ -1,0 +1,37 @@
+<% if can?(category.new_record? ? :create : :update, category) %>
+  <%= form_with(model: category, local: true) do |f| %>
+    <% if category.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(category.errors.count, t('errors.count')) %> <%= t('errors.prohibited', item: t('categories.category')) %></h2>
+        <ul>
+          <% category.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :name, t('categories.name') %>
+      <%= f.text_field :name, required: true %>
+    </div>
+
+    <div>
+      <%= f.label :description, t('categories.description') %>
+      <%= f.text_area :description, required: true %>
+    </div>
+
+    <div>
+      <%= f.label :products, t('categories.select_products') %>
+      <%= f.collection_select :product_ids, Product.all, :id, :title, {}, { multiple: true } %>
+    </div>
+
+    <div>
+      <%= f.submit category.new_record? ? t('categories.create') : t('categories.update'), class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+<% else %>
+  <p><%= t('categories.unauthorized_action') %></p>
+<% end %>
+
+<%= link_to t('categories.back_to_list'), categories_path, class: 'back-link' %>
