@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  let!(:user) { User.create!(email: "test@example.com", password: "password", username: "testuser", phone: "01712345678", role: :buyer) }
-  let!(:product) { Product.create!(seller: user, title: "Sample Title", description: "Sample Description", price: 100.0, stock: 5) }
-  let!(:order) { Order.create!(user: user, total_price: 100.0) }
-  let!(:order_item) { OrderItem.create!(order: order, product: product, quantity: 1, price: product.price, availibility: 'available') }
+  let!(:buyer) { create(:user, role: :buyer) }
+  let!(:seller) { create(:user, role: :seller) }
+  let!(:product) { create(:product, seller: seller) }
+  let!(:order) { create(:order, buyer: buyer, total_price: 100.0) }
+  let!(:order_item) { create(:order_item, order: order, product: product, quantity: 1, price: product.price, availibility: 'available') }
 
   describe 'validations' do
     subject { product }
@@ -29,13 +30,13 @@ RSpec.describe Product, type: :model do
 
   describe "many-to-many relationship with categories" do
     it "can be associated with a category" do
-      category = Category.create!(name: "Electronics", description: "All electronic items")
+      category = create(:category, name: "Electronics", description: "All electronic items")
       product.categories << category
       expect(product.categories).to include(category)
     end
   end
 
-  describe "before_destroy callback" do
+  describe "before_destroy feature" do
     it "marks associated order items as unavailable and nullifies product_id" do
       product.destroy
       order_item.reload

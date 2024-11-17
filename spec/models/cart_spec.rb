@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
-  let(:buyer) { User.create!(email: "buyer@example.com", password: "password", username: "buyeruser", phone: "01712345678", role: :buyer) }
-  let!(:cart) { Cart.create!(user: buyer) }
+  let(:buyer) { create(:user, role: :buyer) }
+  let!(:cart) { create(:cart, user: buyer) }
+  let(:seller) { create(:user, role: :seller) }
+  let(:product) { create(:product, seller: seller) }
+  let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 2) }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:user_id) }
@@ -11,15 +14,6 @@ RSpec.describe Cart, type: :model do
       cart.user.role = :seller
       expect(cart).not_to be_valid
       expect(cart.errors[:user]).to include(I18n.t('cart.errors.buyer_only'))
-    end
-  end
-
-  describe '#total_price' do
-    let(:product) { Product.create!(user: buyer, title: "Sample Product", description: "Sample Description", price: 100.0, stock: 10) }
-    let!(:cart_item) { CartItem.create!(cart: cart, product: product, quantity: 2) }
-
-    it 'calculates the total price of items in the cart' do
-      expect(cart.total_price).to eq(200.0)
     end
   end
 

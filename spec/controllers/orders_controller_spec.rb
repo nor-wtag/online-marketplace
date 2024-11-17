@@ -202,9 +202,9 @@ RSpec.describe OrdersController, type: :controller do
   let(:other_seller) { create(:user, role: 'seller') }
   let(:rider) { create(:user, role: 'rider') }
   let(:admin) { create(:user, role: 'admin') }
-  let(:product1) { create(:product, user: seller, stock: 10, price: 100) }
-  let(:product2) { create(:product, user: other_seller, stock: 5, price: 50) }
-  let(:order) { create(:order, user: buyer, total_price: 250, status: 'pending') }
+  let(:product1) { create(:product, seller: seller, stock: 10, price: 100) }
+  let(:product2) { create(:product, seller: other_seller, stock: 5, price: 50) }
+  let(:order) { create(:order, buyer: buyer, total_price: 250, status: 'pending') }
   let!(:order_item1) { create(:order_item, order: order, product: product1, quantity: 2, price: product1.price) }
   let!(:order_item2) { create(:order_item, order: order, product: product2, quantity: 1, price: product2.price) }
 

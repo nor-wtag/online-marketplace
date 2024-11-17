@@ -11,8 +11,8 @@ RSpec.describe OrderItemsController, type: :controller do
   let(:seller) { create(:user, role: 'seller') }
   let(:rider) { create(:user, role: 'rider') }
   let(:admin) { create(:user, role: 'admin') }
-  let(:product) { create(:product, user: seller, stock: 10, price: 100) }
-  let(:order) { create(:order, user: buyer, total_price: 250, status: 'pending') }
+  let(:product) { create(:product, seller: seller, stock: 10, price: 100) }
+  let(:order) { create(:order, buyer: buyer, total_price: 250, status: 'pending') }
   let(:order_item) { create(:order_item, order: order, product: product, quantity: 2, price: product.price) }
 
   describe "PATCH #update_status" do
