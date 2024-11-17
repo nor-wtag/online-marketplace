@@ -30,10 +30,13 @@ en:
     update: "Update"
     delete_account: "Delete Account"
     confirm_delete: "Are you sure you want to delete your account?"
+    account_deleted: "Your account has been successfully deleted"
     back_to_homepage: "Back to Homepage"
     profile_updated: "Profile updated successfully."
     profile_update_failed: "Failed to update profile. Please check the errors: %{errors}"
     password_updated: "Password updated successfully"
+    password_update_failed: "Update failed"
+    current_password_incorrect: "current password wrong"
 
   products:
     product_created: "Product was successfully created."
@@ -212,6 +215,7 @@ en:
       edit_review: "Edit my Review"
       add_review: "Add Review"
       add_review_after_received: "You can add a review after receiving this item."
+      no_product_available: "This product doesn't exist anymore"
       
     back_to_orders: "Back to Orders"
     back_to_homepage: "Back to Homepage"
