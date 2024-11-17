@@ -1,11 +1,13 @@
-<table>
+<table class="table">
   <tr>
+    <thead class="table-dark">
     <th><%= t('products.table.title_column') %></th>
     <th><%= t('products.table.description_column') %></th>
     <th><%= t('products.table.price_column') %></th>
     <th><%= t('products.table.stock_column') %></th>
     <th><%= t('products.table.categories_column') %></th>
     <th><%= t('products.table.actions_column') %></th>
+    </thead>
   </tr>
   <% @products.each do |product| %>
     <tr>
@@ -31,6 +33,7 @@
           <%= link_to t('products.table.delete_button'), delete_product_path(product), method: :get, class: 'btn btn-danger' %>
         <% end %>
       </td>
+
     </tr>
   <% end %>
 </table>

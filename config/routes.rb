@@ -13,8 +13,8 @@ Rails.application.routes.draw do
     get 'users/delete', to: 'registrations#delete', as: :delete_account
     delete 'users/destroy', to: 'registrations#destroy', as: :destroy_user
   end
-
-  root 'users#index'
+  # root 'home#index'
+  # root 'users#index'
   get 'user/homepage', to: 'users#homepage', as: 'homepage'
 
   resources :users, only: [ :index, :update ]
