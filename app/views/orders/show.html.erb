@@ -34,7 +34,7 @@
             <% end %>
           <% end %>
 
-          <% if current_user.seller? && current_user == item.product.user && %w[pending sent_to_delivery_company].include?(item.status) %>
+          <% if current_user.seller? && current_user == item.product.seller && %w[pending sent_to_delivery_company].include?(item.status) %>
             <%= form_with url: "/orders/#{@order.id}/order_items/#{item.id}/update_status", method: :patch, local: true do |f| %>
               <%= f.select :status, options_for_select([
                 [t('orders.show.status_pending'), 'pending'],
@@ -60,16 +60,12 @@
         </td>
 
         <td>
-          <% if current_user.buyer? && item.status == 'received' %>
+          <% if current_user.buyer? && item.status == 'received' && item.product.present? %>
             <% existing_review = item.product.reviews.find_by(user_id: current_user.id) %>
             <% if existing_review %>
               <%= link_to t('orders.show.edit_review'), edit_product_review_path(item.product, existing_review), class: 'btn btn-warning' %>
             <% else %>
-              <%= link_to t('orders.show.add_review'), new_product_review_path(item.product), class: 'btn btn-primary' %>
-            <% end %>
-          <% else %>
-            <% if current_user.buyer? %>
-              <p><%= t('orders.show.add_review_after_received') %></p>
+              <%= link_to t('orders.show.add_review'), new_product_review_path(item.product), class: 'btn btn-success' %>
             <% end %>
           <% end %>
         </td>
