@@ -22,7 +22,7 @@ class ProductsController < ApplicationController
   def create
     authorize! :create, Product
     @product = Product.new(product_params)
-    @product.user = current_user
+    @product.seller = current_user
     if @product.save
       redirect_to products_path, notice: t('products.product_created')
     else
