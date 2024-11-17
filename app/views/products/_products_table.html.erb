@@ -1,39 +1,38 @@
-<table class="table">
-  <tr>
-    <thead class="table-dark">
-    <th><%= t('products.table.title_column') %></th>
-    <th><%= t('products.table.description_column') %></th>
-    <th><%= t('products.table.price_column') %></th>
-    <th><%= t('products.table.stock_column') %></th>
-    <th><%= t('products.table.categories_column') %></th>
-    <th><%= t('products.table.actions_column') %></th>
-    </thead>
-  </tr>
-  <% @products.each do |product| %>
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
     <tr>
-      <td><%= product.title %></td>
-      <td><%= product.description %></td>
-      <td><%= product.price %></td>
-      <td><%= product.stock %></td>
-      <td>
-        <% if product.categories.any? %>
-          <% product.categories.each do |category| %>
-            <span><%= category.name %></span><%= "," unless category == product.categories.last %>
-          <% end %>
-        <% else %>
-          <span><%= t('products.table.no_categories') %></span>
-        <% end %>
-      </td>
-      <td>
-        <%= link_to t('products.table.show_button'), product_path(product), class: 'btn btn-info' %>
-        <% if can?(:update, product) %>
-          <%= link_to t('products.table.edit_button'), edit_product_path(product), class: 'btn btn-warning' %>
-        <% end %>
-        <% if can?(:delete, product) %>
-          <%= link_to t('products.table.delete_button'), delete_product_path(product), method: :get, class: 'btn btn-danger' %>
-        <% end %>
-      </td>
-
+      <th><%= t('products.table.title_column') %></th>
+      <th><%= t('products.table.description_column') %></th>
+      <th><%= t('products.table.price_column') %></th>
+      <th><%= t('products.table.stock_column') %></th>
+      <th><%= t('products.table.categories_column') %></th>
+      <th><%= t('products.table.actions_column') %></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.title %></td>
+        <td><%= product.description %></td>
+        <td><%= product.price %></td>
+        <td><%= product.stock %></td>
+        <td>
+          <% if product.categories.any? %>
+            <%= product.categories.map(&:name).join(", ") %>
+          <% else %>
+            <span><%= t('products.table.no_categories') %></span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to t('products.table.show_button'), product_path(product), class: 'btn btn-info btn-sm' %>
+          <% if can?(:update, product) %>
+            <%= link_to t('products.table.edit_button'), edit_product_path(product), class: 'btn btn-warning btn-sm' %>
+          <% end %>
+          <% if can?(:delete, product) %>
+            <%= link_to t('products.table.delete_button'), delete_product_path(product), method: :get, class: 'btn btn-danger btn-sm' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

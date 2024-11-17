@@ -1,9 +1,15 @@
-<h1><%= t('products.edit.title', product_title: @product.title) %></h1>
+<h1 class="mb-4"><%= t('products.edit.title', product_title: @product.title) %></h1>
 
 <% if can?(:update, @product) %>
-  <%= render 'form', product: @product %>
+  <div class="card p-4 shadow">
+    <%= render 'form', product: @product %>
+  </div>
 <% else %>
-  <p><%= t('products.edit.unauthorized_message') %></p>
+  <div class="alert alert-danger">
+    <p><%= t('products.edit.unauthorized_message') %></p>
+  </div>
 <% end %>
 
-<%= link_to t('products.back_to_products'), products_path, class: 'btn btn-secondary' %>
+<div class="mt-3">
+  <%= link_to t('products.back_to_products'), products_path, class: 'btn btn-secondary' %>
+</div>

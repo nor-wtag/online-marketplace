@@ -1,8 +1,12 @@
-<h2>Delete Account</h2>
-<p>Are you sure you want to delete your account? This action cannot be undone.</p>
+<div class="container mt-5">
+  <h2 class="text-danger"><%= t('registrations.delete_account.title') %></h2>
+  <p><%= t('registrations.delete_account.warning') %></p>
 
-<%= form_with url: destroy_user_path, method: :delete do |f| %>
-  <%= f.submit "Yes, Delete My Account", data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-<% end %>
+  <%= form_with url: destroy_user_path, method: :delete do |f| %>
+    <div class="mb-3">
+      <%= f.submit t('registrations.confirm_delete'), data: { confirm: t('registrations.delete_account.confirm_prompt') }, class: "btn btn-danger" %>
+    </div>
+  <% end %>
 
-<%= link_to "No, I want to stay", homepage_path, class: 'btn btn-secondary' %>
+  <%= link_to t('registrations.cancel_delete.cancel'), homepage_path, class: 'btn btn-secondary' %>
+</div>

@@ -1,7 +1,7 @@
 <% if can?(category.new_record? ? :create : :update, category) %>
-  <%= form_with(model: category, local: true) do |f| %>
+  <%= form_with(model: category, local: true, class: "needs-validation") do |f| %>
     <% if category.errors.any? %>
-      <div id="error_explanation">
+      <div id="error_explanation" class="alert alert-danger">
         <h2><%= pluralize(category.errors.count, t('errors.count')) %> <%= t('errors.prohibited', item: t('categories.category')) %></h2>
         <ul>
           <% category.errors.full_messages.each do |message| %>
@@ -11,19 +11,19 @@
       </div>
     <% end %>
 
-    <div>
-      <%= f.label :name, t('categories.name') %>
-      <%= f.text_field :name, required: true %>
+    <div class="mb-3">
+      <%= f.label :name, t('categories.name'), class: "form-label" %>
+      <%= f.text_field :name, required: true, class: "form-control" %>
     </div>
 
-    <div>
-      <%= f.label :description, t('categories.description') %>
-      <%= f.text_area :description, required: true %>
+    <div class="mb-3">
+      <%= f.label :description, t('categories.description'), class: "form-label" %>
+      <%= f.text_area :description, required: true, class: "form-control" %>
     </div>
 
-    <div>
-      <%= f.label :products, t('categories.select_products') %>
-      <%= f.collection_select :product_ids, Product.all, :id, :title, {}, { multiple: true } %>
+    <div class="mb-3">
+      <%= f.label :products, t('categories.select_products'), class: "form-label" %>
+      <%= f.collection_select :product_ids, Product.all, :id, :title, {}, { multiple: true, class: "form-select" } %>
     </div>
 
     <div>
@@ -34,4 +34,4 @@
   <p><%= t('categories.unauthorized_action') %></p>
 <% end %>
 
-<%= link_to t('categories.back_to_list'), categories_path, class: 'back-link' %>
+<%= link_to t('categories.back_to_list'), categories_path, class: 'btn btn-secondary mt-2' %>
