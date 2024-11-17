@@ -47,7 +47,7 @@ RSpec.describe CategoriesController, type: :controller do
         sign_in admin
         get :show, params: { id: 0 }
         expect(response).to redirect_to(categories_path)
-        expect(flash[:alert]).to eq('Category not found')
+        expect(flash[:alert]).to eq(I18n.t('categories.not_found'))
       end
     end
   end

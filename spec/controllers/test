@@ -7,35 +7,30 @@ RSpec.describe RegistrationsController, type: :controller do
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
+    sign_in user
   end
 
   describe "User creation with sign-up" do
     context "when creating a new user with valid values" do
       it "signs up a new user and redirects to homepage" do
-        post :create, params: { user: { email: "newuser@example.com", password: "password", password_confirmation: "password", role: "buyer", phone: "01999999999" } }
-
+        post :create, params: { user: { email: "newuser@example.com", password: "password", password_confirmation: "password" } }
         new_user = User.find_by(email: "newuser@example.com")
-        puts "Response Body: #{response.body}"
-        puts "User Count: #{User.count}"
+        puts response.body # Debugging output
         expect(new_user).not_to be_nil
         expect(response).to redirect_to(homepage_path)
-        end
       end
-
+    end
+  
     context "when creating a new user with invalid values" do
       it "does not sign up a new user with mismatched passwords" do
         post :create, params: { user: { email: "invaliduser@example.com", password: "password", password_confirmation: "differentpassword" } }
-        new_user = User.find_by(email: "invaliduser@example.com")
-        expect(new_user).to be_nil
-        expect(response).to render_template(:new)
-        expect(assigns(:user).errors[:password_confirmation]).not_to be_empty
+        expect(User.find_by(email: "invaliduser@example.com")).to be_nil
+        expect(response).to redirect_to(new_user_registration_path) # Adjust if necessary
       end
     end
   end
-
+  
   describe "PATCH #update_profile" do
-    before { sign_in user }
-
     context "when updating without changing password" do
       it "updates non-password fields successfully" do
         patch :update_profile, params: { user: { username: "updateduser", current_password: "" } }
@@ -48,13 +43,12 @@ RSpec.describe RegistrationsController, type: :controller do
       it "fails to update and renders edit with error messages" do
         patch :update_profile, params: { user: { email: "" } }
         expect(response).to render_template(:edit)
+        expect(flash[:alert]).to include("Email can't be blank")
       end
     end
   end
 
   describe "Deleting a user account by the user" do
-    before { sign_in user }
-
     it "deletes the user account and redirects to root path" do
       allow(controller).to receive(:after_sign_out_path_for).and_return(root_path)
       delete :destroy

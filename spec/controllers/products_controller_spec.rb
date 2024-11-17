@@ -6,7 +6,7 @@ RSpec.describe ProductsController, type: :controller do
   let(:admin) { create(:user, role: 'admin') }
   let(:seller) { create(:user, role: 'seller') }
   let(:buyer)  { create(:user, role: 'buyer') }
-  let(:product) { create(:product, user: seller) }
+  let(:product) { create(:product, seller: seller) }
   let(:category1) { create(:category) }
   let(:category2) { create(:category) }
 

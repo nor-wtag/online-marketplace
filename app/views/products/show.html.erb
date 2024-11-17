@@ -1,42 +1,41 @@
-<% @page_title = "Product Details" %>
+<% @page_title = t('products.show.details_title') %>
 
 <div class='product-details'>
-  <h1>Product Details</h1>
-  <p><strong>Title:</strong> <%= @product.title %></p>
-  <p><strong>Description:</strong> <%= @product.description %></p>
-  <p><strong>Stock:</strong> <%= @product.stock %></p>
-  <p><strong>Price:</strong> <%= @product.price %></p>
+  <h1><%= t('products.show.details_title') %></h1>
+  <p><strong><%= t('products.show.title_label') %>:</strong> <%= @product.title %></p>
+  <p><strong><%= t('products.show.description_label') %>:</strong> <%= @product.description %></p>
+  <p><strong><%= t('products.show.stock_label') %>:</strong> <%= @product.stock %></p>
+  <p><strong><%= t('products.show.price_label') %>:</strong> <%= @product.price %></p>
 
   <% if current_user&.buyer? %>
-  <%= form_with url: cart_items_path, method: :post, local: true do %>
-    <%= hidden_field_tag :product_id, @product.id %>
-    <div>
-      <%= label_tag :quantity, "Quantity" %>
-      <%= number_field_tag :quantity, 1, min: 1 %>
-    </div>
-    <%= submit_tag "Add to Cart", class: 'btn btn-primary' %>
+    <%= form_with url: cart_items_path, method: :post, local: true do %>
+      <%= hidden_field_tag :product_id, @product.id %>
+      <div>
+        <%= label_tag :quantity, t('products.show.quantity_label') %>
+        <%= number_field_tag :quantity, 1, min: 1 %>
+      </div>
+      <%= submit_tag t('products.show.add_to_cart_button'), class: 'btn btn-primary' %>
+    <% end %>
   <% end %>
-<% end %>
 
-  <p><strong>Categories:</strong> 
+  <p><strong><%= t('products.show.categories_label') %>:</strong> 
     <% @product.categories.each do |category| %>
       <span><%= category.name %></span><%= "," unless category == @product.categories.last %>
     <% end %>
   </p>
 
   <% if can?(:update, @product) %>
-    <%= link_to "Edit Product", edit_product_path(@product), class: 'btn btn-primary' %>
+    <%= link_to t('products.show.edit_button'), edit_product_path(@product), class: 'btn btn-primary' %>
   <% end %>
   
   <% if can?(:destroy, @product) %>
-    <%= link_to("Delete", delete_product_path(@product), method: :get, class: "btn btn-danger") %>
+    <%= link_to t('products.show.delete_button'), delete_product_path(@product), method: :get, class: "btn btn-danger" %>
   <% end %>
 
+  <h2><%= t('products.show.reviews_title') %></h2>
+  <%= render template: 'reviews/index' %>
 
-<h2>Reviews</h2>
-
- <%= render template: 'reviews/index' %>
-
-<%= link_to 'Back to all the Products', products_path, class: 'btn btn-secondary' %>
-<%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>
+  <%= link_to t('products.show.back_to_products_button'), products_path, class: 'btn btn-secondary' %>
+  <%= link_to t('products.show.back_to_orders_button'), orders_path %>
+  <%= link_to t('products.show.back_to_homepage_button'), homepage_path, class: 'btn btn-secondary' %>
 </div>

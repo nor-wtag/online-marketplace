@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   before_destroy :mark_order_items_unavailable
 
-  belongs_to :user
+  belongs_to :seller, class_name: 'User', foreign_key: 'user_id'
   has_many :reviews, dependent: :destroy
   has_many :cart_items, dependent: :destroy
   has_many :order_items

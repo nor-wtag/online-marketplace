@@ -6,10 +6,11 @@ RSpec.describe ReviewsController, type: :controller do
   let(:admin) { create(:user, role: 'admin') }
   let(:buyer) { create(:user, role: 'buyer') }
   let(:seller) { create(:user, role: 'seller') }
-  let(:product) { create(:product, user: seller) }
-  let(:order) { create(:order, user: buyer, status: 'completed') }
+  let(:product) { create(:product, seller: seller) }
+  let(:order) { create(:order, buyer: buyer, status: 'completed') }
   let!(:order_item) { create(:order_item, order: order, product: product, status: 'received') }
-  let!(:review) { create(:review, user: buyer, product: product) }
+  let!(:review) { create(:review, buyer: buyer, product: product) }
+
 
   before do
     allow_any_instance_of(ReviewsController).to receive(:purchased_product?).and_return(true)

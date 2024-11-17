@@ -1,5 +1,5 @@
 class Cart < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, class_name: 'User', foreign_key: 'user_id'
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items
   validates :user_id, presence: true
@@ -12,6 +12,6 @@ class Cart < ApplicationRecord
   private
 
   def buyer_only
-    errors.add(:user, 'can only have a cart if they are a buyer') unless user&.buyer?
+    errors.add(:user, I18n.t('cart.errors.buyer_only'))  unless user&.buyer?
   end
 end

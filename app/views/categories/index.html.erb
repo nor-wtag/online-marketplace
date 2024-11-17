@@ -1,8 +1,8 @@
-<h1>All Categories</h1>
+<h1><%= t('categories.all') %></h1>
 
 <% if can?(:create, Category) %>
-  <%= link_to 'New Category', new_category_path, class: 'btn btn-primary' %>
+  <%= link_to t('categories.new_category'), new_category_path, class: 'btn btn-primary' %>
 <% end %>
 
 <%= render 'categories_table' %>
-<%= link_to 'Back to homepage', homepage_path, class: 'btn btn-secondary' %>
+<%= link_to t('categories.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>

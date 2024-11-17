@@ -3,6 +3,7 @@ class ReviewsController < ApplicationController
   load_and_authorize_resource
   before_action :set_product, only: [ :new, :create, :edit, :update, :destroy, :delete ]
   before_action :set_review, only: [ :edit, :update, :destroy, :delete ]
+  layout 'index'
 
   def show
     @reviews = Review.all
@@ -24,7 +25,7 @@ class ReviewsController < ApplicationController
     end
 
     @review = @product.reviews.build(review_params)
-    @review.user = current_user
+    @review.buyer = current_user
 
     if @review.save
       redirect_to product_path(@product), notice: t('reviews.notices.created')
@@ -35,13 +36,13 @@ class ReviewsController < ApplicationController
   end
 
   def edit
-    unless current_user == @review.user
+    unless current_user == @review.buyer
       redirect_to product_path(@product), alert: t('reviews.alerts.not_owner_edit')
     end
   end
 
   def update
-    if current_user != @review.user
+    if current_user != @review.buyer
       flash[:alert] = t('reviews.alerts.not_owner_update')
       redirect_to product_path(@product)
       return
@@ -59,7 +60,7 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    if current_user == @review.user
+    if current_user == @review.buyer
       @review.destroy
       redirect_to product_path(@product), notice: t('reviews.notices.deleted')
     else

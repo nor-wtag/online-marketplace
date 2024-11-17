@@ -9,8 +9,6 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     patch 'users/update_profile', to: 'registrations#update_profile', as: :update_profile
-  end
-  devise_scope :user do
     get '/logout', to: 'devise/sessions#destroy', as: :logout
     get 'users/delete', to: 'registrations#delete', as: :delete_account
     delete 'users/destroy', to: 'registrations#destroy', as: :destroy_user

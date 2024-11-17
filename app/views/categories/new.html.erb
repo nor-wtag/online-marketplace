@@ -1,9 +1,9 @@
-<h1>Create New Category</h1>
+<h1><%= t('categories.create_new') %></h1>
 
 <% if can?(:create, Category) %>
   <%= render 'form', category: @category %>
 <% else %>
-  <p>You are not authorized to create a new category.</p>
+  <p><%= t('categories.unauthorized_create') %></p>
 <% end %>
 
-<%= link_to 'Back to Categories', categories_path, class: 'btn btn-secondary' %>
+<%= link_to t('categories.back_to_categories'), categories_path, class: 'btn btn-secondary' %>
