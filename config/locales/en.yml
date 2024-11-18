@@ -220,6 +220,7 @@ en:
       confirm_received: "Confirm Received"
       edit_review: "Edit my Review"
       add_review: "Add Review"
+      add_another_review: "Add another review"
       add_review_after_received: "You can add a review after receiving this item."
       no_product_available: "This product doesn't exist anymore"
       

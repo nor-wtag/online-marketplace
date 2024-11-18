@@ -14,6 +14,7 @@
   <% end %>
 </div>
 
-<% if can?(:create, Review.new(product: @product)) %>
+
+<% if current_user.buyer? %>
   <%= link_to t('reviews.index.add_review'), new_product_review_path(@product) %>
 <% end %>

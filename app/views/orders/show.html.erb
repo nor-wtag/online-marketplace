@@ -63,7 +63,7 @@
           <% if current_user.buyer? && item.status == 'received' && item.product.present? %>
             <% existing_review = item.product.reviews.find_by(user_id: current_user.id) %>
             <% if existing_review %>
-              <%= link_to t('orders.show.edit_review'), edit_product_review_path(item.product, existing_review), class: 'btn btn-warning' %>
+              <%= link_to t('orders.show.add_another_review'), new_product_review_path(item.product), class: 'btn btn-success' %>
             <% else %>
               <%= link_to t('orders.show.add_review'), new_product_review_path(item.product), class: 'btn btn-success' %>
             <% end %>

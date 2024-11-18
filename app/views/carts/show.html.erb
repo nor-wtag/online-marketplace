@@ -39,15 +39,12 @@
         <p class="text-end"><strong><%= t('cart.total_label') %>:</strong> <%= number_to_currency(current_user.cart.cart_items.sum { |item| item.quantity * item.product.price }) %></p>
         <div class="d-flex justify-content-between">
           <%= button_to t('cart.place_order'), orders_path, method: :post, class: 'btn btn-primary' %>
-          <div>
-            <%= link_to t('cart.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
-            <%= link_to t('users.homepage.all_products'), products_path, class: 'btn btn-secondary' %>
-          </div>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
-<%= link_to t('cart.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
-<%= link_to t('users.homepage.all_products'), products_path, class: 'btn btn-secondary' %>
+ <div>
+  <%= link_to t('cart.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
+  <%= link_to t('users.homepage.all_products'), products_path, class: 'btn btn-secondary' %>
+</div>
