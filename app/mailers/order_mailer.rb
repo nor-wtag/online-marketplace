@@ -1,5 +1,5 @@
 class OrderMailer < ApplicationMailer
-  default from: 'no-reply@yourapp.com'
+  default from: 'online_marketplace@mail.com'
 
   def order_placed_email(order)
     @order = order
