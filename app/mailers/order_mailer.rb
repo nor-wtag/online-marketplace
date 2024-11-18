@@ -3,6 +3,6 @@ class OrderMailer < ApplicationMailer
 
   def order_placed_email(order)
     @order = order
-    mail(to: @order.user.email, subject: 'Your Order Confirmation')
+    mail(to: @order.buyer.email, subject: 'Your Order Confirmation')
   end
 end
