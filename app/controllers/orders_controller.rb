@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [ :show, :update_status ]
   load_and_authorize_resource
   layout 'index'
-
+  
   def index
     if current_user.buyer?
       @orders = current_user.orders
@@ -39,69 +39,43 @@ class OrdersController < ApplicationController
     if current_user.buyer?
       cart_items = current_user.cart.cart_items.includes(:product)
       total_price = cart_items.sum { |item| item.quantity * item.product.price }
-
-      ActiveRecord::Base.transaction do
-        @order = current_user.orders.build(total_price: total_price, status: 'pending')
-
-        cart_items.each do |cart_item|
-          product = cart_item.product
-          if product.stock >= cart_item.quantity
-            product.update!(stock: product.stock - cart_item.quantity)
-            @order.order_items.build(
-              product: product,
-              quantity: cart_item.quantity,
-              price: product.price
-            )
+      insufficient_product = nil
+      begin
+        ActiveRecord::Base.transaction do
+          @order = current_user.orders.build(total_price: total_price, status: 'pending')
+          cart_items.each do |cart_item|
+            product = cart_item.product
+            if product.stock >= cart_item.quantity
+              product.update!(stock: product.stock - cart_item.quantity)
+              @order.order_items.build(
+                product: product,
+                quantity: cart_item.quantity,
+                price: product.price
+              )
+            else
+              insufficient_product = product
+              raise ActiveRecord::Rollback
+            end
+          end
+          if @order.save
+            cart_items.destroy_all
+            SendOrderConfirmationJob.perform_later(@order.id)
+            redirect_to @order, notice: t('orders.created')
           else
-            raise ActiveRecord::Rollback
+            flash[:alert] = t('orders.creation_failed')
+            redirect_to cart_path
           end
         end
-
-        if @order.save
-          cart_items.destroy_all
-          SendOrderConfirmationJob.perform_later(@order.id)
-          redirect_to @order, notice: t('orders.created')
-        else
-          redirect_to cart_path, alert: t('orders.creation_failed')
-        end
       rescue ActiveRecord::Rollback
-        redirect_to cart_path, alert: t('orders.insufficient_stock', title: product.title)
+        product_title = insufficient_product ? insufficient_product.title : t('orders.unknown_product')
+        flash[:alert] = t('orders.insufficient_stock', title: product_title)
+        redirect_to cart_path
       end
     else
-      redirect_to root_path, alert: t('orders.unauthorized_creation')
+      flash[:alert] = t('orders.unauthorized_creation')
+      redirect_to root_path
     end
   end
-  #   if current_user.buyer?
-  #     cart_items = current_user.cart.cart_items.includes(:product)
-  #     total_price = cart_items.sum { |item| item.quantity * item.product.price }
-
-  #     @order = current_user.orders.build(total_price: total_price, status: 'pending')
-
-  #     if @order.save
-  #       cart_items.each do |cart_item|
-  #         product = cart_item.product
-  #         if product.stock >= cart_item.quantity
-  #           product.update(stock: product.stock - cart_item.quantity)
-  #           @order.order_items.create!(
-  #             product: product,
-  #             quantity: cart_item.quantity,
-  #             price: product.price
-  #           )
-  #         else
-  #           @order.destroy
-  #           redirect_to cart_path, alert: t('orders.insufficient_stock', title: product.title) and return
-  #         end
-  #       end
-
-  #       current_user.cart.cart_items.destroy_all
-  #       redirect_to @order, notice: t('orders.created')
-  #     else
-  #       redirect_to cart_path, alert: t('orders.creation_failed')
-  #     end
-  #   else
-  #     redirect_to root_path, alert: t('orders.unauthorized_creation')
-  #   end
-  # end
 
   def update_status
     @order_item = @order.order_items.find(params[:order_item_id])

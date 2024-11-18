@@ -9,13 +9,10 @@ class Order < ApplicationRecord
 
   def update_order_status!
     # order_items.where(availibility: 'unavailable').update_all(status: 'received')
-    all_received_or_unavailable = order_items.all? do |item|
-      %w[received unavailable].include?(item.status)
-    end
-
-    if all_received_or_unavailable
+    if order_items.all? { |item| item.status == 'received' || item.availibility == 'unavailable' }
       update!(status: 'completed')
     else
+      # Keep it pending if not all items are finalized
       update!(status: 'pending')
     end
   end

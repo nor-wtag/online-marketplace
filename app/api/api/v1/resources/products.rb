@@ -30,6 +30,8 @@ module V1
           requires :price, type: Float, desc: 'Price of the product'
           requires :stock, type: Integer, desc: 'Stock count of the product'
           optional :category_ids, type: Array[Integer], desc: 'IDs of associated categories'
+          requires :user_id, type: Integer
+
         end
         post do
           product = Product.new(declared(params))
@@ -48,6 +50,7 @@ module V1
           optional :price, type: Float, desc: 'Price of the product'
           optional :stock, type: Integer, desc: 'Stock count of the product'
           optional :category_ids, type: Array[Integer], desc: 'IDs of associated categories'
+          requires :user_id, type: Integer
         end
         put ':id' do
           product = Product.find(params[:id])

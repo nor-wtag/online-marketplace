@@ -181,6 +181,7 @@ en:
     delivered: "Order item marked as delivered."
     received: "Order item marked as received."
     unauthorized_action: "Unauthorized action."
+    unknown_product: "Unknown product"
 
     index:
       title: "Your Orders"

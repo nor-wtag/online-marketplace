@@ -17,7 +17,7 @@
         <% end %>
         <div class="card-body text-center">
           <h6 class="card-title mb-2"><%= product.title %></h6>
-          <p class="card-text mb-2 text-muted"><%= number_to_currency(product.price) %></p>
+          <p class="card-text mb-2 text-muted"><%= format_price(product.price) %></p>
         </div>
         <div class="card-footer d-flex justify-content-center">
           <%= link_to t('products.index.view_product'), product_path(product), class: 'btn btn-sm btn-primary me-1' %>
