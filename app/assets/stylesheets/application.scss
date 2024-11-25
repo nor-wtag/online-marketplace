@@ -1,0 +1,16 @@
+ @import 'bootstrap';
+
+ .auth-background {
+   background-image: image-url('login_image.jpg');
+   background-size: cover;
+   background-position: center;
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ 
+ .default-background {
+   background-color: #f9ebf6;
+   min-height: 100vh;
+ }

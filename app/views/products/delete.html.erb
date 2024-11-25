@@ -1,0 +1,23 @@
+<% @page_title = t('products.delete.title') %>
+
+<div class="container mt-4">
+  <% if can?(:destroy, @product) %>
+    <div class="alert alert-warning">
+      <h2><%= t('products.delete.heading') %></h2>
+      <p><%= t('products.delete.confirm_message') %></p>
+      <p><strong><%= @product.title %></strong></p>
+
+      <%= form_with(model: @product, local: true, method: :delete) do |f| %>
+        <div class="d-grid">
+          <%= f.submit t('products.delete.submit_button'), class: 'btn btn-danger btn-block' %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-danger">
+      <p><%= t('products.delete.unauthorized_message') %></p>
+    </div>
+  <% end %>
+
+  <%= link_to t('products.delete.back_to_product'), product_path(@product), class: 'btn btn-secondary mt-3' %>
+</div>

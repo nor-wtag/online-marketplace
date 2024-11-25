@@ -1,0 +1,18 @@
+<h1 class="mb-4"><%= t('products.new.title') %></h1>
+
+<% if can?(:create, Product) %>
+  <div class="card p-4 shadow">
+    <%= render 'form', product: @product %>
+  </div>
+<% else %>
+  <div class="alert alert-danger">
+    <p><%= t('products.new.unauthorized_message') %></p>
+  </div>
+<% end %>
+
+<div class="mt-3">
+  <%= link_to t('products.new.back_to_products'), products_path, class: 'btn btn-primary btn-lg w-5' %>
+</div>
+<div class="mt-3">
+  <%= link_to t('products.index.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
+</div>

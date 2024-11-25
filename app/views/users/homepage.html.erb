@@ -1,0 +1,27 @@
+<div class="container mt-4">
+  <% if current_user %>
+    <div class="user-settings border p-3 mb-4">
+      <h1 class="text-primary"><%= t('users.homepage.settings_title') %></h1>
+      <p class="font-weight-bold"><%= t('users.homepage.welcome', username: current_user.username) %></p>
+      <%= button_to t('users.homepage.log_out'), destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
+      <%= link_to t('users.homepage.edit_account'), edit_user_registration_path, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+
+  <% if current_user.buyer? %>
+    <%= link_to t('users.homepage.view_cart'), cart_path, class: 'btn btn-primary mb-3' %>
+  <% end %>
+
+  <% if can?(:read, Order) %>
+    <%= link_to t('users.homepage.view_order'), orders_path, class: 'btn btn-primary mb-3' %>
+  <% end %>
+
+ <% if can?(:read, Category) %>
+    <%= link_to t('users.homepage.all_categories'), categories_path, class: 'btn btn-info mb-3' %>
+  <% end %>
+
+  <% if can?(:read, Product) %>
+  <%= link_to t('users.homepage.all_products_list'), products_path, class: 'btn btn-info mb-3' %>
+  <%= render partial: 'products/index', locals: { products: @products } %>
+  <% end %>
+</div>

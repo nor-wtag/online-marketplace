@@ -1,0 +1,17 @@
+<% @page_title = t('reviews.delete.title') %>
+
+<div class="review delete">
+  <h2><%= t('reviews.delete.title') %></h2>
+
+  <%= form_with(model: [@product, @review], url: product_review_path(@product, @review), method: :delete, local: true) do |f| %>
+    <p><%= t('reviews.delete.confirmation') %></p>
+    <p><strong><%= t('reviews.delete.rating') %>:</strong> <%= @review.rating %></p>
+    <p><strong><%= t('reviews.delete.comment') %>:</strong> <%= @review.comment %></p>
+    <div class="form-buttons">
+      <%= f.submit t('reviews.delete.submit'), class: 'btn btn-danger' %>
+      <%= link_to t('reviews.delete.cancel'), product_path(@product), class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to t('reviews.delete.back_to_product'), product_path(@product), class: 'btn btn-secondary' %>

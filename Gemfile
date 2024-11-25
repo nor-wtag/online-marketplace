@@ -1,8 +1,17 @@
 source 'https://rubygems.org'
+gem 'activestorage-validator'
 gem 'bootsnap', require: false
+gem 'bootstrap'
+gem 'cancancan', '~> 3.0'
+gem 'carrierwave'
+gem 'devise'
+gem 'grape'
+gem 'grape_on_rails_routes'
+gem 'grape-entity'
 gem 'importmap-rails'
+gem 'image_processing', '~> 1.2'
+gem 'mini_magick'
 gem 'jbuilder'
-gem 'letter_opener'
 gem 'pg'
 gem 'phony_rails'
 gem 'puma', '>= 5.0'
@@ -10,6 +19,7 @@ gem 'pundit'
 gem 'rails-i18n'
 gem 'redis'
 gem 'rufus-scheduler'
+gem 'sassc-rails'
 gem 'sidekiq'
 gem 'sprockets-rails'
 gem 'stimulus-rails'
@@ -19,13 +29,14 @@ gem 'tzinfo-data', platforms: %i[ windows jruby ]
 gem 'rails', '~> 7.2.1', '>= 7.2.1.1'
 
 group :development, :test do
-  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
+  gem 'factory_bot_rails'
   gem 'brakeman', require: false
+  gem 'debug', platforms: %i[ mri windows ], require: 'debug/prelude'
+  gem 'letter_opener'
   gem 'rubocop-rails-omakase', require: false
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
-  gem 'factory_bot_rails'
 end
 
 group :development do

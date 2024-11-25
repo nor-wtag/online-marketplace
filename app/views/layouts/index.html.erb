@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Online Marketplace <%= "|#{@page_title}" if @page_title %></title>
+  <title><%= t('layouts.index.title', page_title: @page_title) %></title>
   <%= stylesheet_link_tag 'application', media: 'all' %>
 </head>
-<body>
+<body class="<%= controller_name == 'sessions' ? 'auth-background' : 'default-background' %>">
 
 <div id="header">
-  <h1>Online Marketplace</h1>
+  <h1><%= t('layouts.index.header_title') %></h1>
 </div>
 
 <div id="main">
@@ -24,6 +24,8 @@
 </div>
 
 <div id="footer">
+  <%= link_to "English", url_for(locale: :en), class: "btn btn-secondary" %>
+  <%= link_to "বাংলা", url_for(locale: :bn), class: "btn btn-secondary" %>
 </div>
 
 </body>

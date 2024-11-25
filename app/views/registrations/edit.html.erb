@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="h4"><%= t('registrations.edit_profile') %></h2>
+        </div>
+        <div class="card-body">
+          <%= form_for(resource, as: resource_name, url: update_profile_path, html: { method: :patch }) do |f| %>
+            <div class="mb-3">
+              <%= f.label :username, t('registrations.username'), class: 'form-label' %>
+              <%= f.text_field :username, class: 'form-control' %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :email, t('registrations.email'), class: 'form-label' %>
+              <%= f.email_field :email, class: 'form-control' %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :phone, t('registrations.phone'), class: 'form-label' %>
+              <%= f.telephone_field :phone, class: 'form-control' %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :password, t('registrations.password'), class: 'form-label' %>
+              <%= f.password_field :password, class: 'form-control' %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :password_confirmation, t('registrations.password_confirmation'), class: 'form-label' %>
+              <%= f.password_field :password_confirmation, class: 'form-control' %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :current_password, t('registrations.current_password'), class: 'form-label' %>
+              <%= f.password_field :current_password, class: 'form-control' %>
+            </div>
+            <div class="d-flex justify-content-between">
+              <%= f.submit t('registrations.update'), class: 'btn btn-success' %>
+              <%= button_to t('registrations.delete_account'), delete_account_path, method: :get, data: { confirm: t('registrations.confirm_delete') }, class: 'btn btn-danger' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="mt-3 text-center">
+        <%= link_to t('registrations.back_to_homepage'), homepage_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+  </div>
+</div>

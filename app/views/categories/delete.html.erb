@@ -1,0 +1,17 @@
+<div class='card border-danger'>
+  <div class='card-body'>
+    <h2 class="card-title text-danger"><%= t('categories.delete_title') %></h2>
+
+    <% if can?(:destroy, @category) %>
+      <%= form_with(model: @category, local: true, method: :delete) do |f| %>
+        <p class="text-danger"><%= t('categories.delete_confirmation') %></p>
+        <p class="text-muted"><strong><%= f.object.name %></strong></p>
+        <div class='form-buttons'>
+          <%= f.submit t('categories.delete_button'), class: 'btn btn-danger' %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-warning"><%= t('categories.unauthorized_delete') %></p>
+    <% end %>
+  </div>
+</div>
