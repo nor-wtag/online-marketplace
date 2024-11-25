@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
   enum :role, { admin: 0, buyer: 1, seller: 2, rider: 3 }
 
   phony_normalize :phone, default_country_code: 'BD'
@@ -11,10 +14,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :phone, phony_plausible: true, presence: true
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
   validates :role, presence: true, inclusion: { in: roles.keys }
-
-  attr_accessor :password
 
   def admin?
     role == 'admin'
@@ -30,5 +31,13 @@ class User < ApplicationRecord
 
   def rider?
     role == 'rider'
+  end
+
+  def password_required?
+    if new_record?
+      true
+    else
+      !password.blank? || !password_confirmation.blank?
+    end
   end
 end

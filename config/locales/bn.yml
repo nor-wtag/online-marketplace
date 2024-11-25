@@ -1,13 +1,44 @@
-bd:
-  hello: "হ্যালো"
-  activerecord:
-    models:
-      user: "ব্যবহারকারী"
-    attributes:
-      user:
-        email: "ইমেল"
-        password: "পাসওয়ার্ড"
-  errors:
-    messages:
-      blank: "ফাঁকা থাকা যাবে না"
+bn:
+  users:
+    homepage_title: "হোমপেজ"
+    index:
+      welcome_title: "মার্কেটপ্লেসে স্বাগতম"
+      sign_up_title: "নিবন্ধন করুন"
+      sign_up_link: "নিবন্ধনের জন্য এখানে ক্লিক করুন"
+      sign_in_title: "সাইন ইন করুন"
+      sign_in_link: "সাইন ইন করার জন্য এখানে ক্লিক করুন"
+    homepage:
+      settings_title: "ইউজার সেটিংস"
+      welcome: "স্বাগতম, %{username}"
+      log_out: "লগ আউট"
+      edit_account: "অ্যাকাউন্ট সম্পাদনা করুন"
+      view_cart: "কার্ট দেখুন"
+      view_order: "অর্ডার দেখুন"
+      product_section_title: "পণ্য"
+      all_products: "সব পণ্য"
+      category_section_title: "ক্যাটাগরি"
+      all_categories: "সব ক্যাটাগরি"
+
+  registrations:
+    edit_profile: "প্রোফাইল সম্পাদনা করুন"
+    username: "ইউজারনেম"
+    email: "ইমেইল"
+    phone: "ফোন"
+    password: "পাসওয়ার্ড (পরিবর্তন করতে না চাইলে খালি রাখুন)"
+    password_confirmation: "পাসওয়ার্ড নিশ্চিতকরণ"
+    current_password: "বর্তমান পাসওয়ার্ড (শুধুমাত্র পরিবর্তনের জন্য প্রয়োজন)"
+    update: "আপডেট করুন"
+    delete_account: "অ্যাকাউন্ট মুছুন"
+    confirm_delete: "আপনি কি নিশ্চিত যে আপনি আপনার অ্যাকাউন্ট মুছতে চান?"
+    back_to_homepage: "হোমপেজে ফিরে যান"
+    profile_updated: "প্রোফাইল সফলভাবে আপডেট হয়েছে।"
+    profile_update_failed: "প্রোফাইল আপডেট ব্যর্থ হয়েছে। অনুগ্রহ করে ত্রুটি যাচাই করুন: %{errors}"
+    password_updated: "পাসওয়ার্ড সফলভাবে আপডেট হয়েছে।"
+
+  products:
+    product_created: "পণ্য সফলভাবে তৈরি হয়েছে।"
+    product_updated: "পণ্য সফলভাবে আপডেট হয়েছে।"
+    product_deleted: "পণ্য সফলভাবে মুছে ফেলা হয়েছে।"
+    not_found: "নাই"
+
 

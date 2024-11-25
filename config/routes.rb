@@ -1,11 +1,61 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Base => '/'
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  devise_for :users, controllers: { registrations: 'registrations' }
+
+  devise_scope :user do
+    patch 'users/update_profile', to: 'registrations#update_profile', as: :update_profile
+    get '/logout', to: 'devise/sessions#destroy', as: :logout
+    get 'users/delete', to: 'registrations#delete', as: :delete_account
+    delete 'users/destroy', to: 'registrations#destroy', as: :destroy_user
+  end
+
   root 'users#index'
-  resources :users, only: [ :new, :create ] do
-    collection do
-      get :sign_in
-      post :create_session
-      delete :destroy_session
+  get 'user/homepage', to: 'users#homepage', as: 'homepage'
+
+  resources :users, only: [ :index, :update ]
+
+  resources :products do
+    member do
+      get 'delete', to: 'products#delete', as: 'delete'
+    end
+    resources :reviews, only: [ :index, :new, :create, :edit, :update, :destroy ] do
+      member do
+        get 'delete', to: 'reviews#delete', as: 'delete'
+      end
     end
   end
-  get 'products', to: 'users#products'
+
+  resources :categories do
+    member do
+      get 'delete', to: 'categories#delete', as: 'delete'
+    end
+  end
+
+  resources :reviews do
+    member do
+      get 'delete', to: 'reviews#delete', as: 'delete'
+    end
+  end
+
+  resources :cart_items, only: [ :create, :update, :destroy ] do
+    member do
+      get 'delete', to: 'cart_items#delete', as: 'delete'
+    end
+  end
+  resource :cart, only: [ :show ]
+
+  resources :orders, only: [ :index, :show, :create ] do
+
+    resources :order_items, only: [ :show, :update ] do
+      member do
+        patch :update_status
+        patch :assign_rider
+      end
+    end
+  end
 end

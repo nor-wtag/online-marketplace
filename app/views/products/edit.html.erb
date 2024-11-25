@@ -1,0 +1,9 @@
+<h1><%= t('products.edit.title', product_title: @product.title) %></h1>
+
+<% if can?(:update, @product) %>
+  <%= render 'form', product: @product %>
+<% else %>
+  <p><%= t('products.edit.unauthorized_message') %></p>
+<% end %>
+
+<%= link_to t('products.back_to_products'), products_path, class: 'btn btn-secondary' %>

@@ -1,0 +1,8 @@
+<h2>Delete Account</h2>
+<p>Are you sure you want to delete your account? This action cannot be undone.</p>
+
+<%= form_with url: destroy_user_path, method: :delete do |f| %>
+  <%= f.submit "Yes, Delete My Account", data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+<% end %>
+
+<%= link_to "No, I want to stay", homepage_path, class: 'btn btn-secondary' %>
